@@ -178,6 +178,6 @@ export default {
 #_container {
   background-color: #693802;
   color: white;
-  padding: 18px;
+  padding: 19px;
 }
 </style>
