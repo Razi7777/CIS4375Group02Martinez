@@ -116,6 +116,7 @@
                 {{ zipError.message }}
               </p>
             </div>
+          <BottomBar />
             <!-- End of error alert -->
           </div>
         </div>
@@ -132,12 +133,14 @@ import ZipChart from '../components/donutZipChart.vue';
 import { ref, onMounted } from 'vue';
 import { useLoggedInUserStore } from '@/store/loggedInUser';
 import AppNavBar from '@/App.vue';
+import BottomBar from '../components/BottomBar.vue';
 
 export default {
   components: {
     AttendanceChart,
     ZipChart,
-    AppNavBar
+    AppNavBar,
+    BottomBar
   },
   setup() {
     const recentEvents = ref([]);
@@ -151,6 +154,7 @@ export default {
     const zipLoading = ref(false);
     const zipError = ref(null);
     const loggedInUserStore = useLoggedInUserStore();
+    
 
     // const getAttendanceData = async () => {
     //   try {
