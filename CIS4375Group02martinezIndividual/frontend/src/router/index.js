@@ -31,6 +31,12 @@ const routes = [
     component: () => import('../views/findclient.vue')
   },
   {
+    path: '/FAQ',
+    name: 'FAQ',
+    //meta: { requiresAuth: true },
+    component: () => import('../views/FAQ.vue')
+  },
+  {
     path: '/clientdetails/:id',
     name: 'clientdetails',
     //meta: { requiresAuth: true },

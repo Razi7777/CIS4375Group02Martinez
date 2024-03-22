@@ -3,7 +3,7 @@
 
     <div class="bottom-bar">
       <p class="bottomleft">© Copyright 2024, Trendi Finds, Houston, TX</p>
-      <router-link to="/login">Login</router-link>
+      <router-link to="/FAQ">FAQ</router-link>
       <router-link to="/home">Home</router-link>
       <!-- Add more links/buttons as needed -->
     </div>
