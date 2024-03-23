@@ -16,5 +16,21 @@
         </ul>
         <!-- Add more dummy content as needed -->
       </div>
+      <div>
+        <BottomBar />
+      </div>
     </main>
   </template>
+
+<script>
+import BottomBar from '../components/BottomBar.vue';
+export default {
+  components: {
+    BottomBar
+  },
+
+    
+
+  
+}
+</script>
