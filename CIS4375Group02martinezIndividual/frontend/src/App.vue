@@ -57,9 +57,9 @@
             </li>
             <!--Find Client link - only shows if user is logged in-->
             <li v-if="user.username === 'username1' || user.username === 'username2'">
-              <router-link to="/findclient">
+              <router-link to="/ordertracking">
                 <span style="position: relative; top: 6px" class="material-icons">search</span>
-                Find Client
+                Track Orders
               </router-link>
             </li>
             <!--Find Event link - only shows if user is logged in-->

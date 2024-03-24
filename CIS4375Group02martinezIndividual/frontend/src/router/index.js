@@ -25,16 +25,22 @@ const routes = [
     component: () => import('../views/clientform.vue')
   },
   {
-    path: '/findclient',
-    name: 'findclient',
+    path: '/ordertracking',
+    name: 'ordertracking',
     //meta: { requiresAuth: true },
-    component: () => import('../views/findclient.vue')
+    component: () => import('../views/ordertracking.vue')
   },
   {
     path: '/FAQ',
     name: 'FAQ',
     //meta: { requiresAuth: true },
     component: () => import('../views/FAQ.vue')
+  },
+  {
+    path: '/Contact',
+    name: 'Contact',
+    //meta: { requiresAuth: true },
+    component: () => import('../views/Contact.vue')
   },
   {
     path: '/clientdetails/:id',
