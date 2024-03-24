@@ -18,6 +18,12 @@ const routes = [
     component: () => import('../views/Home.vue')
   },
   {
+    path: '/product-catalog',
+    name: 'productcatalog',
+    component: () => import('../views/ProductCatalog.vue'),
+    //meta: { requiresAuth: true },
+  },
+  {
     path: '/clientform',
     name: 'clientform',
     // only authenticated users can create clients
