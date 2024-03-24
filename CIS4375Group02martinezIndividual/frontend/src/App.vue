@@ -34,6 +34,23 @@
             Logout
             </button>
             </li>
+             <!--Product Catalog dropdown - only shows if user is username1-->
+             <li v-if="user.username === 'username1'">
+              <div class="dropdown">
+                <button class="dropbtn">
+                  <span style="position: relative; top: 6px" class="material-icons">category</span>
+                  Product Catalog
+                </button>
+                <div class="dropdown-content">
+                  <router-link :to="{ name: 'productcatalog', query: { category: 'Tops' } }">Tops</router-link>
+            <router-link :to="{ name: 'productcatalog', query: { category: 'Bottoms' } }">Bottoms</router-link>
+            <router-link :to="{ name: 'productcatalog', query: { category: 'Shoes' } }">Shoes</router-link>
+            <router-link :to="{ name: 'productcatalog', query: { category: 'Accessories' } }">Accessories</router-link>
+            <router-link :to="{ name: 'productcatalog', query: { category: 'Jewelry' } }">Jewelry</router-link>
+            <router-link :to="{ name: 'productcatalog', query: { category: 'Miscellaneous' } }">Miscellaneous</router-link>
+                </div>
+              </div>
+            </li>
             <!--Client Intake Form link - only shows if user is an editor-->
             <li v-if="user.username === 'username1'">
               <router-link to="/clientform">
@@ -179,5 +196,34 @@ export default {
   background-color: #693802;
   color: white;
   padding: 19px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
 }
 </style>

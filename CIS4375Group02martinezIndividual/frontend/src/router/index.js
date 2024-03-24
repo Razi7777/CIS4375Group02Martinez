@@ -18,6 +18,12 @@ const routes = [
     component: () => import('../views/Home.vue')
   },
   {
+    path: '/product-catalog',
+    name: 'productcatalog',
+    component: () => import('../views/ProductCatalog.vue'),
+    //meta: { requiresAuth: true },
+  },
+  {
     path: '/clientform',
     name: 'clientform',
     // only authenticated users can create clients
@@ -83,12 +89,28 @@ const routes = [
     name: 'servicedetails',
     //meta: { requiresAuth: true },
     component: () => import('../views/servicedetails.vue')
-  }
-]
+  },
+  {
+    path: '/terms-and-conditions',
+    name: 'termsandconditions',
+    component: () => import('../views/TermsAndConditions.vue'),
+  },
+  {
+    path: '/privacy-policy',
+    name: 'privacypolicy',
+    component: () => import('../views/PrivacyPolicy.vue'),
+  },
+  {
+    path: '/return-and-exchange',
+    name: 'returnandexchange',
+    component: () => import('../views/ReturnAndExchange.vue'),
+  },
+];
+
 const router = createRouter({
   history: createWebHistory(),
   routes
-})
+});
 
 // protecting the routes
 router.beforeEach((to) => {
@@ -102,5 +124,5 @@ router.beforeEach((to) => {
   }
 })
 
-export default router
+export default router;
 
