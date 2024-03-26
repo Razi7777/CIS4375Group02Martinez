@@ -10,7 +10,7 @@
     <div class="px-10 pt-20">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
         <!--Search Client By selection-->
-        <h2 class="text-2xl font-bold">Search Order By</h2>
+        <h2 class="text-2xl font-bold">Search Order By Date</h2>
         <!-- Displays Client Name search field -->
         <!--div class="flex flex-col">
           <select
@@ -23,7 +23,7 @@
         <!--Input box for searching by Client First Name-->
         <div class="flex flex-col">
           <label class="block">
-            <input type="text"
+            <input type="date"
               class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               v-model="searchBy" placeholder="Enter Order ID" />
           </label>
@@ -72,8 +72,16 @@
               <th class="p-4 text-left">Status</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-300">
-            <tr v-for="Order in Orders" :key="Order._id">
+          <tbody  v-if="result && result.length > 0" class="divide-y divide-gray-300">
+            <tr v-for="Order in result" :key="Order.Orderid">
+              <td class="p-2 text-left">{{ Order.OrderID }}</td>
+              <td class="p-2 text-left">{{ Order.OrderDate }}</td>
+              <td class="p-2 text-left">{{ Order.OrderSender }}</td>
+              <td class="p-2 text-left">{{ Order.OrderStatus }}</td>
+            </tr>
+          </tbody>
+          <tbody v-else class="divide-y divide-gray-300">
+            <tr v-for="Order in Orders" :key="Order.Orderid">
               <td class="p-2 text-left">{{ Order.OrderID }}</td>
               <td class="p-2 text-left">{{ Order.OrderDate }}</td>
               <td class="p-2 text-left">{{ Order.OrderSender }}</td>
@@ -90,30 +98,42 @@
 <script>
 import { useToast } from 'vue-toastification'
 import { ref } from 'vue'
+import { onMounted } from 'vue';
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
+
+
 
 export default {
+  components: {
+    VueDatePicker
+  },
   setup() {
     const toast = useToast()
-
     const searchBy = ref('');
+    const result = ref([]);
     const Orders = ref([
       { OrderID: 1, OrderDate: '2024-03-24', OrderSender: 'Alice', OrderStatus: 'Pending' },
-      { OrderID: 2, OrderDate: '2024-03-23', OrderSender: 'Bob', OrderStatus: 'Delivered' },
-      { OrderID: 3, OrderDate: '2024-03-23', OrderSender: 'James', OrderStatus: 'Pending' },
+      { OrderID: 2, OrderDate: '2024-03-21', OrderSender: 'Bob', OrderStatus: 'Delivered' },
+      { OrderID: 3, OrderDate: '2024-03-24', OrderSender: 'James', OrderStatus: 'Pending' },
       // Add more order data objects as needed
     ]);
-
     function searchOrders() {
-    let result = []; // Initialize an array to store filtered orders
+    result.value = []; // Initialize an array to store filtered orders
     for (let i = 0; i < Orders.value.length; i++) {
-        if (Orders.value[i].OrderID == parseInt(searchBy.value)) {
-            result.push(Orders[i]); // Push matching orders into the result array
+        if (Orders.value[i].OrderDate == (searchBy.value)) {
+            result.value.push(Orders.value[i]); // Push matching orders into the result array
         }
     }
-    console.log(Orders.value[0].OrderDate)
-    //console.log(searchBy.value);
-    console.log(result.length); // Log the filtered orders
-    return result; // Return the filtered orders array
+    result.forEach(order => {
+        console.log(order.OrderDate);
+    });
+
+ //need to use.value when referring to the value saved in a reactive variable, cannot for instance push into the original array structure
+ //reactivity needs to be declared for us to trigger updates in the DOM based on changes we make on the variable, in order to keep the page structure in sync with our changes in the code
+ //within the scope of a function, we can fill up an array by using the .push mutating method to update its values, here we utilize this to fill up the result of the search with the parts of the order array that fulfill the search condition
+ //for a single entry in a reactive array, to access is arrayname.value[index of the entry]
+    
 }
 
 
@@ -128,7 +148,9 @@ export default {
       Orders,
       searchBy,
       searchOrders,
-      loadData
+      loadData,
+      result,
+      VueDatePicker
     }
   }
 }
