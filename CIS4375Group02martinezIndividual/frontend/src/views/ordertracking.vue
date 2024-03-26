@@ -21,7 +21,7 @@
           </select>
         </div>
         <!--Input box for searching by Client First Name-->
-        <div class="flex flex-col" v-if="searchBy === 'Order ID'">
+        <div class="flex flex-col">
           <label class="block">
             <input type="text"
               class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
@@ -30,12 +30,12 @@
         </div>
         <!--Input box for searching by Client Last Name-->
         <!-- Displays Client Number search field -->
-        <div class="flex flex-col" v-if="searchBy === 'Order Date'">
+        <!--div class="flex flex-col">
           <input
             class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             type="text" v-model="SearchBy" 
             placeholder="Enter Order Date" />
-        </div>
+        </div-->
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
@@ -47,7 +47,7 @@
             Clear Order
           </button>
           <!--Search Client button-->
-          <button class="bg-red-700 text-white rounded" @click="SearchOrders" type="submit">
+          <button class="bg-red-700 text-white rounded" @click="searchOrders" type="submit">
             Search Order
           </button>
         </div>
@@ -104,18 +104,20 @@ export default {
       // Add more order data objects as needed
     ]);
 
-    const searchOrders = () => {
-  const filteredOrders = Orders.value.filter(order => {
-    if (searchBy.value === 'Order ID') {
-      return order.OrderID == OrderID.value;
-    } else if (searchBy.value === 'Order Date') {
-      return order.OrderDate === OrderDate.value;
+    function searchOrders(Orders, SearchBy) {
+    let result = []; // Initialize an array to store filtered orders
+    for (let i = 0; i < Orders.length; i++) {
+        if (Orders[i].OrderID === parseInt(SearchBy)) {
+            result.push(Orders[i]); // Push matching orders into the result array
+        }
     }
-    // Add more search criteria if needed
-    return true; // Default behavior: keep all orders if no search criteria specified
-  });
-  Orders.value = filteredOrders;
+    console.log(result[0]); // Log the filtered orders
+    return result; // Return the filtered orders array
 }
+
+
+    
+
 
     const loadData = async () => {
       // Implement data loading logic if required
