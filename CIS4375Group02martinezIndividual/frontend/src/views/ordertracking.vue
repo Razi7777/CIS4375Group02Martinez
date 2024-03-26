@@ -12,20 +12,20 @@
         <!--Search Client By selection-->
         <h2 class="text-2xl font-bold">Search Order By</h2>
         <!-- Displays Client Name search field -->
-        <div class="flex flex-col">
+        <!--div class="flex flex-col">
           <select
             class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             v-model="searchBy">
             <option value="Order ID">Order ID</option>
             <option value="Order Date">Order Date</option>
           </select>
-        </div>
+        </div-->
         <!--Input box for searching by Client First Name-->
         <div class="flex flex-col">
           <label class="block">
             <input type="text"
               class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              v-model="SearchBy" placeholder="Enter Order ID" />
+              v-model="searchBy" placeholder="Enter Order ID" />
           </label>
         </div>
         <!--Input box for searching by Client Last Name-->
@@ -65,7 +65,7 @@
         <table class="min-w-full shadow-md rounded">
           <thead class="bg-gray-50 text-xl">
             <tr>
-        >
+        
               <th class="p-4 text-left">ID</th>
               <th class="p-4 text-left">Order Date</th>
               <th class="p-4 text-left">Sender</th>
@@ -96,22 +96,23 @@ export default {
     const toast = useToast()
 
     const searchBy = ref('');
-    const OrderID = ref('');
-    const OrderDate = ref('');
     const Orders = ref([
       { OrderID: 1, OrderDate: '2024-03-24', OrderSender: 'Alice', OrderStatus: 'Pending' },
       { OrderID: 2, OrderDate: '2024-03-23', OrderSender: 'Bob', OrderStatus: 'Delivered' },
+      { OrderID: 3, OrderDate: '2024-03-23', OrderSender: 'James', OrderStatus: 'Pending' },
       // Add more order data objects as needed
     ]);
 
-    function searchOrders(Orders, SearchBy) {
+    function searchOrders() {
     let result = []; // Initialize an array to store filtered orders
-    for (let i = 0; i < Orders.length; i++) {
-        if (Orders[i].OrderID === parseInt(SearchBy)) {
+    for (let i = 0; i < Orders.value.length; i++) {
+        if (Orders.value[i].OrderID == parseInt(searchBy.value)) {
             result.push(Orders[i]); // Push matching orders into the result array
         }
     }
-    console.log(result[0]); // Log the filtered orders
+    console.log(Orders.value[0].OrderDate)
+    //console.log(searchBy.value);
+    console.log(result.length); // Log the filtered orders
     return result; // Return the filtered orders array
 }
 
@@ -126,8 +127,6 @@ export default {
     return {
       Orders,
       searchBy,
-      OrderID,
-      OrderDate,
       searchOrders,
       loadData
     }
