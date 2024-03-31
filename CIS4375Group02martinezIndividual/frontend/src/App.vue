@@ -55,7 +55,7 @@
             <li v-if="user.username === 'username1'">
               <router-link to="/clientform">
                 <span style="position: relative; top: 6px" class="material-icons">people</span>
-                Client Intake Form
+                Manage Clients
               </router-link>
             </li>
             <!--Create Event link - only shows if user is an editor-->

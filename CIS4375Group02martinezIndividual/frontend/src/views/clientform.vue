@@ -73,29 +73,53 @@
           <thead class="bg-gray-50 text-xl">
             <tr>
         
-              <th class="p-4 text-left">ID</th>
-              <th class="p-4 text-left">Order Date</th>
-              <th class="p-4 text-left">Sender</th>
-              <th class="p-4 text-left">Status</th>
+              <th class="p-4 text-left">Client ID</th>
+              <th class="p-4 text-left">Last Name</th>
+              <th class="p-4 text-left">First Name</th>
+              <th class="p-4 text-left">Address</th>
+              <th class="p-4 text-left">Phone Number</th>
             </tr>
           </thead>
           <tbody  v-if="result && result.length > 0" class="divide-y divide-gray-300">
-            <tr v-for="Order in result" :key="Order.Orderid">
-              <td class="p-2 text-left">{{ Order.OrderID }}</td>
-              <td class="p-2 text-left">{{ Order.OrderDate }}</td>
-              <td class="p-2 text-left">{{ Order.OrderSender }}</td>
-              <td class="p-2 text-left">{{ Order.OrderStatus }}</td>
+            <tr v-for="Client in result" :key="Client.ClientID">
+              <td class="p-2 text-left">{{ Client.ClientID }}</td>
+              <td class="p-2 text-left">{{ Client.ClientLastName }}</td>
+              <td class="p-2 text-left">{{ Client.ClientFirstName }}</td>
+              <td class="p-2 text-left">{{ Client.ClientAddress }}</td>
+              <td class="p-2 text-left">{{ Client.PhoneNumber }}</td>
             </tr>
           </tbody>
           <tbody v-else class="divide-y divide-gray-300">
-            <tr v-for="Order in Orders" :key="Order.Orderid">
-              <td class="p-2 text-left">{{ Order.OrderID }}</td>
-              <td class="p-2 text-left">{{ Order.OrderDate }}</td>
-              <td class="p-2 text-left">{{ Order.OrderSender }}</td>
-              <td class="p-2 text-left">{{ Order.OrderStatus }}</td>
+            <tr v-for="Client in Clients" :key="Client.ClientID">
+              <td class="p-2 text-left">{{ Client.ClientID }}</td>
+              <td class="p-2 text-left">{{ Client.ClientLastName }}</td>
+              <td class="p-2 text-left">{{ Client.ClientFirstName }}</td>
+              <td class="p-2 text-left">{{ Client.ClientAddress }}</td>
+              <td class="p-2 text-left">{{ Client.PhoneNumber }}</td>
             </tr>
           </tbody>
         </table>
+      </div>
+      <div></div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 min-w-full shadow-md rounded"> 
+        <th class="bg-gray-50 text-xl">Add Client</th>
+        <form @submit.prevent="addnewClient"><br></br>
+        
+        
+              <label for="lastName">Last Name:</label>
+              <input type="text" id="lastName" v-model="newClient.ClientLastName" required>
+        
+              <label for="firstName">First Name:</label>
+              <input type="text" id="firstName" v-model="newClient.ClientFirstName" required>
+        
+              <label for="address">Address:</label>
+              <input type="text" id="address" v-model="newClient.ClientAddress" required>
+        
+              <label for="phoneNumber">Phone Number:</label>
+              <input type="text" id="phoneNumber" v-model="newClient.phoneNumber" required>
+              <button class="bg-orange-800 text-white rounded" type="submit"></button>
+        </form>
+        
       </div>
     </div>
   </main>
@@ -120,33 +144,45 @@ export default {
     const toast = useToast()
     const searchBy = ref('');
     const result = ref([]);
-    const Orders = ref([
-      { OrderID: 1, OrderDate: '2024-03-24', OrderSender: 'Alice', OrderStatus: 'Pending' },
-      { OrderID: 2, OrderDate: '2024-03-21', OrderSender: 'Bob', OrderStatus: 'Delivered' },
-      { OrderID: 3, OrderDate: '2024-03-28', OrderSender: 'Jeff', OrderStatus: 'Pending' },
-      { OrderID: 4, OrderDate: '2024-02-21', OrderSender: 'Daniel', OrderStatus: 'Pending' },
-      { OrderID: 5, OrderDate: '2024-02-15', OrderSender: 'Bert', OrderStatus: 'Delivered' },
-      { OrderID: 6, OrderDate: '2024-01-11', OrderSender: 'Pierre', OrderStatus: 'Pending' },
-      { OrderID: 7, OrderDate: '2024-01-13', OrderSender: 'Frank', OrderStatus: 'Delivered' },
-      // Add more order data objects as needed
+    const newClient = ref([{
+        ClientID: '',
+        ClientLastName: '',
+        ClientFirstName: '',
+        ClientAddress: '',
+        PhoneNumber: ''
+    }]);
+    //initializing an object vs an array? is this only because I need 1 instance of new client?
+
+    const Clients = ref([
+    { ClientID: 0, ClientLastName: 'Martin', ClientFirstName: 'Jacob', ClientAddress: '123 Main St, City, Country', PhoneNumber: '123-456-7890' },
+    { ClientID: 1, ClientLastName: 'Allen', ClientFirstName: 'Jane', ClientAddress: '456 Elm St, Town, Country', PhoneNumber: '234-567-8901' },
+    { ClientID: 2, ClientLastName: 'Johnson', ClientFirstName: 'Michael', ClientAddress: '789 Oak St, Village, Country', PhoneNumber: '345-678-9012' },
+    { ClientID: 3, ClientLastName: 'Williams', ClientFirstName: 'Emily', ClientAddress: '987 Pine St, Hamlet, Country', PhoneNumber: '456-789-0123' },
+    { ClientID: 4, ClientLastName: 'Brown', ClientFirstName: 'David', ClientAddress: '654 Maple St, Suburb, Country', PhoneNumber: '567-890-1234' },
+    { ClientID: 5, ClientLastName: 'Jones', ClientFirstName: 'Sarah', ClientAddress: '321 Birch St, Rural, Country', PhoneNumber: '678-901-2345' },
+    { ClientID: 6, ClientLastName: 'Davis', ClientFirstName: 'Matthew', ClientAddress: '876 Cedar St, County, Country', PhoneNumber: '789-012-3456' }
+
+      //this is the toggle for what to search by
     ]);
     const toggleForm = () => {
       showFirstForm.value = !showFirstForm.value;
     };
-    function searchOrders() {
+    function searchClients() {
     result.value = []; // Initialize an array to store filtered orders
-    for (let i = 0; i < Orders.value.length; i++) {
-        if (Orders.value[i].OrderDate == (searchBy.value)) {
-            result.value.push(Orders.value[i]); // Push matching orders into the result array
+    for (let i = 0; i < Clients.value.length; i++) {
+        if (Clients.value[i].ClientLastName == (searchBy.value)) {
+            result.value.push(Clients.value[i]); // Push matching orders into the result array from the first type of query
         }
-        else if (Orders.value[i].OrderID == (searchBy.value)) {
-            result.value.push(Orders.value[i]); // Push matching orders into the result array
+        else if (Clients.value[i].ClientID == (searchBy.value)) {
+            result.value.push(Clients.value[i]); // Push matching orders into the result array from the second type of query
         }
     }
-    result.forEach(order => {
-        console.log(order.OrderDate);
+    result.forEach(Client => {
+        console.log(Client.ClientLastName);
     });
-//function allows for users to enter dates or id and search the table with them
+    }
+
+//function allows for users to enter last names or id and search the table with them
 
 
 
@@ -155,8 +191,19 @@ export default {
  //within the scope of a function, we can fill up an array by using the .push mutating method to update its values, here we utilize this to fill up the result of the search with the parts of the order array that fulfill the search condition
  //for a single entry in a reactive array, to access is arrayname.value[index of the entry]
     
+
+function addnewClient(){
+if (newClient.value.ClientLastName !== null && newClient.value.ClientFirstName !== null  && newClient.value.ClientAddress !== null  && newClient.value.PhoneNumber !== null){
+    newClient.value.ClientID = (Clients.value.length);
+    Clients.value.push(newClient.value);
+    return Clients;
+
+}
 }
 
+
+
+//}
 
     
 
@@ -166,14 +213,16 @@ export default {
     };
 
     return {
-      Orders,
+      Clients,
       searchBy,
-      searchOrders,
+      searchClients,
       clearData,
       result,
       VueDatePicker,
       showFirstForm,
-      toggleForm
+      toggleForm,
+      newClient,
+      addnewClient
     }
   }
 }

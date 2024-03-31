@@ -80,7 +80,7 @@
             </tr>
           </thead>
           <tbody  v-if="result && result.length > 0" class="divide-y divide-gray-300">
-            <tr v-for="Order in result" :key="Order.Orderid">
+            <tr v-for="Order in result" :key="Order.OrderID">
               <td class="p-2 text-left">{{ Order.OrderID }}</td>
               <td class="p-2 text-left">{{ Order.OrderDate }}</td>
               <td class="p-2 text-left">{{ Order.OrderSender }}</td>
@@ -88,7 +88,7 @@
             </tr>
           </tbody>
           <tbody v-else class="divide-y divide-gray-300">
-            <tr v-for="Order in Orders" :key="Order.Orderid">
+            <tr v-for="Order in Orders" :key="Order.OrderID">
               <td class="p-2 text-left">{{ Order.OrderID }}</td>
               <td class="p-2 text-left">{{ Order.OrderDate }}</td>
               <td class="p-2 text-left">{{ Order.OrderSender }}</td>
