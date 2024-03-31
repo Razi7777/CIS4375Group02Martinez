@@ -1,11 +1,8 @@
 <template>
   <div class="bottom-bar">
-    <p class="bottomleft">© Copyright 2024, Trendi Finds, Houston, TX</p>
-    <router-link to="/FAQ">FAQ</router-link>
-    <router-link to="/terms-and-conditions">Terms and Conditions</router-link>
-    <router-link to="/privacy-policy">Privacy Policy</router-link>
-    <router-link to="/return-and-exchange">Return and Exchange</router-link>
-    <router-link to="/Contact">Contact Us</router-link>
+    <p class="bottomleft">© Copyright 2024, Trendi Findz, Houston, TX</p>
+    <router-link to="/terms-and-conditions">Terms & Conditions |</router-link>
+    <router-link to="/privacy-policy">Privacy Policy |</router-link>
     <router-link to="/home">Home</router-link>
     <!-- Add more links/buttons as needed -->
   </div>
@@ -25,16 +22,17 @@ export default {
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: #d2a679;
-    color: #fff;
+    background-image: url('../photos/BottomBarBackground.jpg');
+    background-size: cover;
+    background-position: center;
+    color: #050505;
     padding: 10px;
     padding-bottom: 20px;
     text-align: right;
   }
   
   .bottom-bar a {
-    background-color: #d2a679;
-    color: #fff;
+    color: #050505;
     margin-right: 10px;
   }
   .bottomleft {
