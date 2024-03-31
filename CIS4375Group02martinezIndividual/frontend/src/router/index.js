@@ -105,6 +105,11 @@ const routes = [
     name: 'returnandexchange',
     component: () => import('../views/ReturnAndExchange.vue'),
   },
+  {
+    path: '/newsletter',
+    name: 'NewsletterSignup',
+    component: () => import('../views/NewsletterSignup.vue'),
+  },
 ];
 
 const router = createRouter({
