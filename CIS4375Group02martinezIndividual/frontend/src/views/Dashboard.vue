@@ -4,9 +4,9 @@
     <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">
       Dashboard
     </h1>
-    <div class="px-10 py-20">
+    <!--div class="px-10 py-20">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
-        <!-- Display the Pie Chart -->
+
         <div class="col-span-2">
           <h2 class="text-2xl font-bold">Clients by Zip Code</h2>
           <div class="mt-4">
@@ -14,7 +14,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div-->
   </main>
 </template>
 

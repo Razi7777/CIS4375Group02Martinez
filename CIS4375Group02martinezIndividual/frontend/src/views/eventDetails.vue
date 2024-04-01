@@ -2,7 +2,7 @@
 <template>
   <main>
     <div>
-      <!--Header-->
+      <!--Header -->
       <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">
         Event Details
       </h1>
