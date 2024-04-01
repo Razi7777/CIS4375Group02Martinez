@@ -33,9 +33,7 @@
     </div>
     <div>
     editor username: username1
-    <br></br>
     viewer username: username2
-    <br></br>
     password: password
     </div>
 </template>

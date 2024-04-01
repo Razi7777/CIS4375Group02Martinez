@@ -7,6 +7,8 @@ import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 //state management library
 import { createPinia } from 'pinia'
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 
 const app = createApp(App);
 
@@ -24,5 +26,6 @@ app.use(router);
 const options = {
   position: 'bottom-right'
 };
+app.component('VueDatePicker', VueDatePicker);
 app.use(Toast, options);
 app.mount("#app");
