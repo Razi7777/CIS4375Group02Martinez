@@ -34,23 +34,6 @@
             Logout
             </button>
             </li>
-             <!--Product Catalog dropdown - only shows if user is username1-->
-             <li v-if="user.username === 'username1'">
-              <div class="dropdown">
-                <button class="dropbtn">
-                  <span style="position: relative; top: 6px" class="material-icons">category</span>
-                  Product Catalog
-                </button>
-                <div class="dropdown-content">
-                  <router-link :to="{ name: 'productcatalog', query: { category: 'Tops' } }">Tops</router-link>
-                  <router-link :to="{ name: 'productcatalog', query: { category: 'Bottoms' } }">Bottoms</router-link>
-                  <router-link :to="{ name: 'productcatalog', query: { category: 'Shoes' } }">Shoes</router-link>
-                  <router-link :to="{ name: 'productcatalog', query: { category: 'Accessories' } }">Accessories</router-link>
-                  <router-link router-link :to="{ name: 'productcatalog', query: { category: 'Jewelry' } }">Jewelry</router-link>
-                  <router-link :to="{ name: 'productcatalog', query: { category: 'Miscellaneous' } }">Miscellaneous</router-link>
-                </div>
-              </div>
-            </li>
             <!--Client Intake Form link - only shows if user is an editor-->
             <li v-if="user.username === 'username1'">
               <router-link to="/clientform">
@@ -101,7 +84,7 @@
       <!--Organization Name Header-->
       <section class="justify-end items-center h-24 flex"
         style="background: linear-gradient(250deg, #854d0e 70%, #d2a679 50.6%)">
-        <h1 class="mx-auto text-4xl text-white">Trendi Findz</h1>
+        <h1 class="mx-auto text-4xl text-white">TrendiFindz</h1>
       </section>
       <!--Page Content-->
       <div>
@@ -113,12 +96,12 @@
     <!-- Quick Links -->
 <div class="quick-links">
   <ul>
-    <li><router-link to="/faq">FAQ</router-link></li>
+    <li><router-link to="/FAQ">FAQ</router-link></li>
     <li><router-link to="/terms-and-conditions">Terms and Conditions</router-link></li>
     <li><router-link to="/privacy-policy">Privacy Policy</router-link></li>
     <li><router-link to="/return-and-exchange">Return and Exchange</router-link></li>
     <li><router-link to="/contact">Contact Us</router-link></li>
-    <li><router-link to="/admin-login">Admin Login</router-link></li>
+    <li><router-link to="/login">Admin Login</router-link></li>
   </ul>
 </div>
 

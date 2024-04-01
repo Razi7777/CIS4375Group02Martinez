@@ -16,16 +16,3 @@
       </div>
     </main>
   </template>
-
-<script>
-import BottomBar from '../components/BottomBar.vue';
-export default {
-  components: {
-    BottomBar
-  },
-
-    
-
-  
-}
-</script>

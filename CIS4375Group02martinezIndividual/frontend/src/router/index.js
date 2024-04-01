@@ -18,10 +18,9 @@ const routes = [
     component: () => import('../views/Home.vue')
   },
   {
-    path: '/product-catalog',
-    name: 'productcatalog',
-    component: () => import('../views/ProductCatalog.vue'),
-    //meta: { requiresAuth: true },
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: () => import('../views/Dashboard.vue')
   },
   {
     path: '/clientform',

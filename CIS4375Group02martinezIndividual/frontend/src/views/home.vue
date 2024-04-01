@@ -1,4 +1,3 @@
-<!-- This is the home view - which shows a dashboard -->
 <template>
   <div class="page-container">
     <main>
@@ -39,30 +38,24 @@
             <div v-if="recentEvents.length">
               <AttendanceChart
                 v-if="!loading && !error"
-                :label="labels"
+                :labels="labels"
                 :chart-data="chartData"
-              ></AttendanceChart>
-
-              <!-- Start of loading animation -->
-              <div class="mt-40" v-if="loading">
-                <p
-                  class="text-6xl font-bold text-center text-gray-500 animate-pulse"
-                >
-                  Loading...
-                </p>
-              </div>
-              <!-- End of loading animation -->
-
-              <!-- Start of error alert -->
-              <div class="mt-12 bg-red-50" v-if="error">
-                <h3 class="px-4 py-1 text-4xl font-bold text-white bg-red-800">
-                  {{ error.title }}
-                </h3>
-                <p class="p-4 text-lg font-bold text-red-900">
-                  {{ error.message }}
-                </p>
-              </div>
-              <!-- End of error alert -->
+              />
+            </div>
+            
+            <div class="mt-40" v-if="loading">
+              <p class="text-6xl font-bold text-center text-gray-500 animate-pulse">
+                Loading...
+              </p>
+            </div>
+            
+            <div class="mt-12 bg-red-50" v-if="error">
+              <h3 class="px-4 py-1 text-4xl font-bold text-white bg-red-800">
+                {{ error.title }}
+              </h3>
+              <p class="p-4 text-lg font-bold text-red-900">
+                {{ error.message }}
+              </p>
             </div>
           </div>
         </div>
@@ -94,31 +87,24 @@
             <div v-if="zips.length" class="flex justify-center mt-10">
               <ZipChart
                 v-if="!zipLoading && !zipError"
-                :label="zipLabels"
+                :labels="zipLabels"
                 :chart-data="zipChartData"
-              ></ZipChart>
-
-              <!-- Start of loading animation -->
-              <div class="mt-40" v-if="zipLoading">
-                <p
-                  class="text-6xl font-bold text-center text-gray-500 animate-pulse"
-                >
-                  Loading...
-                </p>
-              </div>
-              <!-- End of loading animation -->
-
-              <!-- Start of error alert -->
-              <div class="mt-12 bg-red-50" v-if="zipError">
-                <h3 class="px-4 py-1 text-4xl font-bold text-white bg-red-800">
-                  {{ zipError.title }}
-                </h3>
-                <p class="p-4 text-lg font-bold text-red-900">
-                  {{ zipError.message }}
-                </p>
-              </div>
+              />
+            </div>
             
-              <!-- End of error alert -->
+            <div class="mt-40" v-if="zipLoading">
+              <p class="text-6xl font-bold text-center text-gray-500 animate-pulse">
+                Loading...
+              </p>
+            </div>
+            
+            <div class="mt-12 bg-red-50" v-if="zipError">
+              <h3 class="px-4 py-1 text-4xl font-bold text-white bg-red-800">
+                {{ zipError.title }}
+              </h3>
+              <p class="p-4 text-lg font-bold text-red-900">
+                {{ zipError.message }}
+              </p>
             </div>
           </div>
         </div>
@@ -127,27 +113,26 @@
         <div class="footer-section">
           <div class="app-store-buttons-container">
             <a href="https://apps.apple.com/us/app/your-app-name/app-id" target="_blank" class="app-store-button">
-              <img src="../photos/app-store.png" alt="App Store">
+              <img src="../assets/app-store.png" alt="App Store">
             </a>
             <a href="https://play.google.com/store/apps/details?id=com.example.yourapp" target="_blank" class="app-store-button">
-              <img src="../photos/google-play.png" alt="Google Play">
+              <img src="../assets/google-play.png" alt="Google Play">
             </a>
           </div>
           <div class="social-media-buttons-container">
             <a href="https://www.facebook.com/yourpage" target="_blank" class="social-media-button">
-              <img src="../photos/facebook.png" alt="Like us on Facebook">
+              <img src="../assets/facebook.png" alt="Like us on Facebook">
             </a>
-            <a href="https://www.instagram.com/trendifindz" target="_blank" class="social-media-button">
-              <img src="../photos/instagram.png" alt="Follow us on Instagram">
+            <a href="https://www.instagram.com/yourpage" target="_blank" class="social-media-button">
+              <img src="../assets/instagram.png" alt="Follow us on Instagram">
             </a>
           </div>
           <router-link to="/newsletter" class="footer-link newsletter-link">SIGN UP FOR NEWSLETTER</router-link>
-          </div>
-
+        </div>
         <div class="footer-section">
           <h3 class="footer-header">Trendi Findz Insider</h3>
-            <router-link to="/FAQ" class="footer-link">Frequently Asked Questions</router-link>
-            <router-link to="/terms-and-conditions" class="footer-link">Terms and Conditions</router-link>
+          <router-link to="/FAQ" class="footer-link">Frequently Asked Questions</router-link>
+          <router-link to="/terms-and-conditions" class="footer-link">Terms and Conditions</router-link>
         </div>
         <div class="footer-section">
           <h3 class="footer-header">Customer Service</h3>
@@ -156,29 +141,20 @@
         </div>
       </footer>
     </main>
-
-    <div class="bottom-bar-container">
-      <BottomBar />
-    </div>
   </div>
 </template>
 
-<!-- Composition API -->
 <script>
 import AttendanceChart from '../components/barChart.vue';
 import ZipChart from '../components/donutZipChart.vue';
 // import { getAttendance, getClientsByZipCode } from '../api/api';
 import { ref, onMounted } from 'vue';
 import { useLoggedInUserStore } from '@/store/loggedInUser';
-import AppNavBar from '@/App.vue';
-import BottomBar from '../components/BottomBar.vue';
 
 export default {
   components: {
     AttendanceChart,
     ZipChart,
-    AppNavBar,
-    BottomBar
   },
   setup() {
     const recentEvents = ref([]);
@@ -192,9 +168,8 @@ export default {
     const zipLoading = ref(false);
     const zipError = ref(null);
     const loggedInUserStore = useLoggedInUserStore();
-    
 
-    // const getAttendanceData = async () => {
+     // const getAttendanceData = async () => {
     //   try {
     //     error.value = null;
     //     loading.value = true;
@@ -263,6 +238,7 @@ export default {
     // };
    
 
+
     const formatDate = (date) => {
       const isoDate = new Date(date);
       const year = isoDate.getUTCFullYear();
@@ -270,19 +246,16 @@ export default {
       const day = String(isoDate.getUTCDate()).padStart(2, '0');
       return `${month}/${day}/${year}`;
     };
-    //hardcoded data for charts on the home page. Will need to delete for next Sprint.
+
     const hardcodedData = () => {
-      //hardcoded data for zipcode chart
       zips.value = [
         { _id: '77401', count: 23,},
         { _id: '77562', count: 17,},
         { _id: '77083', count: 26,},
-      ]
-      //copied below code from: zipLabels.value = zipdata.map((item) => item._id); 
-      //We had to change zipdata.map to zips.map since we are taking the information for the chart from the hardcoded data
-      zipLabels.value = zips.value.map((item) => item._id); // Access zips.value here
-      zipChartData.value = zips.value.map((item) => item.count); // Access zips.value here
-      //hardcoded data for events chart
+      ];
+      zipLabels.value = zips.value.map((item) => item._id);
+      zipChartData.value = zips.value.map((item) => item.count);
+
       recentEvents.value = [
         { name: 'Event 1', date: '2024-03-11', attendees: ['Sheldon', 'Peter', 'Tekk'] },
         { name: 'Event 2', date: '2024-03-12', attendees: ['Bryce', 'Noah'] },
@@ -290,12 +263,10 @@ export default {
       ];
       labels.value = recentEvents.value.map((item) => `${item.name} (${formatDate(item.date)})`);
       chartData.value = recentEvents.value.map((item) => item.attendees.length);
-}
+    };
 
     onMounted(() => {
       hardcodedData();
-      //getAttendanceData();
-      //getZipData();
     });
 
     return {
@@ -311,11 +282,15 @@ export default {
       zipError,
       formatDate,
       hardcodedData,
-      loggedInUserStore
+      loggedInUserStore,
     }
   }
 }
 </script>
+
+<style scoped>
+/* ... your existing styles ... */
+</style>
 
 <style scoped>
 body {
@@ -345,12 +320,6 @@ main {
   text-align: left;
   position: relative;
   z-index: 1;
-}
-
-.bottom-bar-container {
-  position: sticky;
-  bottom: 0;
-  z-index: 2;
 }
 
 .footer-section {

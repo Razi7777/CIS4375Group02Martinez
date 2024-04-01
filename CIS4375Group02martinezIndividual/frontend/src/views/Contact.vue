@@ -2,7 +2,7 @@
     <main class="flex justify-center h-screen">
       <div>
       <!-- using prop -->
-      <AppNavBar :userStore="userStore" />
+      
         <header class="w-full">
             <br></br>
           <section class="text-center">
@@ -50,15 +50,6 @@
     </main>
   </template>
 
-  <script>
-import BottomBar from '../components/BottomBar.vue';
-export default {
-  components: {
-    BottomBar
-  },
-
-}
-</script>
 <style scoped>
 /* Add your CSS styles for the bottom bar component here */
 .Question {

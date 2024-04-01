@@ -163,10 +163,13 @@ import { useToast } from 'vue-toastification'
 import { ref } from 'vue'
 
 
+
+
 export default {
-   components: {
-    AppNavBar
+  components: {
+    VueDatePicker
   },
+
   setup() {
     //Notifications
     const toast = useToast()
