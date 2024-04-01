@@ -106,7 +106,31 @@
         </form>
         
       </div>
-    
+      <div></div>
+      <div></div>
+      <div class="ml-10"><h2 class="text-2xl font-bold">Update Existing Client</h2></div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 min-w-full shadow-md rounded"> 
+        <form @submit.prevent="updateClientFunction"><br>
+
+
+
+              <label for="id">Client ID:</label>
+              <input type="text" id="updateid" v-model="updateClient.ClientID" required>
+
+              <label for="lastName">Last Name:</label>
+              <input type="text" id="lastName" v-model="updateClient.ClientLastName" required>
+        
+              <label for="firstName">First Name:</label>
+              <input type="text" id="firstName" v-model="updateClient.ClientFirstName" required>
+        
+              <label for="address">Address:</label>
+              <input type="text" id="address" v-model="updateClient.ClientAddress" required>
+        
+              <label for="phoneNumber">Phone Number:</label>
+              <input type="text" id="phoneNumber" v-model="updateClient.PhoneNumber" required>
+              <button class="bg-orange-800 text-white rounded" type="submit">Update Client</button>
+        </form>
+      </div>
     </div>
  
   </main>
@@ -138,6 +162,14 @@ export default {
         ClientAddress: '',
         PhoneNumber: ''
     }]);
+    const updateClient = ref([{
+        ClientID: '',
+        ClientLastName: '',
+        ClientFirstName: '',
+        ClientAddress: '',
+        PhoneNumber: '',
+
+    }])
     //initializing an object vs an array? is this only because I need 1 instance of new client?
 
     const Clients = ref([
@@ -164,9 +196,26 @@ export default {
             result.value.push(Clients.value[i]); // Push matching orders into the result array from the second type of query
         }
     }
-    result.forEach(Client => {
-        console.log(Client.ClientLastName);
-    });
+    client.value = result.value;
+    result.value = [];
+   
+    }
+
+    function updateClientFunction() {
+      result.value = [];
+        for (let i = 0; i < Clients.value.length; i++) {
+          if (Clients.value[i].ClientID == updateClient.value.ClientID){
+            result.value.push(updateClient.value)
+            
+          }
+          else if (Clients.value[i].ClientID !== updateClient.value.ClientID){
+            result.value.push(Clients.value[i])
+
+          }
+
+
+        }
+
     }
 
 //function allows for users to enter last names or id and search the table with them
@@ -209,7 +258,10 @@ if (newClient.value.ClientLastName !== null && newClient.value.ClientFirstName !
       showFirstForm,
       toggleForm,
       newClient,
-      addnewClient
+      addnewClient,
+      updateClient,
+      updateClientFunction
+
     }
   }
 }
