@@ -43,11 +43,11 @@
                 </button>
                 <div class="dropdown-content">
                   <router-link :to="{ name: 'productcatalog', query: { category: 'Tops' } }">Tops</router-link>
-            <router-link :to="{ name: 'productcatalog', query: { category: 'Bottoms' } }">Bottoms</router-link>
-            <router-link :to="{ name: 'productcatalog', query: { category: 'Shoes' } }">Shoes</router-link>
-            <router-link :to="{ name: 'productcatalog', query: { category: 'Accessories' } }">Accessories</router-link>
-            <router-link :to="{ name: 'productcatalog', query: { category: 'Jewelry' } }">Jewelry</router-link>
-            <router-link :to="{ name: 'productcatalog', query: { category: 'Miscellaneous' } }">Miscellaneous</router-link>
+                  <router-link :to="{ name: 'productcatalog', query: { category: 'Bottoms' } }">Bottoms</router-link>
+                  <router-link :to="{ name: 'productcatalog', query: { category: 'Shoes' } }">Shoes</router-link>
+                  <router-link :to="{ name: 'productcatalog', query: { category: 'Accessories' } }">Accessories</router-link>
+                  <router-link router-link :to="{ name: 'productcatalog', query: { category: 'Jewelry' } }">Jewelry</router-link>
+                  <router-link :to="{ name: 'productcatalog', query: { category: 'Miscellaneous' } }">Miscellaneous</router-link>
                 </div>
               </div>
             </li>
@@ -101,7 +101,7 @@
       <!--Organization Name Header-->
       <section class="justify-end items-center h-24 flex"
         style="background: linear-gradient(250deg, #854d0e 70%, #d2a679 50.6%)">
-        <h1 class="mx-auto text-4xl text-white"><a href="/home">TrendiFindz</a></h1>
+        <h1 class="mx-auto text-4xl text-white">Trendi Findz</h1>
       </section>
       <!--Page Content-->
       <div>
