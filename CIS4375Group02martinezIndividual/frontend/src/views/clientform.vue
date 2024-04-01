@@ -1,65 +1,49 @@
 <!-- This view displays a list of clients. The user can search for clients, and click on a client to redirect to another component to view that client's information -->
 <template>
   <main>
-    <div>
-      <!--Header-->
-      <h1 class="font-bold text-4xl text-orange-800 tracking-widest text-center mt-10">
+    <!--Header-->
+    <h1 class="font-bold text-4xl text-orange-800 tracking-widest text-center mt-10">
         Client Details
-      </h1>
-    </div>
-    <div class="px-10 pt-20">
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
-        <!--Search Client By selection-->
-        <h2 class="text-2xl font-bold"></h2>
-        <!-- Displays Client Name search field -->
-        <div class="flex flex-col">
-          <!--select
-            class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-            v-model="searchBy">
-            <option value="Order ID">Order ID</option>
-            <option value="Order Date">Order Date</option>
-          </select-->
-        <button class="bg-orange-800 text-white rounded"  @click="toggleForm">{{ showFirstForm ? 'Search By Client ID' : 'Search By Last Name' }}</button>
-        </div>
-        <!--Input box for searching by Client First Name-->
-        <div>
-        <form v-if="showFirstForm">
-        <div class="flex flex-col">
-          <label class="block">
-            <input type="text"
-              class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              v-model="searchBy" placeholder="Enter Last Name" />
-          </label>
-        </div>
-      </form>
-      <form v-else>
-        <!--Input box for searching by Client Last Name-->
-        <!-- Displays Client Number search field -->
-        <div class="flex flex-col">
-          <input
-            class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-            type="text" v-model="searchBy" 
-            placeholder="Enter Client ID" />
-        </div>
-       </form>
-        </div>
-      </div>
+    </h1>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
-        <div></div>
-        <div></div>
-        <!--Clear Search button-->
-        <div class="mt-5 grid-cols-2">
-          <button class="mr-10 bg-orange-800 text-white rounded" @click="clearData" type="submit">
-            Clear Filter
-          </button>
-          <!--Search Client button-->
-          <button class="bg-orange-800 text-white rounded" @click="searchClients" type="submit">
-            Search Clients
-          </button>
+
+
+
+<div class="px-10 pt-20">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-10 items-center"> <!-- Added items-center -->
+        <!--Search Client By selection-->
+        <h2 class="text-2xl font-bold">Search Clients</h2>
+        <div class="col-span-1 md:col-span-2">
+            <!-- Search form -->
+            <form>
+                <div class="flex flex-col mt-5">
+                    <label class="block">
+                        <input type="text"
+                               class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                               v-model="searchBy" :placeholder="showFirstForm ? 'Enter Last Name' : 'Enter Client ID'"/>
+                    </label>
+                </div>
+            </form>
+
+            <!-- Toggle form button -->
+            <div class="mt-5">
+                <button class="bg-orange-800 text-white rounded px-4 py-2 mr-4" @click="toggleForm">
+                    {{ showFirstForm ? 'Search By Client ID' : 'Search Last Name' }}
+                </button>
+                <button class="bg-orange-800 text-white rounded px-4 py-2 mr-4" @click="clearData" type="submit">
+                Clear Filter
+            </button>
+            <button class="bg-orange-800 text-white rounded px-4 py-2 mr-4" @click="searchClients" type="submit">
+                Search Clients
+            </button>
+            </div>
         </div>
-      </div>
     </div>
+</div>
+
+
+
+
 
     <hr class="mt-10 mb-10" />
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
@@ -101,10 +85,12 @@
         </table>
       </div>
       <div></div>
+      <div class="ml-10">
+        <h2 class="text-2xl font-bold">Add New Client</h2>
+        <!--h3 class="italic">Click table row to view Order details</h3-->
+      </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 min-w-full shadow-md rounded"> 
-        <th class="bg-gray-50 text-xl">Add Client</th>
-        <form @submit.prevent="addnewClient"><br></br>
-        
+        <form @submit.prevent="addnewClient"><br>
         
               <label for="lastName">Last Name:</label>
               <input type="text" id="lastName" v-model="newClient.ClientLastName" required>
@@ -116,10 +102,30 @@
               <input type="text" id="address" v-model="newClient.ClientAddress" required>
         
               <label for="phoneNumber">Phone Number:</label>
-              <input type="text" id="phoneNumber" v-model="newClient.phoneNumber" required>
-              <button class="bg-orange-800 text-white rounded" type="submit"></button>
+              <input type="text" id="phoneNumber" v-model="newClient.PhoneNumber" required>
+              <button class="bg-orange-800 text-white rounded" type="submit">Add Client</button>
         </form>
+      </div>
+      <div class="ml-10">
+        <h2 class="text-2xl font-bold">Update Existing Client</h2>
+        <!--h3 class="italic">Click table row to view Order details</h3-->
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 min-w-full shadow-md rounded"> 
+        <form @submit.prevent="addnewClient"><br>
         
+              <label for="lastName">Last Name:</label>
+              <input type="text" id="lastName" v-model="newClient.ClientLastName" required>
+        
+              <label for="firstName">First Name:</label>
+              <input type="text" id="firstName" v-model="newClient.ClientFirstName" required>
+        
+              <label for="address">Address:</label>
+              <input type="text" id="address" v-model="newClient.ClientAddress" required>
+        
+              <label for="phoneNumber">Phone Number:</label>
+              <input type="text" id="phoneNumber" v-model="newClient.PhoneNumber" required>
+              <button class="bg-orange-800 text-white rounded" type="submit">Add Client</button>
+        </form>
       </div>
     </div>
   </main>
@@ -196,7 +202,7 @@ function addnewClient(){
 if (newClient.value.ClientLastName !== null && newClient.value.ClientFirstName !== null  && newClient.value.ClientAddress !== null  && newClient.value.PhoneNumber !== null){
     newClient.value.ClientID = (Clients.value.length);
     Clients.value.push(newClient.value);
-    return Clients;
+    newClient.value = [];
 
 }
 }
