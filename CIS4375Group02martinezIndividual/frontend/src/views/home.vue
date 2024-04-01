@@ -1,128 +1,166 @@
 <!-- This is the home view - which shows a dashboard -->
 <template>
-  <main>
-    <div>
-      <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">
-        Dashboard
-      </h1>
-      <br />
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
-        <div class="ml-10"></div>
-        <div class="flex flex-col col-span-2">
-          <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">
-              Events Attendance
-          </h1>
-      
-          <div v-if="!recentEvents.length" class="flex justify-center mt-10">No events found.</div>
-          <table v-if="recentEvents.length" class="min-w-full shadow-md rounded">
-            <thead class="bg-gray-50 text-xl">
-              <tr class="p-4 text-left">
-                <th class="p-4 text-left">Event Name</th>
-                <th class="p-4 text-left">Event Date</th>
-                <th class="p-4 text-left">Number of Attendees</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-300"> 
-              <tr
-                @click="editEvent(event._id)"
-                v-for="event in recentEvents"
-                :key="event._id"
-              >
-                <td class="p-2 text-left">{{ event.name }}</td>
-                <td class="p-2 text-left">{{ formatDate(event.date) }}</td>
-                <td class="p-2 text-left">{{ event.attendees.length }}</td>
-              </tr>
-            </tbody>
-          </table>
-          
-          <div v-if="recentEvents.length">
-            <AttendanceChart
-              v-if="!loading && !error"
-              :label="labels"
-              :chart-data="chartData"
-            ></AttendanceChart>
+  <div class="page-container">
+    <main>
+      <div>
+        <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">
+          Dashboard
+        </h1>
+        <br />
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
+          <div class="ml-10"></div>
+          <div class="flex flex-col col-span-2">
+            <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">
+                Events Attendance
+            </h1>
+        
+            <div v-if="!recentEvents.length" class="flex justify-center mt-10">No events found.</div>
+            <table v-if="recentEvents.length" class="min-w-full shadow-md rounded">
+              <thead class="bg-gray-50 text-xl">
+                <tr class="p-4 text-left">
+                  <th class="p-4 text-left">Event Name</th>
+                  <th class="p-4 text-left">Event Date</th>
+                  <th class="p-4 text-left">Number of Attendees</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-300"> 
+                <tr
+                  @click="editEvent(event._id)"
+                  v-for="event in recentEvents"
+                  :key="event._id"
+                >
+                  <td class="p-2 text-left">{{ event.name }}</td>
+                  <td class="p-2 text-left">{{ formatDate(event.date) }}</td>
+                  <td class="p-2 text-left">{{ event.attendees.length }}</td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <div v-if="recentEvents.length">
+              <AttendanceChart
+                v-if="!loading && !error"
+                :label="labels"
+                :chart-data="chartData"
+              ></AttendanceChart>
 
-            <!-- Start of loading animation -->
-            <div class="mt-40" v-if="loading">
-              <p
-                class="text-6xl font-bold text-center text-gray-500 animate-pulse"
-              >
-                Loading...
-              </p>
-            </div>
-            <!-- End of loading animation -->
+              <!-- Start of loading animation -->
+              <div class="mt-40" v-if="loading">
+                <p
+                  class="text-6xl font-bold text-center text-gray-500 animate-pulse"
+                >
+                  Loading...
+                </p>
+              </div>
+              <!-- End of loading animation -->
 
-            <!-- Start of error alert -->
-            <div class="mt-12 bg-red-50" v-if="error">
-              <h3 class="px-4 py-1 text-4xl font-bold text-white bg-red-800">
-                {{ error.title }}
-              </h3>
-              <p class="p-4 text-lg font-bold text-red-900">
-                {{ error.message }}
-              </p>
+              <!-- Start of error alert -->
+              <div class="mt-12 bg-red-50" v-if="error">
+                <h3 class="px-4 py-1 text-4xl font-bold text-white bg-red-800">
+                  {{ error.title }}
+                </h3>
+                <p class="p-4 text-lg font-bold text-red-900">
+                  {{ error.message }}
+                </p>
+              </div>
+              <!-- End of error alert -->
             </div>
-            <!-- End of error alert -->
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
+          <div class="ml-10"></div>
+          <div class="flex flex-col col-span-2">
+            <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">
+                Clients by Zip Code
+            </h1>
+            
+            <div v-if="!zips.length" class="flex justify-center mt-10">No clients found.</div>
+            <table v-if="zips.length" class="min-w-full shadow-md rounded">
+              <thead class="bg-gray-50 text-xl">
+                <tr class="p-4 text-left">
+                  <th class="p-4 text-left">Zip Number</th>
+                  <th class="p-4 text-left">Client Count</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-300">
+                <tr
+                  v-for="zip in zips"
+                  :key="zip._id"
+                >
+                  <td class="p-2 text-left">{{ zip._id }}</td>
+                  <td class="p-2 text-left">{{ zip.count }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div v-if="zips.length" class="flex justify-center mt-10">
+              <ZipChart
+                v-if="!zipLoading && !zipError"
+                :label="zipLabels"
+                :chart-data="zipChartData"
+              ></ZipChart>
+
+              <!-- Start of loading animation -->
+              <div class="mt-40" v-if="zipLoading">
+                <p
+                  class="text-6xl font-bold text-center text-gray-500 animate-pulse"
+                >
+                  Loading...
+                </p>
+              </div>
+              <!-- End of loading animation -->
+
+              <!-- Start of error alert -->
+              <div class="mt-12 bg-red-50" v-if="zipError">
+                <h3 class="px-4 py-1 text-4xl font-bold text-white bg-red-800">
+                  {{ zipError.title }}
+                </h3>
+                <p class="p-4 text-lg font-bold text-red-900">
+                  {{ zipError.message }}
+                </p>
+              </div>
+            
+              <!-- End of error alert -->
+            </div>
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
-        <div class="ml-10"></div>
-        <div class="flex flex-col col-span-2">
-          <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">
-              Clients by Zip Code
-          </h1>
-          
-          <div v-if="!zips.length" class="flex justify-center mt-10">No clients found.</div>
-          <table v-if="zips.length" class="min-w-full shadow-md rounded">
-            <thead class="bg-gray-50 text-xl">
-              <tr class="p-4 text-left">
-                <th class="p-4 text-left">Zip Number</th>
-                <th class="p-4 text-left">Client Count</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-300">
-              <tr
-                v-for="zip in zips"
-                :key="zip._id"
-              >
-                <td class="p-2 text-left">{{ zip._id }}</td>
-                <td class="p-2 text-left">{{ zip.count }}</td>
-              </tr>
-            </tbody>
-          </table>
-          <div v-if="zips.length" class="flex justify-center mt-10">
-            <ZipChart
-              v-if="!zipLoading && !zipError"
-              :label="zipLabels"
-              :chart-data="zipChartData"
-            ></ZipChart>
-
-            <!-- Start of loading animation -->
-            <div class="mt-40" v-if="zipLoading">
-              <p
-                class="text-6xl font-bold text-center text-gray-500 animate-pulse"
-              >
-                Loading...
-              </p>
-            </div>
-            <!-- End of loading animation -->
-
-            <!-- Start of error alert -->
-            <div class="mt-12 bg-red-50" v-if="zipError">
-              <h3 class="px-4 py-1 text-4xl font-bold text-white bg-red-800">
-                {{ zipError.title }}
-              </h3>
-              <p class="p-4 text-lg font-bold text-red-900">
-                {{ zipError.message }}
-              </p>
-            </div>
-          <BottomBar />
-            <!-- End of error alert -->
+      <footer class="footer">
+        <div class="footer-section">
+          <div class="app-store-buttons-container">
+            <a href="https://apps.apple.com/us/app/your-app-name/app-id" target="_blank" class="app-store-button">
+              <img src="../photos/app-store.png" alt="App Store">
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.example.yourapp" target="_blank" class="app-store-button">
+              <img src="../photos/google-play.png" alt="Google Play">
+            </a>
           </div>
+          <div class="social-media-buttons-container">
+            <a href="https://www.facebook.com/yourpage" target="_blank" class="social-media-button">
+              <img src="../photos/facebook.png" alt="Like us on Facebook">
+            </a>
+            <a href="https://www.instagram.com/trendifindz" target="_blank" class="social-media-button">
+              <img src="../photos/instagram.png" alt="Follow us on Instagram">
+            </a>
+          </div>
+          <router-link to="/newsletter" class="footer-link newsletter-link">SIGN UP FOR NEWSLETTER</router-link>
+          </div>
+
+        <div class="footer-section">
+          <h3 class="footer-header">Trendi Findz Insider</h3>
+            <router-link to="/FAQ" class="footer-link">Frequently Asked Questions</router-link>
+            <router-link to="/terms-and-conditions" class="footer-link">Terms and Conditions</router-link>
         </div>
-      </div>
+        <div class="footer-section">
+          <h3 class="footer-header">Customer Service</h3>
+          <router-link to="/Contact" class="footer-link">Contact Us</router-link>
+          <router-link to="/return-and-exchange" class="footer-link">Return & Exchange Policy</router-link>
+        </div>
+      </footer>
+    </main>
+
+    <div class="bottom-bar-container">
+      <BottomBar />
     </div>
-  </main>
+  </div>
 </template>
 
 <!-- Composition API -->
@@ -278,3 +316,96 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.page-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+.footer {
+  background-color: #f8f8f8;
+  padding: 80px 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  text-align: left;
+  position: relative;
+  z-index: 1;
+}
+
+.bottom-bar-container {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+}
+
+.footer-section {
+  flex: 1;
+  max-width: 300px;
+}
+
+.app-store-buttons-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.app-store-button {
+  margin-right: 10px;
+}
+
+.app-store-button img {
+  width: 30px;
+  height: 30px;
+}
+
+.social-media-buttons-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.social-media-button {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.social-media-button img {
+  width: 30px;
+  height: 30px;
+}
+
+.newsletter-link {
+  display: block;
+  font-weight: bold;
+  text-decoration: underline;
+  margin-bottom: 10px;
+}
+
+.footer-header {
+  font-weight: bold;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.footer-link {
+  display: block;
+  color: #333;
+  text-decoration: none;
+  margin-bottom: 5px;
+}
+</style>
