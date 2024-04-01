@@ -109,37 +109,6 @@
           </div>
         </div>
       </div>
-      <footer class="footer">
-        <div class="footer-section">
-          <div class="app-store-buttons-container">
-            <a href="https://apps.apple.com/us/app/your-app-name/app-id" target="_blank" class="app-store-button">
-              <img src="../assets/app-store.png" alt="App Store">
-            </a>
-            <a href="https://play.google.com/store/apps/details?id=com.example.yourapp" target="_blank" class="app-store-button">
-              <img src="../assets/google-play.png" alt="Google Play">
-            </a>
-          </div>
-          <div class="social-media-buttons-container">
-            <a href="https://www.facebook.com/yourpage" target="_blank" class="social-media-button">
-              <img src="../assets/facebook.png" alt="Like us on Facebook">
-            </a>
-            <a href="https://www.instagram.com/yourpage" target="_blank" class="social-media-button">
-              <img src="../assets/instagram.png" alt="Follow us on Instagram">
-            </a>
-          </div>
-          <router-link to="/newsletter" class="footer-link newsletter-link">SIGN UP FOR NEWSLETTER</router-link>
-        </div>
-        <div class="footer-section">
-          <h3 class="footer-header">Trendi Findz Insider</h3>
-          <router-link to="/FAQ" class="footer-link">Frequently Asked Questions</router-link>
-          <router-link to="/terms-and-conditions" class="footer-link">Terms and Conditions</router-link>
-        </div>
-        <div class="footer-section">
-          <h3 class="footer-header">Customer Service</h3>
-          <router-link to="/Contact" class="footer-link">Contact Us</router-link>
-          <router-link to="/return-and-exchange" class="footer-link">Return & Exchange Policy</router-link>
-        </div>
-      </footer>
     </main>
   </div>
 </template>
@@ -311,16 +280,6 @@ main {
   flex: 1;
 }
 
-.footer {
-  background-color: #f8f8f8;
-  padding: 80px 0;
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
-  text-align: left;
-  position: relative;
-  z-index: 1;
-}
 
 .footer-section {
   flex: 1;
