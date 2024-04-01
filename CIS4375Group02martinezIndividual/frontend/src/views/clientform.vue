@@ -56,7 +56,6 @@
         <table class="min-w-full shadow-md rounded">
           <thead class="bg-gray-50 text-xl">
             <tr>
-        
               <th class="p-4 text-left">Client ID</th>
               <th class="p-4 text-left">Last Name</th>
               <th class="p-4 text-left">First Name</th>
@@ -105,29 +104,11 @@
               <input type="text" id="phoneNumber" v-model="newClient.PhoneNumber" required>
               <button class="bg-orange-800 text-white rounded" type="submit">Add Client</button>
         </form>
+        
       </div>
-      <div class="ml-10">
-        <h2 class="text-2xl font-bold">Update Existing Client</h2>
-        <!--h3 class="italic">Click table row to view Order details</h3-->
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 min-w-full shadow-md rounded"> 
-        <form @submit.prevent="addnewClient"><br>
-        
-              <label for="lastName">Last Name:</label>
-              <input type="text" id="lastName" v-model="newClient.ClientLastName" required>
-        
-              <label for="firstName">First Name:</label>
-              <input type="text" id="firstName" v-model="newClient.ClientFirstName" required>
-        
-              <label for="address">Address:</label>
-              <input type="text" id="address" v-model="newClient.ClientAddress" required>
-        
-              <label for="phoneNumber">Phone Number:</label>
-              <input type="text" id="phoneNumber" v-model="newClient.PhoneNumber" required>
-              <button class="bg-orange-800 text-white rounded" type="submit">Add Client</button>
-        </form>
-      </div>
+    
     </div>
+ 
   </main>
 </template>
 
