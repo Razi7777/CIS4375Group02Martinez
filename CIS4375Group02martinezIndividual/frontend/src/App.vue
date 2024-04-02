@@ -2,90 +2,79 @@
 
 <template>
   <main class="flex flex-row">
-    <div id="_container" class="min-h-screen">
-    <!-- using prop -->
-    <AppNavBar :userStore="userStore" />
-      <header class="w-full">
-        <section class="text-center">
-          <img class="m-auto" src="@\assets\Marisol.svg" />
-        </section>
-        <!--Navigation bar-->
-        <nav class="mt-10">
-          <ul class="flex flex-col gap-4">
-            <!-- Dashboard link -->
-            <li>
-              <router-link to="/home">
-                <span style="position: relative; inset-block-start: 6px" class="material-icons">dashboard</span>
-                Dashboard
-              </router-link>
-
-            </li>
-            <!--Login link - Link only shows is user is logged out-->
-            <li v-if="user.username !== 'username1' && user.username !== 'username2'">
-              <router-link to="/login">
-                <span style="position:relative; inset-block-start: 6px" class="material-icons">login</span>
-                Login
-              </router-link>
-            </li>
-            <!--Logout link - Link only shows is user is logged in-->
-            <li v-if="user.username === 'username1' || user.username === 'username2'">
-            <button @click="logout">
-            <span style="position:relative; inset-block-start: 6px" class="material-icons">logout</span>
-            Logout
-            </button>
-            </li>
-            <!--Client Intake Form link - only shows if user is an editor-->
-            <li v-if="user.username === 'username1'">
-              <router-link to="/clientform">
-                <span style="position: relative; top: 6px" class="material-icons">people</span>
-                Manage Clients
-              </router-link>
-            </li>
-            <!--Create Event link - only shows if user is an editor-->
-            <li v-if="user.username === 'username1'">
-              <router-link to="/eventform">
-                <span style="position: relative; inset-block-start: 6px" class="material-icons">event</span>
-                Create Event
-              </router-link>
-            </li>
-            <!--Create Service link - only shows if user is an editor-->
-            <li v-if="user.username === 'username1'">
-              <router-link to="/serviceform">
-                <span style="position: relative; inset-block-start: 6px" class="material-icons">volunteer_activism</span>
-                Create Service
-              </router-link>
-            </li>
-            <!--Find Client link - only shows if user is logged in-->
-            <li v-if="user.username === 'username1' || user.username === 'username2'">
-              <router-link to="/ordertracking">
-                <span style="position: relative; inset-block-start: 6px" class="material-icons">search</span>
-                Track Orders
-              </router-link>
-            </li>
-            <!--Find Event link - only shows if user is logged in-->
-            <li v-if="user.username === 'username1' || user.username === 'username2'">
-              <router-link to="/findevents">
-                <span style="position: relative; inset-block-start: 6px" class="material-icons">search</span>
-                Find Event
-              </router-link>
-            </li>
-            <!--Find Service link - only shows if user is logged in-->
-            <li v-if="user.username === 'username1' || user.username === 'username2'">
-              <router-link to="/findservice">
-                <span style="position: relative; inset-block-start: 6px" class="material-icons">search</span>
-                Find Service
-              </router-link>
-            </li>
-          </ul>
-        </nav>
-      </header>
-    </div>
+    
     <div class="grow w-4/5">
       <!--Organization Name Header-->
-      <section class="justify-end items-center h-24 flex"
-        style="background: linear-gradient(250deg, #854d0e 70%, #d2a679 50.6%)">
-        <h1 class="mx-auto text-4xl text-white">TrendiFindz</h1>
-      </section>
+      <div class="nav-container">
+        <div class="navbar container">
+          <div class="mobile-container nav-container-mobile">
+            <input class="checkbox" type="checkbox" name="" id="" />
+            <div class="hamburger-lines">
+              <span class="line line1"></span>
+              <span class="line line2"></span>
+              <span class="line line3"></span>
+            </div>
+            <div class="menu-items">
+              <li>
+              <a href="/home">Dashboard</a>
+            </li>
+            <li v-if="user.username !== 'username1' && user.username !== 'username2'">
+              <a href="/login">Login</a>
+            </li>
+            <li v-if="user.username === 'username1' || user.username === 'username2'">
+              <a href="/home" @click="logout">Logout</a>
+            </li>
+            <li v-if="user.username === 'username1'">
+              <a href="/clientform">Clients</a>
+            </li>
+            <li v-if="user.username === 'username1'">
+              <a href="/eventform">Events</a>
+            </li>
+            <li v-if="user.username === 'username1'">
+              <a href="/serviceform">Services</a>
+            </li>
+            <li v-if="user.username === 'username1' || user.username === 'username2'">
+              <a href="/ordertracking">Orders</a>
+            </li>
+            <li v-if="user.username === 'username1' || user.username === 'username2'">
+              <a href="/findevents">Events</a>
+            </li>
+            </div>  
+          </div>
+        </div>
+        <section class="justify-end items-center h-24 flex">
+          <h1 class="mx-auto text-4xl text-white"><a href="/home">TrendiFindz</a></h1>
+        </section>
+        <div class="links">
+          <ul>
+            <li>
+              <a href="/home">Dashboard</a>
+            </li>
+            <li v-if="user.username !== 'username1' && user.username !== 'username2'">
+              <a href="/login">Login</a>
+            </li>
+            <li v-if="user.username === 'username1' || user.username === 'username2'">
+              <a href="/home" @click="logout">Logout</a>
+            </li>
+            <li v-if="user.username === 'username1'">
+              <a href="/clientform">Clients</a>
+            </li>
+            <li v-if="user.username === 'username1'">
+              <a href="/eventform">Events</a>
+            </li>
+            <li v-if="user.username === 'username1'">
+              <a href="/serviceform">Services</a>
+            </li>
+            <li v-if="user.username === 'username1' || user.username === 'username2'">
+              <a href="/ordertracking">Orders</a>
+            </li>
+            <li v-if="user.username === 'username1' || user.username === 'username2'">
+              <a href="/findevents">Events</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
       <!--Page Content-->
       <div>
         <router-view></router-view>
@@ -142,7 +131,9 @@
       <h5>TrendiFindz Insider Club</h5>
       <form @submit.prevent="subscribeToNewsletter">
         <input type="email" placeholder="Email Address" />
-        <button type="submit">Sign Up</button>
+        <button type="submit">
+          <p>Sign Up</p>
+        </button>
       </form>
     
     </div>
@@ -155,6 +146,7 @@ import { useLoggedInUserStore } from './store/loggedInUser'
 import { getOrgName } from './api/api'
 import { useToast } from 'vue-toastification'
 import { ref } from 'vue'
+
 
 export default {
 
@@ -230,92 +222,5 @@ export default {
 </script> -->
 
 <style scoped>
-#_container {
-  background-color: #fbc4ab;
-  color: white;
-  padding: 19px;
-}
 
-.footer-container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  background-color: #fbc4ab;
-  color: white;
-  padding: 20px;
-}
-
-.footer-column h5 {
-  font-size: 1.2em;
-  margin-block-end: .5em;
-  font-weight: bold;
-  margin-block-start: .5em;
-}
-
-.footer-column ul {
-  list-style: none;
-  padding: 1px;
-}
-
-.footer-column li + li {
-  margin-block-start: 0.25em;
-}
-
-.footer-column a {
-  color: white;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.footer-column a:hover {
-  color: #aaa;
-}
-
-.newsletter-social form {
-  display: flex;
-  margin-block-end: 1em;
-}
-
-.newsletter-social input[type="email"] {
-  flex-grow: 1;
-  padding: 0.5em;
-  margin-inline-end: 0.5em;
-  border: none;
-  border-radius: 4px;
-  color: #000;
-}
-
-.newsletter-social button {
-  padding: 0.5em 1em;
-  background-color: #f08080;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  cursor: pointer;
-}
-
-.social-icons a {
-  display: inline-block;
-  margin-inline-end: 10px;
-  padding: 0.5em;
-  background-color: #fbc4ab;
-  border-radius: 20%;
-}
-
-.social-icons a:hover {
-  background-color: #777;
-}
-
-@media (max-width: 768px) {
-  .footer-container {
-    text-align: center;
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .footer-container {
-    grid-template-columns: 1fr;
-  }
-}
 </style>
