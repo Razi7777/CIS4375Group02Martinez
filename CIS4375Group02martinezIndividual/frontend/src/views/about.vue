@@ -1,7 +1,6 @@
 <template>
     <main class="flex flex-col items-center min-h-screen">
       <div class="w-full max-w-4xl px-4 py-8">
-        <AppNavBar :userStore="userStore" />
         <!-- Company Introduction -->
         <section class="text-center mb-8">
           <h1 class="text-3xl font-bold underline">About TrendiFindz</h1>
@@ -53,15 +52,13 @@
         </section>
       </div>
     </main>
-    <BottomBar />
   </template>
   
   <script>
   export default {
     name: "AboutCompany",
     components: {
-      AppNavBar,
-      BottomBar
+     
     },
     props: {
       userStore: Object,
