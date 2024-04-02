@@ -64,8 +64,8 @@
         <table class="min-w-full shadow-md rounded">
           <thead class="bg-gray-50 text-xl">
             <tr>
-              <th class="p-4 text-left" style="width: 25%;">Service Name</th>
-              <th class="p-4 text-left" style="width: 75%;">Service Description</th>
+              <th class="p-4 text-left" style="inline-size: 25%;">Service Name</th>
+              <th class="p-4 text-left" style="inline-size: 75%;">Service Description</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-300">

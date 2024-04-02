@@ -15,7 +15,7 @@
             <ul class="flex flex-col gap-4 text-left mx-auto max-w-md"> 
               <!-- Dashboard link -->
               <li>
-                  <!--span style="position: relative; top: 6px" class="material-icons">dashboard</span-->
+                  <!--span style="position: relative; inset-block-start: 6px" class="material-icons">dashboard</span-->
                  <h2 style="font-size: 24px; font-weight: bold; text-decoration: underline;">Call Us:</h2>
                  <br></br>
                  <p1 class="Answer"><strong>Phone Number:</strong> (123)-456-7891</p1>
@@ -23,7 +23,7 @@
               <br></br>
               <!--Login link - Link only shows is user is logged out-->
               <li>
-                <!--span style="position: relative; top: 6px" class="material-icons">dashboard</span-->
+                <!--span style="position: relative; inset-block-start: 6px" class="material-icons">dashboard</span-->
                <h2 style="font-size: 24px; font-weight: bold; text-decoration: underline;">Email us:</h2>
                <br></br>
                <p1 class="Answer"><strong>Email:</strong> mybusinessemail@gmail.com</p1>
@@ -31,7 +31,7 @@
             <br></br>
               <!--Logout link - Link only shows is user is logged in-->
               <li>
-                <!--span style="position: relative; top: 6px" class="material-icons">dashboard</span-->
+                <!--span style="position: relative; inset-block-start: 6px" class="material-icons">dashboard</span-->
                <h2 style="font-size: 24px; font-weight: bold; text-decoration: underline;">Follow us:</h2>
                <br></br>
                <p1 class="Answer"><strong>Instagram:</strong> <a href="https://www.instagram.com/trendifindz/">https://www.instagram.com/trendifindz/</a></p1>
@@ -54,17 +54,17 @@
 /* Add your CSS styles for the bottom bar component here */
 .Question {
 
-  text-align: left;
+  text-align: start;
   font-weight: bold;
 }
 .Answer {
 
-    text-align: left;
+    text-align: start;
 
   }
 /*.bullet-line::before {
     content: "\2022"; 
-    margin-right: 0.5em; 
+    margin-inline-end: 0.5em; 
   } */
   
   

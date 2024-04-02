@@ -15,7 +15,7 @@
         <ul class="flex flex-col gap-4 text-left mx-auto max-w-md pb-20">
           <!-- Dashboard link -->
           <li>
-            <!--span style="position: relative; top: 6px" class="material-icons">dashboard</span-->
+            <!--span style="position: relative; inset-block-start: 6px" class="material-icons">dashboard</span-->
             <h2 class="Question">What is the answer to this Question?</h2>
             <br>
             <p1 class="Answer">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed condimentum mi quis turpis sodales, eu varius ex tempus. Ut arcu purus, sodales eget fermentum quis, finibus sed neque.</p1>
@@ -23,7 +23,7 @@
           <br>
           <!--Login link - Link only shows is user is logged out-->
           <li>
-            <!--span style="position: relative; top: 6px" class="material-icons">dashboard</span-->
+            <!--span style="position: relative; inset-block-start: 6px" class="material-icons">dashboard</span-->
             <h2 class="Question">What is the answer to this Question?</h2>
             <br>
             <p1 class="Answer">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed condimentum mi quis turpis sodales, eu varius ex tempus. Ut arcu purus, sodales eget fermentum quis, finibus sed neque.</p1>
@@ -31,7 +31,7 @@
           <br>
           <!--Logout link - Link only shows is user is logged in-->
           <li>
-            <!--span style="position: relative; top: 6px" class="material-icons">dashboard</span-->
+            <!--span style="position: relative; inset-block-start: 6px" class="material-icons">dashboard</span-->
             <h2 class="Question">What is the answer to this Question?</h2>
             <br>
             <p1 class="Answer">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed condimentum mi quis turpis sodales, eu varius ex tempus. Ut arcu purus, sodales eget fermentum quis, finibus sed neque.</p1>
@@ -39,7 +39,7 @@
           <br>
           <!--Client Intake Form link - only shows if user is an editor-->
           <li>
-            <!--span style="position: relative; top: 6px" class="material-icons">dashboard</span-->
+            <!--span style="position: relative; inset-block-start: 6px" class="material-icons">dashboard</span-->
             <h2 class="Question">What is the answer to this Question?</h2>
             <br>
             <p1 class="Answer">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed condimentum mi quis turpis sodales, eu varius ex tempus. Ut arcu purus, sodales eget fermentum quis, finibus sed neque.</p1>
@@ -47,7 +47,7 @@
           <br>
           <!--Create Event link - only shows if user is an editor-->
           <li>
-            <!--span style="position: relative; top: 6px" class="material-icons">dashboard</span-->
+            <!--span style="position: relative; inset-block-start: 6px" class="material-icons">dashboard</span-->
             <h2 class="Question">What is the answer to this Question?</h2>
             <br>
             <p1 class="Answer">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed condimentum mi quis turpis sodales, eu varius ex tempus. Ut arcu purus, sodales eget fermentum quis, finibus sed neque.</p1>
@@ -80,7 +80,7 @@ main {
 header h1 {
   font-size: 2rem; /* 32px */
   color: #333; /* dark text for contrast */
-  margin-bottom: 1rem;
+  margin-block-end: 1rem;
 }
 
 
@@ -89,7 +89,7 @@ header h1 {
 .Question {
   color: #5f27cd; /* Assuming a purple color theme */
   font-size: 1.25rem; /* 20px */
-  margin-bottom: 0.25rem;
+  margin-block-end: 0.25rem;
 }
 
 .Answer {
@@ -97,7 +97,7 @@ header h1 {
   font-size: 1rem; /* 16px */
   line-height: 1.6; /* for better readability */
   display: block; /* ensures the answer is on a new line */
-  margin-bottom: 1.5rem; /* space after the answer */
+  margin-block-end: 1.5rem; /* space after the answer */
 }
 
 /* List styles */
@@ -106,20 +106,20 @@ ul {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   padding: 2rem;
-  min-width: 15rem;
+  min-inline-size: 15rem;
 }
 
 li {
-  border-bottom: 1px solid #e0e0e0; /* light line between questions */
+  border-block-end: 1px solid #e0e0e0; /* light line between questions */
 }
 
 li:last-child {
-  border-bottom: none; /* No border for the last item */
+  border-block-end: none; /* No border for the last item */
 }
 
 /* Spacing between list items */
 li + li {
-  margin-top: 2rem;
+  margin-block-start: 2rem;
 }
 
 /* Bottom bar placeholder */
@@ -131,7 +131,7 @@ li + li {
   display: flex;
   justify-content: center;
   align-items: center;
-  height:fit-content;
+  block-size:fit-content;
   padding: 1rem;
 }
 </style>

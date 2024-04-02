@@ -60,10 +60,10 @@ export default {
 }
 
 .message {
-  margin-bottom: 10px;
+  margin-block-end: 10px;
 }
 
 .buttons button {
-  margin-right: 10px;
+  margin-inline-end: 10px;
 }
 </style>

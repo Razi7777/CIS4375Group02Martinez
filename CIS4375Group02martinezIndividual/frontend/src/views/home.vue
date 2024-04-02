@@ -267,7 +267,7 @@ body {
   padding: 0;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-block-size: 100vh;
 }
 
 .page-container {
@@ -283,50 +283,50 @@ main {
 
 .footer-section {
   flex: 1;
-  max-width: 300px;
+  max-inline-size: 300px;
 }
 
 .app-store-buttons-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-block-end: 20px;
 }
 
 .app-store-button {
-  margin-right: 10px;
+  margin-inline-end: 10px;
 }
 
 .app-store-button img {
-  width: 30px;
-  height: 30px;
+  inline-size: 30px;
+  block-size: 30px;
 }
 
 .social-media-buttons-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-block-end: 20px;
 }
 
 .social-media-button {
   display: inline-block;
-  margin-right: 10px;
+  margin-inline-end: 10px;
 }
 
 .social-media-button img {
-  width: 30px;
-  height: 30px;
+  inline-size: 30px;
+  block-size: 30px;
 }
 
 .newsletter-link {
   display: block;
   font-weight: bold;
   text-decoration: underline;
-  margin-bottom: 10px;
+  margin-block-end: 10px;
 }
 
 .footer-header {
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-block-end: 15px;
   font-size: 18px;
 }
 
@@ -334,6 +334,6 @@ main {
   display: block;
   color: #333;
   text-decoration: none;
-  margin-bottom: 5px;
+  margin-block-end: 5px;
 }
 </style>
