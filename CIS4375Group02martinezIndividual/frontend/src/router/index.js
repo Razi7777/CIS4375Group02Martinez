@@ -23,6 +23,11 @@ const routes = [
     component: () => import('../views/Dashboard.vue')
   },
   {
+    path: '/about',
+    name: 'about',
+    component: () => import('../views/about.vue')
+  },
+  {
     path: '/clientform',
     name: 'clientform',
     // only authenticated users can create clients

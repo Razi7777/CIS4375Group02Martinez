@@ -1,7 +1,7 @@
 <!-- This view displays a list of clients. The user can search for clients, and click on a client to redirect to another component to view that client's information -->
 <template>
-  <main>
-    <div>
+  <main class="order-tracker-container">
+    <div >
       <!--Header-->
       <h1 class="font-bold text-4xl text-orange-800 tracking-widest text-center mt-10">
         Order Tracking

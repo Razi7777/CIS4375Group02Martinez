@@ -1,6 +1,6 @@
 <!-- This view allows for the creation of a new event -->
 <template>
-  <main>
+  <main class="event-form-container">
     <div>
       <!--Header-->
       <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">
@@ -167,7 +167,7 @@ import { ref } from 'vue'
 
 export default {
   components: {
-    VueDatePicker
+
   },
 
   setup() {
