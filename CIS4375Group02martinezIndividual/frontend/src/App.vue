@@ -1,11 +1,10 @@
 <!-- This is the main frontend file. It displays a navigation bar and rendered components. -->
 
 <template>
-  <main class="flex flex-row">
-    
+  <main class="flex flex-row">    
     <div class="grow w-4/5">
-      <!--Organization Name Header-->
       <div class="nav-container">
+        <img src="@/assets/Marisol.svg" alt="Logo" class="logo-svg"/>
         <div class="navbar container">
           <div class="mobile-container nav-container-mobile">
             <input class="checkbox" type="checkbox" name="" id="" />
@@ -15,29 +14,26 @@
               <span class="line line3"></span>
             </div>
             <div class="menu-items">
-              <li>
-              <a href="/home">Dashboard</a>
-            </li>
-            <li v-if="user.username !== 'username1' && user.username !== 'username2'">
-              <a href="/login">Login</a>
-            </li>
+              <router-link to="/home">Home</router-link>
+              <router-link to="/login" v-if="user.username !== 'username1' && user.username !== 'username2'">Login</router-link>
+
             <li v-if="user.username === 'username1' || user.username === 'username2'">
-              <a href="/home" @click="logout">Logout</a>
+              <router-link to="/home" @click="logout">Logout</router-link>
             </li>
             <li v-if="user.username === 'username1'">
-              <a href="/clientform">Clients</a>
+              <router-link to="/clientform">Clients</router-link>
             </li>
             <li v-if="user.username === 'username1'">
-              <a href="/eventform">Events</a>
+              <router-link to="/eventform">Events</router-link>       
             </li>
             <li v-if="user.username === 'username1'">
-              <a href="/serviceform">Services</a>
+              <router-link to="/serviceform">Services</router-link>
             </li>
             <li v-if="user.username === 'username1' || user.username === 'username2'">
-              <a href="/ordertracking">Orders</a>
+              <router-link to="/ordertracking">Orders</router-link>
             </li>
             <li v-if="user.username === 'username1' || user.username === 'username2'">
-              <a href="/findevents">Events</a>
+              <router-link to="/findevents">Events</router-link>
             </li>
             </div>  
           </div>
@@ -48,28 +44,28 @@
         <div class="links">
           <ul>
             <li>
-              <a href="/home">Dashboard</a>
+              <router-link to="/home">Dashboard</router-link>
             </li>
             <li v-if="user.username !== 'username1' && user.username !== 'username2'">
-              <a href="/login">Login</a>
+              <router-link to="/login">Login</router-link>
             </li>
             <li v-if="user.username === 'username1' || user.username === 'username2'">
-              <a href="/home" @click="logout">Logout</a>
+              <router-link to="/home" @click="logout">Logout</router-link>
             </li>
             <li v-if="user.username === 'username1'">
-              <a href="/clientform">Clients</a>
+              <router-link to="/clientform">Clients</router-link>
             </li>
             <li v-if="user.username === 'username1'">
-              <a href="/eventform">Events</a>
+              <router-link to="/eventform">Events</router-link>
             </li>
             <li v-if="user.username === 'username1'">
-              <a href="/serviceform">Services</a>
+              <router-link to="/serviceform">Services</router-link>
             </li>
             <li v-if="user.username === 'username1' || user.username === 'username2'">
-              <a href="/ordertracking">Orders</a>
+              <router-link to="/ordertracking">Orders</router-link>
             </li>
             <li v-if="user.username === 'username1' || user.username === 'username2'">
-              <a href="/findevents">Events</a>
+              <router-link to="/findevents">Events</router-link>
             </li>
           </ul>
         </div>
@@ -107,7 +103,7 @@
     <div class="footer-column">
       <h5>About TrendiFindz</h5>
       <ul>
-        <li><router-link to="/about-us">Company Info</router-link></li>
+        <li><router-link to="/about">Company Info</router-link></li>
 
       </ul>
 
@@ -146,7 +142,6 @@ import { useLoggedInUserStore } from './store/loggedInUser'
 import { getOrgName } from './api/api'
 import { useToast } from 'vue-toastification'
 import { ref } from 'vue'
-
 
 export default {
 
@@ -221,6 +216,3 @@ export default {
 }
 </script> -->
 
-<style scoped>
-
-</style>

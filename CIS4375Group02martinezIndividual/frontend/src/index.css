@@ -8,6 +8,30 @@
   --accent-clr: #EA4848;
 }
 
+.logo-svg {
+  height: 120px;
+  width: auto;
+  margin-right: 20px;
+  position: absolute;
+  left: 0
+  ;
+}
+
+.nav-container.logo{
+  background-color: var(--main-clr);
+  display: flex;
+  justify-content: flex-start; /* Align items to the left */
+  align-items: center;
+  width: 100vw;
+}
+
+.nav-container h1 {
+  font-family: cursive;
+  font-weight: bold;
+  color: #F07F7F;
+  font-size: 55px;
+}
+
 #_container {
   background-color: var(--main-clr);
   color: white;
@@ -17,11 +41,10 @@
 .nav-container {
   background-color: var(--main-clr);
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  justify-content: center; /* Aligns child elements (including the logo) to the left */
+  align-items: center; /* Centers child elements vertically */
   width: 100vw;
-
+  flex-direction: column;
 }
 
 .links > ul {
@@ -42,7 +65,7 @@
     to right,
     var(--secondary-clr),
     var(--secondary-clr) 50%,
-    #FFF 50%
+    #333 50%
   );
   background-size: 200% 100%;
   background-position: -100%;
@@ -78,9 +101,7 @@
 
 
 .footer-container {
-  position: static;
-  width: 100vw;
-  bottom: 0;
+  position:static;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
@@ -106,7 +127,7 @@
 }
 
 .footer-column a {
-  color: white;
+  color: #333;
   text-decoration: none;
   transition: all 0.3s ease-in-out;
   
@@ -169,6 +190,15 @@
 .login-container {
   height: 100vh;
 }
+
+@media (max-width: 768px) {
+  .logo-svg {
+    position: static;
+    display: none
+    ;
+}
+}
+
 
 @media (min-width: 768px) {
   .navbar {
