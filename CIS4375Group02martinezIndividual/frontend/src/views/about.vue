@@ -31,25 +31,7 @@
           </p>
         </section>
   
-        <!-- FAQs -->
-        <section class="mb-8">
-          <h2 class="text-2xl font-semibold mb-4">Frequently Asked Questions</h2>
-          <ul class="flex flex-col gap-4">
-            <li>
-              <h3 class="font-bold">What services does TrendiFindz offer?</h3>
-              <p>
-                We specialize in [describe services]. Our goal is to [goal related to services].
-              </p>
-            </li>
-            <li>
-              <h3 class="font-bold">How can I get in touch?</h3>
-              <p>
-                You can contact us through [mention contact methods] or follow us on our social media platforms listed below.
-              </p>
-            </li>
-            <!-- Add more FAQs as needed -->
-          </ul>
-        </section>
+
       </div>
     </main>
   </template>
