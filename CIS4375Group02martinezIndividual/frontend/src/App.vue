@@ -46,6 +46,9 @@
             <li>
               <router-link to="/home">Dashboard</router-link>
             </li>
+            <li>
+              <router-link to="/event-calendar">Event Calendar</router-link>
+            </li>
             <li v-if="user.username !== 'username1' && user.username !== 'username2'">
               <router-link to="/login">Login</router-link>
             </li>
