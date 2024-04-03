@@ -2,7 +2,7 @@
 
 <template>
   <main class="flex flex-row">    
-    <div class="grow w-4/5">
+    <div class="grow w-5/5">
       <div class="nav-container">
         <img src="@/assets/Marisol.svg" alt="Logo" class="logo-svg"/>
         <div class="navbar container">
@@ -39,7 +39,7 @@
           </div>
         </div>
         <section class="justify-end items-center h-24 flex">
-          <h1 class="mx-auto text-4xl text-white"><a href="/home">TrendiFindz</a></h1>
+          <h1 class="Title"><a href="/home">TrendiFindz</a></h1>
         </section>
         <div class="links">
           <ul>

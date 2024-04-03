@@ -3,10 +3,20 @@
 @tailwind utilities;
 
 :root {
-  --main-clr: #FFDAB9;
+  --main-clr: #EBEAEA;
   --secondary-clr: #F07F7F;
   --accent-clr: #EA4848;
 }
+
+.page-container {
+  background-color: var(--main-clr); /* Fallback color */
+  background-size: auto; /* Ensures the image covers the container */
+}
+
+.grow {
+  background-color: var(--main-clr);
+}
+
 
 .logo-svg {
   height: 120px;
@@ -23,6 +33,7 @@
   justify-content: flex-start; /* Align items to the left */
   align-items: center;
   width: 100vw;
+ 
 }
 
 .nav-container h1 {
@@ -30,6 +41,7 @@
   font-weight: bold;
   color: #F07F7F;
   font-size: 55px;
+
 }
 
 #_container {
@@ -43,8 +55,9 @@
   display: flex;
   justify-content: center; /* Aligns child elements (including the logo) to the left */
   align-items: center; /* Centers child elements vertically */
-  width: 100vw;
   flex-direction: column;
+  background-image: url('@/assets/5044561.jpg'); /* Path to the image */
+  background-size: cover;
 }
 
 .links > ul {
@@ -108,6 +121,8 @@
   background-color: var(--main-clr);
   padding: 20px;
   font-size: 15px;
+  background-image: url('@/assets/5044561.jpg'); /* Path to the image */
+  background-size: auto;
 }
 
 .footer-column h5 {
@@ -202,7 +217,7 @@
 @media (max-width: 768px) {
   .logo-svg {
     position: static;
-    display: none
+    align-items: right;
     ;
 }
 }
@@ -362,6 +377,13 @@
 @media (max-width: 480px) {
   .footer-container {
     grid-template-columns: 1fr;
+  }
+}
+
+@Media(max-width:768px) {
+  .Title{
+    display: none;
+
   }
 }
 
