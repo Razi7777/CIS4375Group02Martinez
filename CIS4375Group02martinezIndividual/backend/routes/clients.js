@@ -7,16 +7,73 @@ const router = express.Router();
 // Middleware for authorization. For API calls that require authorization, this middleware checks if the header of API calls have a valid security token. If no security token or invalid security token, then the API call is not made.
 const authMiddleWare = require('../auth/authMiddleWare');
 
+const app = require('../app.js');
+
+const pool = require('../DbConnection.js');
+
+
+app.get('/Customer/get', (req, res) => {
+  const clientId = req.params.id;
+
+  // Construct the SQL query to fetch data from the database
+  const sql = 'SELECT * FROM Customer';
+
+  // Execute the query
+  pool.query(sql, (error, results, fields) => {
+    if (error) {
+      console.error('Error fetching data from database:', error);
+      res.status(500).json({ error: 'Failed to fetch data from database' });
+      return;
+    }
+
+    // Check if any rows were returned by the query
+    if (results.length === 0) {
+      // No rows were returned, indicating the entry with the provided ID doesn't exist
+      res.status(404).json({ error: 'Entry not found' });
+      return;
+    }
+
+    // Data fetched successfully
+    const clientData = results; // Assuming only one row is expected
+    res.status(200).json(clientData);
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // importing data model schemas
-const { clients, events } = require('../models/models');
-const { ObjectId } = require('mongodb');
+//const { clients, events } = require('../models/models');
+//const { ObjectId } = require('mongodb');
 
-// reading the org id from the environment variable
-const org = process.env.ORG_ID;
+//reading the org id from the environment variable
+//const org = process.env.ORG_ID;
 
-// API Endpoint to Get all clients
-router.get('/', authMiddleWare, async (req, res) => {
-  try {
+//API Endpoint to Get all clients
+/*router.get('/', authMiddleWare, async (req, res) => {
+ try {
     const cli = await clients.find({});
     res.json(cli);
   } catch (err) {
@@ -37,9 +94,9 @@ router.get('/id/:id', authMiddleWare, (req, res, next) => {
   });
 });
 
-// API endpoint to GET entries based on search query
-// Ex: '...?firstName=Bob&lastName=&searchBy=name'
-router.get('/search', authMiddleWare, (req, res, next) => {
+ //API endpoint to GET entries based on search query
+ Ex: '...?firstName=Bob&lastName=&searchBy=name'
+ router.get('/search', authMiddleWare, (req, res, next) => {
   const dbQuery = { orgs: org };
   let queryArray = [];
   let regexOptions = 'i';
@@ -60,7 +117,7 @@ router.get('/search', authMiddleWare, (req, res, next) => {
         );
         queryArray.push({ lastName: { $regex: lastNameRegex } });
       }
-      break;
+     break;
     case "number":
       if (req.query.phoneNumber) {
         const phoneNumberRegex = new RegExp(
@@ -84,9 +141,9 @@ router.get('/search', authMiddleWare, (req, res, next) => {
       res.json(data);
     }
   });
-});
+  });
 
-// POST create new client
+ //POST create new client
 router.post('/', authMiddleWare, (req, res, next) => {
   const newClient = req.body;
   newClient.orgs = [org];
@@ -99,7 +156,7 @@ router.post('/', authMiddleWare, (req, res, next) => {
   });
 });
 
-// API endpoint to PUT update client
+ //API endpoint to PUT update client
 router.put("/update/:id", authMiddleWare, (req, res, next) => {
   clients.findByIdAndUpdate(req.params.id, req.body, (error, data) => {
     if (error) {
@@ -169,5 +226,6 @@ router.get('/byzip', (req, res, next) => {
     }
   );
 });
-
+*/
 module.exports = router;
+
