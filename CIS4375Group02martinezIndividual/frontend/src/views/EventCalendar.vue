@@ -74,6 +74,8 @@
   </template>
   
   <script>
+  import mysql from 'mysql';
+
   export default {
   data() {
     return {
@@ -112,9 +114,39 @@
         { Event_Status_ID: 3, Event_Status: 'Postponed' },
         { Event_Status_ID: 4, Event_Status: 'Completed' }
       ],
-        selectedEvent: null
+      selectedEvent: null
     };
   },
+  mounted() {
+    this.connectToDatabase();
+  },
+  methods: {
+    connectToDatabase() {
+      const connection = mysql.createConnection({
+        host: 'mycis4375db.cjucgyawuzby.us-east-1.rds.amazonaws.com',
+        user: 'admin',
+        password: 'P1649320p!',
+        database: 'nincompoopDB'
+      });
+
+      connection.connect((err) => {
+        if (err) {
+          console.error('Error connecting to database:', err);
+          return;
+        }
+        console.log('Connected to database!');
+        // You can now execute SQL queries using the connection object
+        connection.query('SELECT * FROM nincompoopDB.Event', (err, results) => {
+          if (err) {
+            console.error('Error executing query:', err);
+            return;
+          }
+          console.log('Query results:', results);
+        });
+      });
+    },
+  },
+
     computed: {
       currentMonth() {
         return this.currentDate.toLocaleString('default', { month: 'long', year: 'numeric' });
