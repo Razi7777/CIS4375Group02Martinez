@@ -1,258 +1,66 @@
 <template>
   <div class="page-container">
     <main>
-      <div>
-        <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">
-          Dashboard
-        </h1>
-        <br />
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
-          <div class="ml-10"></div>
-          <div class="flex flex-col col-span-2">
-            <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">
-                Events Attendance
-            </h1>
-        
-            <div v-if="!recentEvents.length" class="flex justify-center mt-10">No events found.</div>
-            <table v-if="recentEvents.length" class="min-w-full shadow-md rounded">
-              <thead class="bg-gray-50 text-xl">
-                <tr class="p-4 text-left">
-                  <th class="p-4 text-left">Event Name</th>
-                  <th class="p-4 text-left">Event Date</th>
-                  <th class="p-4 text-left">Number of Attendees</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-300"> 
-                <tr
-                  @click="editEvent(event._id)"
-                  v-for="event in recentEvents"
-                  :key="event._id"
-                >
-                  <td class="p-2 text-left">{{ event.name }}</td>
-                  <td class="p-2 text-left">{{ formatDate(event.date) }}</td>
-                  <td class="p-2 text-left">{{ event.attendees.length }}</td>
-                </tr>
-              </tbody>
-            </table>
-            
-            <div v-if="recentEvents.length">
-              <AttendanceChart
-                v-if="!loading && !error"
-                :labels="labels"
-                :chart-data="chartData"
-              />
-            </div>
-            
-            <div class="mt-40" v-if="loading">
-              <p class="text-6xl font-bold text-center text-gray-500 animate-pulse">
-                Loading...
-              </p>
-            </div>
-            
-            <div class="mt-12 bg-red-50" v-if="error">
-              <h3 class="px-4 py-1 text-4xl font-bold text-white bg-red-800">
-                {{ error.title }}
-              </h3>
-              <p class="p-4 text-lg font-bold text-red-900">
-                {{ error.message }}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
-          <div class="ml-10"></div>
-          <div class="flex flex-col col-span-2">
-            <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">
-                Clients by Zip Code
-            </h1>
-            
-            <div v-if="!zips.length" class="flex justify-center mt-10">No clients found.</div>
-            <table v-if="zips.length" class="min-w-full shadow-md rounded">
-              <thead class="bg-gray-50 text-xl">
-                <tr class="p-4 text-left">
-                  <th class="p-4 text-left">Zip Number</th>
-                  <th class="p-4 text-left">Client Count</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-300">
-                <tr
-                  v-for="zip in zips"
-                  :key="zip._id"
-                >
-                  <td class="p-2 text-left">{{ zip._id }}</td>
-                  <td class="p-2 text-left">{{ zip.count }}</td>
-                </tr>
-              </tbody>
-            </table>
-            <div v-if="zips.length" class="flex justify-center mt-10">
-              <ZipChart
-                v-if="!zipLoading && !zipError"
-                :labels="zipLabels"
-                :chart-data="zipChartData"
-              />
-            </div>
-            
-            <div class="mt-40" v-if="zipLoading">
-              <p class="text-6xl font-bold text-center text-gray-500 animate-pulse">
-                Loading...
-              </p>
-            </div>
-            
-            <div class="mt-12 bg-red-50" v-if="zipError">
-              <h3 class="px-4 py-1 text-4xl font-bold text-white bg-red-800">
-                {{ zipError.title }}
-              </h3>
-              <p class="p-4 text-lg font-bold text-red-900">
-                {{ zipError.message }}
-              </p>
-            </div>
-          </div>
-        </div>
+      <h1 class="title">Welcome to Our Thrift Site!</h1>
+      <!-- Additional content can be placed here -->
+      <div v-if="recentEvents.length > 0">
+        <h2>Recent Events</h2>
+        <ul>
+          <li v-for="event in recentEvents" :key="event.id">
+            {{ event.name }} - {{ event.date }}
+          </li>
+        </ul>
       </div>
+      <div v-else>
+        <p>No recent events to display.</p>
+      </div>
+      <!-- Placeholder for the logged in user store content -->
+      <p>User Status: {{ loggedInUserStore.isLoggedIn ? 'Logged In' : 'Logged Out' }}</p>
     </main>
   </div>
 </template>
 
 <script>
-import AttendanceChart from '../components/barChart.vue';
-import ZipChart from '../components/donutZipChart.vue';
-// import { getAttendance, getClientsByZipCode } from '../api/api';
-import { ref, onMounted } from 'vue';
-import { useLoggedInUserStore } from '@/store/loggedInUser';
+import { ref } from 'vue';
+// Assuming you're using Pinia for state management
+// import { useLoggedInUserStore } from '@/stores/loggedInUserStore'; // Adjust the path as necessary
 
 export default {
-  components: {
-    AttendanceChart,
-    ZipChart,
-  },
   setup() {
-    const recentEvents = ref([]);
-    const zips = ref([]);
-    const labels = ref([]);
-    const chartData = ref([]);
-    const zipLabels = ref([]);
-    const zipChartData = ref([]);
-    const loading = ref(false);
-    const error = ref(null);
-    const zipLoading = ref(false);
-    const zipError = ref(null);
-    const loggedInUserStore = useLoggedInUserStore();
+    const recentEvents = ref([
+      // Placeholder events data
+      { id: 1, name: 'Event 1', date: '2024-01-01' },
+      { id: 2, name: 'Event 2', date: '2024-02-02' },
+    ]);
+    // Placeholder for loggedInUserStore if you're using a state management library
+    // const loggedInUserStore = useLoggedInUserStore();
 
-     // const getAttendanceData = async () => {
-    //   try {
-    //     error.value = null;
-    //     loading.value = true;
-        
-    //     const attendance = await getAttendance();
-    //     recentEvents.value = attendance;
-        // labels.value = attendance.map(
-        //   (item) => `${item.name} (${this.formatDate(item.date)})`
-        // );
-        // chartData.value = attendance.map((item) => item.attendees.length);
-    //   } catch (err) {
-    //     if (err.response) {
-    //     // client received an error response (5xx, 4xx)
-    //       error.value = {
-    //         title: 'Server Response',
-    //         message: err.message
-    //       }
-    //   } else if (err.request) {
-    //     // client never received a response, or request never left
-    //       error.value = {
-    //         title: 'Unable to Reach Server',
-    //         message: err.message
-    //       }
-    //   } else {
-    //   // There's probably an error in your code
-    //       error.value = {
-    //         title: 'Application Error',
-    //         message: err.message
-    //       }
-    //     }
-    // }
-    //   loading.value = false;
-    // };
-
-    // const getZipData = async () => {
-    //   try {
-    //     zipError.value = null;
-    //     zipLoading.value = true;
-        
-    //     const zipdata = await getClientsByZipCode();
-    //     zips.value = zipdata;
-    //     zipLabels.value = zipdata.map((item) => item._id);
-    //     zipChartData.value = zipdata.map((item) => item.count);
-    //   } catch (err) {
-    //     if (err.response) {
-    //     // client received an error response (5xx, 4xx)
-    //       zipError.value = {
-    //         title: 'Server Response',
-    //         message: err.message
-    //       }
-    //     } else if (err.request) {
-    //       // client never received a response, or request never left
-    //       zipError.value = {
-    //         title: 'Unable to Reach Server',
-    //         message: err.message
-    //       }
-    //     } else {
-    //       // There's probably an error in your code
-    //       zipError.value = {
-    //         title: 'Application Error',
-    //         message: err.message
-    //       }
-    //     }
-    //   }
-    //   zipLoading.value = false;
-    // };
-   
-
-
-    const formatDate = (date) => {
-      const isoDate = new Date(date);
-      const year = isoDate.getUTCFullYear();
-      const month = String(isoDate.getUTCMonth() + 1).padStart(2, '0');
-      const day = String(isoDate.getUTCDate()).padStart(2, '0');
-      return `${month}/${day}/${year}`;
-    };
-
-    const hardcodedData = () => {
-      zips.value = [
-        { _id: '77401', count: 23,},
-        { _id: '77562', count: 17,},
-        { _id: '77083', count: 26,},
-      ];
-      zipLabels.value = zips.value.map((item) => item._id);
-      zipChartData.value = zips.value.map((item) => item.count);
-
-      recentEvents.value = [
-        { name: 'Event 1', date: '2024-03-11', attendees: ['Sheldon', 'Peter', 'Tekk'] },
-        { name: 'Event 2', date: '2024-03-12', attendees: ['Bryce', 'Noah'] },
-        { name: 'Event 3', date: '2024-03-13', attendees: ['Jonah', 'Mazin', 'Joe', 'Dog'] }
-      ];
-      labels.value = recentEvents.value.map((item) => `${item.name} (${formatDate(item.date)})`);
-      chartData.value = recentEvents.value.map((item) => item.attendees.length);
-    };
-
-    onMounted(() => {
-      hardcodedData();
-    });
+    // Placeholder loggedInUserStore object for illustration purposes
+    const loggedInUserStore = ref({ isLoggedIn: false });
 
     return {
       recentEvents,
-      zips,
-      labels,
-      chartData,
-      zipLabels,
-      zipChartData,
-      loading,
-      error,
-      zipLoading,
-      zipError,
-      formatDate,
-      hardcodedData,
       loggedInUserStore,
-    }
-  }
+    };
+  },
+};
+</script>
+
+<style>
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
-</script>... */
+
+main {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.title {
+  font-size: 2rem;
+  color: #333;
+  margin: 1rem 0;
+}
+</style>

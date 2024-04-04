@@ -11,6 +11,7 @@
 .page-container {
   background-color: var(--main-clr); /* Fallback color */
   background-size: auto; /* Ensures the image covers the container */
+  
 }
 
 .grow {
@@ -375,6 +376,17 @@
   }
 }
 
+.terms-and-conditions {
+  height: 100vh;
+}
+
+.home-container {
+  height: 100vh;
+}
+
+.privacy-policy {
+  height: 100vh;
+}
 
 /*Event Calendar Page */
 
