@@ -28,7 +28,7 @@
           <label class="block">
             <input type="date"
               class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              v-model="searchBy" placeholder="Enter Order ID" />
+              v-model="searchBy" placeholder="Enter Date" />
           </label>
         </div>
       </form>
@@ -68,31 +68,33 @@
         <!--h3 class="italic">Click table row to view Order details</h3-->
       </div>
       <!--Table showing list of Clients-->
-      <div class="flex flex-col col-span-2">
-        <table class="min-w-full shadow-md rounded">
+      <div class="flex flex-col col-span-2 max-h-[220px] overflow-y-auto">
+        <table class="min-w-full shadow-md rounded ">
           <thead class="bg-gray-50 text-xl">
             <tr>
-        
               <th class="p-4 text-left">ID</th>
               <th class="p-4 text-left">Order Date</th>
-              <th class="p-4 text-left">Sender</th>
-              <th class="p-4 text-left">Status</th>
+              <th class="p-4 text-left">Order Category</th>
+              <th class="p-4 text-left">Order Status</th>
+              <th class="p-4 text-left">Order Customer</th>
             </tr>
           </thead>
           <tbody  v-if="result && result.length > 0" class="divide-y divide-gray-300">
-            <tr v-for="Order in result" :key="Order.OrderID">
-              <td class="p-2 text-left">{{ Order.OrderID }}</td>
-              <td class="p-2 text-left">{{ Order.OrderDate }}</td>
-              <td class="p-2 text-left">{{ Order.OrderSender }}</td>
-              <td class="p-2 text-left">{{ Order.OrderStatus }}</td>
+            <tr v-for="Order in result" :key="Order.Purchase_Order_ID">
+              <td class="p-2 text-left">{{ Order.Purchase_Order_ID}}</td>
+              <td class="p-2 text-left">{{ Order.Purchase_Order_Date }}</td>
+              <td class="p-2 text-left">{{ Order.Purchase_Order_Category_ID }}</td>
+              <td class="p-2 text-left">{{ Order.Purchase_Order_Status_ID }}</td>
+              <td class="p-2 text-left">{{ Order.Customer_ID }}</td>
             </tr>
           </tbody>
           <tbody v-else class="divide-y divide-gray-300">
-            <tr v-for="Order in Orders" :key="Order.OrderID">
-              <td class="p-2 text-left">{{ Order.OrderID }}</td>
-              <td class="p-2 text-left">{{ Order.OrderDate }}</td>
-              <td class="p-2 text-left">{{ Order.OrderSender }}</td>
-              <td class="p-2 text-left">{{ Order.OrderStatus }}</td>
+            <tr v-for="Order in Orders" :key="Order.Purchase_Order_ID">
+              <td class="p-2 text-left">{{ Order.Purchase_Order_ID}}</td>
+              <td class="p-2 text-left">{{ Order.Purchase_Order_Date }}</td>
+              <td class="p-2 text-left">{{ Order.Purchase_Order_Category_ID }}</td>
+              <td class="p-2 text-left">{{ Order.Purchase_Order_Status_ID }}</td>
+              <td class="p-2 text-left">{{ Order.Customer_ID }}</td>
             </tr>
           </tbody>
         </table>
@@ -108,7 +110,7 @@ import { ref } from 'vue'
 import { onMounted } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
-
+import axios from 'axios'
 
 
 export default {
@@ -121,31 +123,62 @@ export default {
     const searchBy = ref('');
     const result = ref([]);
     const Orders = ref([
-      { OrderID: 1, OrderDate: '2024-03-24', OrderSender: 'Alice', OrderStatus: 'Pending' },
+      /*{ OrderID: 1, OrderDate: '2024-03-24', OrderSender: 'Alice', OrderStatus: 'Pending' },
       { OrderID: 2, OrderDate: '2024-03-21', OrderSender: 'Bob', OrderStatus: 'Delivered' },
       { OrderID: 3, OrderDate: '2024-03-28', OrderSender: 'Jeff', OrderStatus: 'Pending' },
       { OrderID: 4, OrderDate: '2024-02-21', OrderSender: 'Daniel', OrderStatus: 'Pending' },
       { OrderID: 5, OrderDate: '2024-02-15', OrderSender: 'Bert', OrderStatus: 'Delivered' },
       { OrderID: 6, OrderDate: '2024-01-11', OrderSender: 'Pierre', OrderStatus: 'Pending' },
       { OrderID: 7, OrderDate: '2024-01-13', OrderSender: 'Frank', OrderStatus: 'Delivered' },
-      // Add more order data objects as needed
+      // Add more order data objects as needed*/
     ]);
     const toggleForm = () => {
       showFirstForm.value = !showFirstForm.value;
     };
+
+
     function searchOrders() {
     result.value = []; // Initialize an array to store filtered orders
     for (let i = 0; i < Orders.value.length; i++) {
-        if (Orders.value[i].OrderDate == (searchBy.value)) {
+        if (Orders.value[i].Purchase_Order_Date == (searchBy.value)) {
             result.value.push(Orders.value[i]); // Push matching orders into the result array
         }
-        else if (Orders.value[i].OrderID == (searchBy.value)) {
+        else if (Orders.value[i].Purchase_Order_ID == (searchBy.value)) {
             result.value.push(Orders.value[i]); // Push matching orders into the result array
         }
     }
     result.forEach(order => {
-        console.log(order.OrderDate);
+        console.log(order.Purchase_Order_Date);
     });
+  }
+
+
+  async function loadOrders() {
+    const options = {
+        method: 'GET',
+        url: 'http://127.0.0.1:3000/Trackorder/get',
+        
+  
+    };
+
+    try {
+        const response = await axios.request(options);
+        console.log(response.data);
+        Orders.value = response.data;
+        Datetimechange();
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
+function Datetimechange() {
+      Orders.value.forEach(function(order) {
+        order.Purchase_Order_Date = order.Purchase_Order_Date.split('T')[0];
+      });
+    }
+
+
 //function allows for users to enter dates or id and search the table with them
 
 
@@ -155,8 +188,10 @@ export default {
  //within the scope of a function, we can fill up an array by using the .push mutating method to update its values, here we utilize this to fill up the result of the search with the parts of the order array that fulfill the search condition
  //for a single entry in a reactive array, to access is arrayname.value[index of the entry]
     
-}
 
+ onMounted(() => {
+      loadOrders();
+    });
 
     
 
@@ -173,7 +208,8 @@ export default {
       result,
       VueDatePicker,
       showFirstForm,
-      toggleForm
+      toggleForm,
+      loadOrders
     }
   }
 }

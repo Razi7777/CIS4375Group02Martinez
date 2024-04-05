@@ -25,7 +25,7 @@ app.use(
 
 
 function checkConnection() {
-  pool.query('SELECT * FROM Customer;', (error, results, fields) => {
+  pool.query('SELECT * FROM Purchase_Order;', (error, results, fields) => {
     if (error) {
       console.error('Error checking MySQL connection: ' + error.message);
       return;
@@ -88,6 +88,7 @@ app.use('/events', require('./routes/events'));
 app.use('/org', require('./routes/org'));
 app.use('/services', require('./routes/services'));
 app.use('/users', require('./routes/users'));
+app.use('/trackorder', require('./routes/trackorder'));
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
