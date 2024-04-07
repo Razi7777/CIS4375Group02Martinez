@@ -39,7 +39,7 @@ app.get('/Customer/get', (req, res) => {
   });
 });
 
-
+module.exports = router;
 
 
 

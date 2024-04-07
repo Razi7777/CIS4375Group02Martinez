@@ -20,7 +20,7 @@
                     <label class="block">
                         <input type="text"
                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                               v-model="searchBy" :placeholder="showFirstForm ? 'Enter Last Name' : 'Enter Client ID'"/>
+                               v-model="searchBy" :placeholder="showFirstForm ? 'Enter Client City' : 'Enter Client ID'"/>
                     </label>
                 </div>
             </form>
@@ -28,7 +28,7 @@
             <!-- Toggle form button -->
             <div class="mt-5">
                 <button class="bg-orange-800 text-white rounded px-4 py-2 mr-4" @click="toggleForm">
-                    {{ showFirstForm ? 'Search By Client ID' : 'Search Last Name' }}
+                    {{ showFirstForm ? 'Search By Client ID' : 'Search By Client City' }}
                 </button>
                 <button class="bg-orange-800 text-white rounded px-4 py-2 mr-4" @click="clearData" type="submit">
                 Clear Filter
@@ -52,33 +52,42 @@
         <!--h3 class="italic">Click table row to view Order details</h3-->
       </div>
       <!--Table showing list of Clients-->
-      <div class="flex flex-col col-span-2">
-        <table class="min-w-full shadow-md rounded">
+      <div class="flex flex-col col-span-3 max-h-[220px] max-w-[3000] overflow-y-auto">
+        <table class="w-full  shadow-md rounded">
           <thead class="bg-gray-50 text-xl">
             <tr>
               <th class="p-4 text-left">Client ID</th>
-              <th class="p-4 text-left">Last Name</th>
-              <th class="p-4 text-left">First Name</th>
+              <th class="p-4 text-left">Client Name</th>
               <th class="p-4 text-left">Address</th>
+              <th class="p-4 text-left">City</th>
+              <th class="p-4 text-left">Zipcode</th>
+              <th class="p-4 text-left">Email</th>
               <th class="p-4 text-left">Phone Number</th>
+              <th class="p-4 text-left">Birthday</th>
             </tr>
           </thead>
           <tbody  v-if="result && result.length > 0" class="divide-y divide-gray-300">
             <tr v-for="Client in result" :key="Client.ClientID">
-              <td class="p-2 text-left">{{ Client.ClientID }}</td>
-              <td class="p-2 text-left">{{ Client.ClientLastName }}</td>
-              <td class="p-2 text-left">{{ Client.ClientFirstName }}</td>
-              <td class="p-2 text-left">{{ Client.ClientAddress }}</td>
-              <td class="p-2 text-left">{{ Client.PhoneNumber }}</td>
+              <td class="p-2 text-left">{{ Client.Customer_ID }}</td>
+              <td class="p-2 text-left">{{ Client.Customer_Name }}</td>
+              <td class="p-2 text-left">{{ Client.Address }}</td>
+              <td class="p-2 text-left">{{ Client.City }}</td>
+              <td class="p-2 text-left">{{ Client.Zipcode }}</td>
+              <td class="p-2 text-left">{{ Client.Email }}</td>
+              <td class="p-2 text-left">{{ Client.Phone_Number }}</td>
+              <td class="p-2 text-left">{{ Client.Birthday }}</td>
             </tr>
           </tbody>
           <tbody v-else class="divide-y divide-gray-300">
             <tr v-for="Client in Clients" :key="Client.ClientID">
-              <td class="p-2 text-left">{{ Client.ClientID }}</td>
-              <td class="p-2 text-left">{{ Client.ClientLastName }}</td>
-              <td class="p-2 text-left">{{ Client.ClientFirstName }}</td>
-              <td class="p-2 text-left">{{ Client.ClientAddress }}</td>
-              <td class="p-2 text-left">{{ Client.PhoneNumber }}</td>
+              <td class="p-2 text-left">{{ Client.Customer_ID }}</td>
+              <td class="p-2 text-left">{{ Client.Customer_Name }}</td>
+              <td class="p-2 text-left">{{ Client.Address }}</td>
+              <td class="p-2 text-left">{{ Client.City }}</td>
+              <td class="p-2 text-left">{{ Client.Zipcode }}</td>
+              <td class="p-2 text-left">{{ Client.Email }}</td>
+              <td class="p-2 text-left">{{ Client.Phone_Number }}</td>
+              <td class="p-2 text-left">{{ Client.Birthday }}</td>
             </tr>
           </tbody>
         </table>
@@ -143,7 +152,7 @@ import { ref } from 'vue'
 import { onMounted } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
-
+import axios from 'axios'
 
 
 export default {
@@ -173,33 +182,51 @@ export default {
     //initializing an object vs an array? is this only because I need 1 instance of new client?
 
     const Clients = ref([
-    { ClientID: 0, ClientLastName: 'Martin', ClientFirstName: 'Jacob', ClientAddress: '123 Main St, City, Country', PhoneNumber: '123-456-7890' },
-    { ClientID: 1, ClientLastName: 'Allen', ClientFirstName: 'Jane', ClientAddress: '456 Elm St, Town, Country', PhoneNumber: '234-567-8901' },
-    { ClientID: 2, ClientLastName: 'Johnson', ClientFirstName: 'Michael', ClientAddress: '789 Oak St, Village, Country', PhoneNumber: '345-678-9012' },
-    { ClientID: 3, ClientLastName: 'Williams', ClientFirstName: 'Emily', ClientAddress: '987 Pine St, Hamlet, Country', PhoneNumber: '456-789-0123' },
-    { ClientID: 4, ClientLastName: 'Brown', ClientFirstName: 'David', ClientAddress: '654 Maple St, Suburb, Country', PhoneNumber: '567-890-1234' },
-    { ClientID: 5, ClientLastName: 'Jones', ClientFirstName: 'Sarah', ClientAddress: '321 Birch St, Rural, Country', PhoneNumber: '678-901-2345' },
-    { ClientID: 6, ClientLastName: 'Davis', ClientFirstName: 'Matthew', ClientAddress: '876 Cedar St, County, Country', PhoneNumber: '789-012-3456' }
 
       //this is the toggle for what to search by
     ]);
     const toggleForm = () => {
       showFirstForm.value = !showFirstForm.value;
     };
+
     function searchClients() {
     result.value = []; // Initialize an array to store filtered orders
     for (let i = 0; i < Clients.value.length; i++) {
-        if (Clients.value[i].ClientLastName == (searchBy.value)) {
+        if (Clients.value[i].City == (searchBy.value)) {
             result.value.push(Clients.value[i]); // Push matching orders into the result array from the first type of query
         }
-        else if (Clients.value[i].ClientID == (searchBy.value)) {
+        else if (Clients.value[i].Customer_ID== (searchBy.value)) {
             result.value.push(Clients.value[i]); // Push matching orders into the result array from the second type of query
         }
     }
     client.value = result.value;
     result.value = [];
-   
+  }
+    
+  async function loadClients() {
+    const options = {
+        method: 'GET',
+        url: 'http://127.0.0.1:3000/Customer/get',
+        
+  
+    };
+
+    try {
+        const response = await axios.request(options);
+        console.log(response.data);
+        Clients.value = response.data;
+        Datetimechange();
+    } catch (error) {
+        console.error(error);
     }
+}
+
+function Datetimechange() {
+      Clients.value.forEach(function(Client) {
+        Client.Birthday = Client.Birthday.split('T')[0];
+      });
+    }
+    
 
     function updateClientFunction() {
       result.value = [];
@@ -248,6 +275,14 @@ if (newClient.value.ClientLastName !== null && newClient.value.ClientFirstName !
       result.value = [];
     };
 
+    
+ onMounted(() => {
+      loadClients();
+    });
+
+
+
+
     return {
       Clients,
       searchBy,
@@ -260,7 +295,9 @@ if (newClient.value.ClientLastName !== null && newClient.value.ClientFirstName !
       newClient,
       addnewClient,
       updateClient,
-      updateClientFunction
+      updateClientFunction,
+      loadClients,
+      Datetimechange
 
     }
   }
