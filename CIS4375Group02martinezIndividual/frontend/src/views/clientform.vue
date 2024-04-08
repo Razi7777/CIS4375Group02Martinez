@@ -100,17 +100,37 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 min-w-full shadow-md rounded"> 
         <form @submit.prevent="addnewClient"><br>
         
-              <label for="lastName">Last Name:</label>
-              <input type="text" id="lastName" v-model="newClient.ClientLastName" required>
         
-              <label for="firstName">First Name:</label>
-              <input type="text" id="firstName" v-model="newClient.ClientFirstName" required>
+              <label for="Name">Name:</label>
+              <input type="text" id="Name" v-model="newClient.Customer_Name" required>
         
-              <label for="address">Address:</label>
-              <input type="text" id="address" v-model="newClient.ClientAddress" required>
+              <label for="Address">Address:</label>
+              <input type="text" id="Address" v-model="newClient.Address" required>
         
-              <label for="phoneNumber">Phone Number:</label>
-              <input type="text" id="phoneNumber" v-model="newClient.PhoneNumber" required>
+              <label for="City">City:</label>
+              <input type="text" id="City" v-model="newClient.City" required>
+
+              <label for="Zipcode">Zipcode:</label>
+              <input type="text" id="Zipcode" v-model="newClient.Zipcode" required>
+
+              <label for="email">Email:</label>
+              <input type="text" id="email" v-model="newClient.Email" required>
+
+              <label for="PhoneNumber">Phone Number:</label>
+              <input type="text" id="PhoneNumber" v-model="newClient.Phone_Number" required>
+
+              <label for="Birthday">Birthday:</label>
+              <input type="text" id="Birthday" v-model="newClient.Birthday" required>
+
+              <label for="CustomerCategory">Customer Category:</label>
+              <input type="text" id="CustomerCategory" v-model="newClient.Customer_Category_ID" required>
+
+              <label for="CustomerStatus">Customer Status:</label>
+              <input type="text" id="CustomerStatus" v-model="newClient.Customer_Status_ID" required>
+
+              <label for="StateProvinceTerritory">State/Province/Territory:</label>
+              <input type="text" id="StateProvinceTerritory" v-model="newClient.State_Province_Territory_ID" required>
+
               <button class="bg-orange-800 text-white rounded" type="submit">Add Client</button>
         </form>
         
@@ -121,23 +141,52 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 min-w-full shadow-md rounded"> 
         <form @submit.prevent="updateClientFunction"><br>
 
+          <label for="ID">Enter ID to update:</label>
+          <input type="text" id="ID" v-model="updateClient.Customer_ID" required>
 
+          <label for="Name">Name:</label>
+          <input type="text" id="Name" v-model="updateClient.Customer_Name" required>
+    
+          <label for="Address">Address:</label>
+          <input type="text" id="Address" v-model="updateClient.Address" required>
+    
+          <label for="City">City:</label>
+          <input type="text" id="City" v-model="updateClient.City" required>
 
-              <label for="id">Client ID:</label>
-              <input type="text" id="updateid" v-model="updateClient.ClientID" required>
+          <label for="Zipcode">Zipcode:</label>
+          <input type="text" id="Zipcode" v-model="updateClient.Zipcode" required>
 
-              <label for="lastName">Last Name:</label>
-              <input type="text" id="lastName" v-model="updateClient.ClientLastName" required>
-        
-              <label for="firstName">First Name:</label>
-              <input type="text" id="firstName" v-model="updateClient.ClientFirstName" required>
-        
-              <label for="address">Address:</label>
-              <input type="text" id="address" v-model="updateClient.ClientAddress" required>
-        
-              <label for="phoneNumber">Phone Number:</label>
-              <input type="text" id="phoneNumber" v-model="updateClient.PhoneNumber" required>
-              <button class="bg-orange-800 text-white rounded" type="submit">Update Client</button>
+          <label for="email">Email:</label>
+          <input type="text" id="email" v-model="updateClient.Email" required>
+
+          <label for="PhoneNumber">Phone Number:</label>
+          <input type="text" id="PhoneNumber" v-model="updateClient.Phone_Number" required>
+
+          <label for="Birthday">Birthday:</label>
+          <input type="text" id="Birthday" v-model="updateClient.Birthday" required>
+
+          <label for="CustomerCategory">Customer Category:</label>
+          <input type="text" id="CustomerCategory" v-model="updateClient.Customer_Category_ID" required>
+
+          <label for="CustomerStatus">Customer Status:</label>
+          <input type="text" id="CustomerStatus" v-model="updateClient.Customer_Status_ID" required>
+
+          <label for="StateProvinceTerritory">State/Province/Territory:</label>
+          <input type="text" id="StateProvinceTerritory" v-model="updateClient.State_Province_Territory_ID" required>
+
+        <button class="bg-orange-800 text-white rounded" type="submit">Update Client</button>
+        </form>
+      </div>
+      <div></div>
+      <div></div>
+      <div class="ml-10"><h2 class="text-2xl font-bold">Delete Client</h2></div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 min-w-full shadow-md rounded"> 
+        <form @submit.prevent="deleteClientFunction"><br>
+
+          <label for="ID">Enter ID to Delete:</label>
+          <input type="text" id="ID" v-model="deleteClient.Customer_ID" required>
+
+        <button class="bg-orange-800 text-white rounded" type="submit">Delete Client</button>
         </form>
       </div>
     </div>
@@ -164,21 +213,38 @@ export default {
     const toast = useToast()
     const searchBy = ref('');
     const result = ref([]);
-    const newClient = ref([{
-        ClientID: '',
-        ClientLastName: '',
-        ClientFirstName: '',
-        ClientAddress: '',
-        PhoneNumber: ''
-    }]);
-    const updateClient = ref([{
-        ClientID: '',
-        ClientLastName: '',
-        ClientFirstName: '',
-        ClientAddress: '',
-        PhoneNumber: '',
+    const newClient = ref({
+        Customer_Name: '',
+        Address: '',
+        City: '',
+        Zipcode: '',
+        Email: '',
+        Phone_Number: '',
+        Birthday: '',
+        Customer_Category_ID: '',
+        Customer_Status_ID: '',
+        State_Province_Territory_ID: '',
 
-    }])
+    });
+    const updateClient = ref({
+        Customer_Name: '',
+        Address: '',
+        City: '',
+        Zipcode: '',
+        Email: '',
+        Phone_Number: '',
+        Birthday: '',
+        Customer_Category_ID: '',
+        Customer_Status_ID: '',
+        State_Province_Territory_ID: '',
+
+
+    });
+    const deleteClient = ref({
+
+
+    });
+
     //initializing an object vs an array? is this only because I need 1 instance of new client?
 
     const Clients = ref([
@@ -195,7 +261,7 @@ export default {
         if (Clients.value[i].City == (searchBy.value)) {
             result.value.push(Clients.value[i]); // Push matching orders into the result array from the first type of query
         }
-        else if (Clients.value[i].Customer_ID== (searchBy.value)) {
+        else if (Clients.value[i].Customer_ID == (searchBy.value)) {
             result.value.push(Clients.value[i]); // Push matching orders into the result array from the second type of query
         }
     }
@@ -228,7 +294,88 @@ function Datetimechange() {
     }
     
 
-    function updateClientFunction() {
+  
+
+    async function addnewClient() {
+    const options = {
+        method: 'POST',
+        url: 'http://127.0.0.1:3000/Customer/post',
+        data: newClient.value 
+  
+    };
+
+    try {
+        const response = await axios.request(options);
+        console.log(response.data);
+        loadClients();
+        newClient = {};
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
+async function updateClientFunction() {
+  const customerId = updateClient.value.Customer_ID;
+  const options = {
+    method: 'PUT',
+    url: `http://127.0.0.1:3000/Customer/Put/${customerId}`,
+    data: updateClient.value 
+  };
+
+  try {
+    const response = await axios.request(options);
+    console.log(response.data);
+    loadClients();
+    updateClient = {};
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function deleteClientFunction() {
+  const customerId = deleteClient.value.Customer_ID;
+  const options = {
+    method: 'DELETE', // Change method to DELETE
+    url: `http://127.0.0.1:3000/Customer/Delete/${customerId}`, // Include the Customer_ID in the URL
+  };
+
+  try {
+    const response = await axios.request(options);
+    console.log(response.data);
+    loadClients(); 
+    newClient = {};
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
+
+
+//function allows for users to enter last names or id and search the table with them
+
+
+
+ //need to use.value when referring to the value saved in a reactive variable, cannot for instance push into the original array structure
+ //reactivity needs to be declared for us to trigger updates in the DOM based on changes we make on the variable, in order to keep the page structure in sync with our changes in the code
+ //within the scope of a function, we can fill up an array by using the .push mutating method to update its values, here we utilize this to fill up the result of the search with the parts of the order array that fulfill the search condition
+ //for a single entry in a reactive array, to access is arrayname.value[index of the entry]
+    
+
+/*function addnewClient(){
+if (newClient.value.ClientLastName !== null && newClient.value.ClientFirstName !== null  && newClient.value.ClientAddress !== null  && newClient.value.PhoneNumber !== null){
+    newClient.value.ClientID = (Clients.value.length);
+    Clients.value.push(newClient.value);
+    newClient.value = [];
+
+}
+}*/
+
+
+
+//}
+/*function updateClientFunction() {
       result.value = [];
         for (let i = 0; i < Clients.value.length; i++) {
           if (Clients.value[i].ClientID == updateClient.value.ClientID){
@@ -243,31 +390,7 @@ function Datetimechange() {
 
         }
 
-    }
-
-//function allows for users to enter last names or id and search the table with them
-
-
-
- //need to use.value when referring to the value saved in a reactive variable, cannot for instance push into the original array structure
- //reactivity needs to be declared for us to trigger updates in the DOM based on changes we make on the variable, in order to keep the page structure in sync with our changes in the code
- //within the scope of a function, we can fill up an array by using the .push mutating method to update its values, here we utilize this to fill up the result of the search with the parts of the order array that fulfill the search condition
- //for a single entry in a reactive array, to access is arrayname.value[index of the entry]
-    
-
-function addnewClient(){
-if (newClient.value.ClientLastName !== null && newClient.value.ClientFirstName !== null  && newClient.value.ClientAddress !== null  && newClient.value.PhoneNumber !== null){
-    newClient.value.ClientID = (Clients.value.length);
-    Clients.value.push(newClient.value);
-    newClient.value = [];
-
-}
-}
-
-
-
-//}
-
+    }*/
     
 
 
@@ -297,7 +420,9 @@ if (newClient.value.ClientLastName !== null && newClient.value.ClientFirstName !
       updateClient,
       updateClientFunction,
       loadClients,
-      Datetimechange
+      Datetimechange,
+      deleteClient,
+      deleteClientFunction
 
     }
   }

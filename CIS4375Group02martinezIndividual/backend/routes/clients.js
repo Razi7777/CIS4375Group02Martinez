@@ -1,6 +1,4 @@
-// This file stores all the API endpoints for making calls to the "clients" collection in the MongoDB database
 
-// Import functionalities
 const express = require('express');
 const router = express.Router();
 
@@ -8,10 +6,14 @@ const router = express.Router();
 const authMiddleWare = require('../auth/authMiddleWare');
 
 const app = require('../app.js');
-
+const bodyParser = require('body-parser');
 const pool = require('../DbConnection.js');
 
+//bodyparser is needed to parse json bodies for post request, otherwise you run into undefined errors
+app.use(bodyParser.json());
 
+
+//standard get request, can use clientID but not needed. 
 app.get('/Customer/get', (req, res) => {
   const clientId = req.params.id;
 
@@ -26,44 +28,128 @@ app.get('/Customer/get', (req, res) => {
       return;
     }
 
-    // Check if any rows were returned by the query
+
     if (results.length === 0) {
-      // No rows were returned, indicating the entry with the provided ID doesn't exist
       res.status(404).json({ error: 'Entry not found' });
       return;
     }
 
     // Data fetched successfully
-    const clientData = results; // Assuming only one row is expected
+    const clientData = results; 
     res.status(200).json(clientData);
   });
 });
+
+
 app.post('/Customer/Post', function(req, res) {
+  // Data from Clientspage
+  const clientData = req.body;
+  console.log(req.body);
 
+  //this is the utilization of pool.query, creating an array of values allows us to pass this array into [[values]] and insert them into our sqlquery
+  const values = [
+    clientData.Customer_Name,
+    clientData.Address,
+    clientData.City,
+    clientData.Zipcode,
+    clientData.Email,
+    clientData.Phone_Number,
+    clientData.Birthday,
+    clientData.Customer_Category_ID,
+    clientData.Customer_Status_ID,
+    clientData.State_Province_Territory_ID
+  ];
 
-  //data from Clientspage
-  const ClientData = req.body.ClientData;
-  
- 
+  // SQL query to insert data into the Customer table
   const sql = 'INSERT INTO Customer (Customer_Name, Address, City, Zipcode, Email, Phone_Number, Birthday, Customer_Category_ID, Customer_Status_ID, State_Province_Territory_ID) VALUES ?';
 
-  //using .map function to map the client data array (from our clients table) to an array of arrays (client)
-  const values = ClientData.map(function(Client) {
-    return [Client.Customer_Name, Client.Address, Client.City, Client.Zipcode, Client.Email, Client.Phone_Number, Client.Birthday, Client.Customer_Category_ID, Client.Customer_Status_ID, Client.State_Province_Territory_ID ];
-  });
-
-  // Execute the query
-  pool.query(sql, [values], function(error, results, fields) {
+ //query execution
+  pool.query(sql, [[values]], function(error, results, fields) {
     if (error) {
-      console.error('Error inserting data into database:', error);
+      console.error('Error Inserting Data:', error);
       res.status(500).json({ error: 'Failed to insert data into database' });
       return;
     }
 
     // Data inserted successfully
-    res.status(200).json({ message: 'Data inserted successfully' });
+    res.status(200).json({ message: 'Data inserted successfully!' });
   });
 });
+
+//put request here, using id as a parameter from the page
+
+app.put('/Customer/Put/:id', function(req, res) {
+
+  const customerId = req.params.id;
+
+
+  const clientData = req.body;
+
+
+  const values = [
+    clientData.Customer_Name,
+    clientData.Address,
+    clientData.City,
+    clientData.Zipcode,
+    clientData.Email,
+    clientData.Phone_Number,
+    clientData.Birthday,
+    clientData.Customer_Category_ID,
+    clientData.Customer_Status_ID,
+    clientData.State_Province_Territory_ID,
+    customerId 
+  ];
+
+
+  const sql = 'UPDATE Customer SET Customer_Name = ?, Address = ?, City = ?, Zipcode = ?, Email = ?, Phone_Number = ?, Birthday = ?, Customer_Category_ID = ?, Customer_Status_ID = ?, State_Province_Territory_ID = ? WHERE Customer_ID = ?';
+
+ 
+  pool.query(sql, values, function(error, results, fields) {
+    if (error) {
+      console.error('Error updating data in database:', error);
+      res.status(500).json({ error: 'Failed to update data in database' });
+      return;
+    }
+
+
+    if (results.affectedRows === 0) {
+    
+      res.status(404).json({ error: 'Customer not found' });
+      return;
+    }
+
+
+    res.status(200).json({ message: 'Data updated successfully' });
+  });
+});
+
+//delete api, similar structure to the post one
+app.delete('/Customer/Delete/:id', function(req, res) {
+  const customerId = req.params.id;
+
+  // SQL query to delete data from the Customer table based on Customer_ID
+  const sql = 'DELETE FROM Customer WHERE Customer_ID = ?';
+
+  // Execute the query
+  pool.query(sql, [customerId], function(error, results, fields) {
+    if (error) {
+      console.error('Error deleting data from database:', error);
+      res.status(500).json({ error: 'Failed to delete data from database' });
+      return;
+    }
+
+    // Check if any rows were affected by the query
+    if (results.affectedRows === 0) {
+      // No rows were affected, indicating the customer with the provided ID doesn't exist
+      res.status(404).json({ error: 'Customer not found' });
+      return;
+    }
+
+    // Data deleted successfully
+    res.status(200).json({ message: 'Data deleted successfully' });
+  });
+});
+
 
 
 module.exports = router;
