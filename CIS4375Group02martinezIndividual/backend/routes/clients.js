@@ -38,6 +38,33 @@ app.get('/Customer/get', (req, res) => {
     res.status(200).json(clientData);
   });
 });
+app.post('/Customer/Post', function(req, res) {
+
+
+  //data from Clientspage
+  const ClientData = req.body.ClientData;
+  
+ 
+  const sql = 'INSERT INTO Customer (Customer_Name, Address, City, Zipcode, Email, Phone_Number, Birthday, Customer_Category_ID, Customer_Status_ID, State_Province_Territory_ID) VALUES ?';
+
+  //using .map function to map the client data array (from our clients table) to an array of arrays (client)
+  const values = ClientData.map(function(Client) {
+    return [Client.Customer_Name, Client.Address, Client.City, Client.Zipcode, Client.Email, Client.Phone_Number, Client.Birthday, Client.Customer_Category_ID, Client.Customer_Status_ID, Client.State_Province_Territory_ID ];
+  });
+
+  // Execute the query
+  pool.query(sql, [values], function(error, results, fields) {
+    if (error) {
+      console.error('Error inserting data into database:', error);
+      res.status(500).json({ error: 'Failed to insert data into database' });
+      return;
+    }
+
+    // Data inserted successfully
+    res.status(200).json({ message: 'Data inserted successfully' });
+  });
+});
+
 
 module.exports = router;
 
