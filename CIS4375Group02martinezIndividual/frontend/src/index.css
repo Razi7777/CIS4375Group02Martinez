@@ -215,6 +215,10 @@
   height: 100vh;
 }
 
+.shipping-container {
+  height: 100vh;
+}
+
 @media (max-width: 768px) {
   .logo-svg {
     position: static;
@@ -222,6 +226,10 @@
     ;
 }
 }
+
+/* FAQ */
+
+
 
 
 @media (min-width: 768px) {

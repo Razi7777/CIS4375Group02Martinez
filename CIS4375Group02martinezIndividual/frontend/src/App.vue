@@ -17,9 +17,6 @@
               <router-link to="/home">Home</router-link>
               <router-link to="/login" v-if="user.username !== 'username1' && user.username !== 'username2'">Login</router-link>
 
-            <li v-if="user.username === 'username1' || user.username === 'username2'">
-              <router-link to="/home" @click="logout">Logout</router-link>
-            </li>
             <li v-if="user.username === 'username1'">
               <router-link to="/clientform">Clients</router-link>
             </li>
@@ -34,6 +31,9 @@
             </li>
             <li v-if="user.username === 'username1' || user.username === 'username2'">
               <router-link to="/findevents">Events</router-link>
+            </li>
+            <li v-if="user.username === 'username1' || user.username === 'username2'">
+              <router-link to="/home" @click="logout">Logout</router-link>
             </li>
             </div>  
           </div>
@@ -52,9 +52,6 @@
             <li v-if="user.username !== 'username1' && user.username !== 'username2'">
               <router-link to="/login">Login</router-link>
             </li>
-            <li v-if="user.username === 'username1' || user.username === 'username2'">
-              <router-link to="/home" @click="logout">Logout</router-link>
-            </li>
             <li v-if="user.username === 'username1'">
               <router-link to="/clientform">Clients</router-link>
             </li>
@@ -69,6 +66,9 @@
             </li>
             <li v-if="user.username === 'username1' || user.username === 'username2'">
               <router-link to="/findevents">Events</router-link>
+            </li>
+            <li v-if="user.username === 'username1' || user.username === 'username2'">
+              <router-link to="/home" @click="logout">Logout</router-link>
             </li>
           </ul>
         </div>
