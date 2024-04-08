@@ -59,6 +59,7 @@
   flex-direction: column;
   background-image: url('@/assets/5044561.jpg'); /* Path to the image */
   background-size: cover;
+  margin-bottom: 20px;
 }
 
 .links > ul {
@@ -211,11 +212,11 @@
   height: 100vh;
 }
 
-.event-form-container {
+.cleint-details-container {
   height: 100vh;
 }
 
-.shipping-container {
+.event-form-container {
   height: 100vh;
 }
 
@@ -226,10 +227,6 @@
     ;
 }
 }
-
-/* FAQ */
-
-
 
 
 @media (min-width: 768px) {

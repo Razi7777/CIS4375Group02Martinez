@@ -1,66 +1,169 @@
 <template>
   <div class="page-container">
-    <main>
-      <h1 class="title">Welcome to Our Thrift Site!</h1>
-      <!-- Additional content can be placed here -->
-      <div v-if="recentEvents.length > 0">
-        <h2>Recent Events</h2>
-        <ul>
-          <li v-for="event in recentEvents" :key="event.id">
-            {{ event.name }} - {{ event.date }}
-          </li>
-        </ul>
+
+    <section class="hero">
+      <h1 class="hero-title">Discover Style with a Story</h1>
+      <p class="hero-subtitle">Every piece has a past. Make it part of your future.</p>
+      <button class="hero-cta">Explore Now</button>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+      <h2>How It Works</h2>
+      <div class="steps">
+        <div class="step">
+          <h3>1. Find Your Gem</h3>
+          <p>Browse our unique collection to find the perfect item for you.</p>
+        </div>
+        <div class="step">
+          <h3>2. Make It Yours</h3>
+          <p>Reserve your item and we’ll hold it for you to try and buy.</p>
+        </div>
+        <div class="step">
+          <h3>3. Sustainable Style</h3>
+          <p>Enjoy your thrift find while supporting sustainable fashion.</p>
+        </div>
       </div>
-      <div v-else>
-        <p>No recent events to display.</p>
+    </section>
+
+    <!-- Featured Items Section -->
+    <section class="featured-items">
+      <h2>Featured Items</h2>
+      <div class="items-container">
+        <!-- Dynamically render featured items here -->
       </div>
-      <!-- Placeholder for the logged in user store content -->
-      <p>User Status: {{ loggedInUserStore.isLoggedIn ? 'Logged In' : 'Logged Out' }}</p>
-    </main>
+    </section>
+
+    <!-- Blog Highlights Section -->
+    <section class="blog-highlights">
+      <h2>From Our Blog</h2>
+      <div class="blog-posts">
+        <!-- Dynamically render blog post previews here -->
+      </div>
+    </section>
+
+    <!-- Event Calendar Section -->
+    <section class="event-calendar">
+      <h2>Upcoming Events</h2>
+      <ul class="events-list">
+        <!-- Dynamically render events here -->
+      </ul>
+    </section>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
-// Assuming you're using Pinia for state management
-// import { useLoggedInUserStore } from '@/stores/loggedInUserStore'; // Adjust the path as necessary
-
 export default {
-  setup() {
-    const recentEvents = ref([
-      // Placeholder events data
-      { id: 1, name: 'Event 1', date: '2024-01-01' },
-      { id: 2, name: 'Event 2', date: '2024-02-02' },
-    ]);
-    // Placeholder for loggedInUserStore if you're using a state management library
-    // const loggedInUserStore = useLoggedInUserStore();
-
-    // Placeholder loggedInUserStore object for illustration purposes
-    const loggedInUserStore = ref({ isLoggedIn: false });
-
+  data() {
     return {
-      recentEvents,
-      loggedInUserStore,
+      // Add your data properties for featured items, blog posts, and events here
     };
+  },
+  methods: {
+    // Add your methods for handling dynamic content here
   },
 };
 </script>
 
 <style>
 .page-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  font-family: 'Arial', sans-serif;
 }
 
-main {
-  flex-grow: 1;
+.hero {
+  text-align: center;
+  background-image: url('@/assets/Thrift2.webp'); /* Path to the image */
+  background-size: cover; /* Make the image cover the entire element */
+  background-repeat: no-repeat; /* The image will not repeat */
+  background-position: center; /* Center the image within the element */
+  padding-bottom: 40px; /* Add padding to raise the button up */
+}
+
+.hero-title {
+  font-size: 3rem;
+  color: #FFF8E7;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  color: #FFF8E7;
+  margin-bottom: 2rem;
+}
+
+.hero-cta {
+  padding: 1rem 2rem;
+  background-color: pink; /* Replace with your brand color */
+  color: #fff;
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  margin-bottom: 20px; /* Add or adjust margin to further move the button up if needed */
+}
+
+.how-it-works {
+  background-color: #f9f9f9;
+  padding: 2rem;
   text-align: center;
 }
 
-.title {
-  font-size: 2rem;
-  color: #333;
-  margin: 1rem 0;
+.steps .step {
+  margin-bottom: 1rem;
+}
+
+.featured-items {
+  padding: 2rem;
+  text-align: center;
+}
+
+.items-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.blog-highlights {
+  background-color: #f9f9f9;
+  padding: 2rem;
+  text-align: center;
+}
+
+.blog-posts {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.event-calendar {
+  padding: 2rem;
+  text-align: center;
+}
+
+.events-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.events-list .event-item {
+  background-color: #eee;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .items-container,
+  .blog-posts {
+    flex-direction: column;
+  }
 }
 </style>

@@ -39,7 +39,7 @@
           </div>
         </div>
         <section class="justify-end items-center h-24 flex">
-          <h1 class="Title"><a href="/home">TrendiFindz</a></h1>
+          <h1 class="Title"><a href="/home"></a></h1>
         </section>
         <div class="links">
           <ul>
