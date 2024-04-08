@@ -308,7 +308,6 @@ function Datetimechange() {
         const response = await axios.request(options);
         console.log(response.data);
         loadClients();
-        newClient = {};
     } catch (error) {
         console.error(error);
     }
@@ -327,7 +326,6 @@ async function updateClientFunction() {
     const response = await axios.request(options);
     console.log(response.data);
     loadClients();
-    updateClient = {};
   } catch (error) {
     console.error(error);
   }
@@ -344,7 +342,6 @@ async function deleteClientFunction() {
     const response = await axios.request(options);
     console.log(response.data);
     loadClients(); 
-    newClient = {};
   } catch (error) {
     console.error(error);
   }
