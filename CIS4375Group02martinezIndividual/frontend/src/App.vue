@@ -76,7 +76,8 @@
       
       <!--Page Content-->
       <div>
-        <router-view></router-view>
+        <EventCalendar @upcoming-events="setUpcomingEvents" />
+        <router-view :upcoming-events="upcomingEvents"></router-view>
       </div>
     </div>
   </main>
@@ -145,10 +146,12 @@ import { useLoggedInUserStore } from './store/loggedInUser'
 import { getOrgName } from './api/api'
 import { useToast } from 'vue-toastification'
 import { ref } from 'vue'
-
+import EventCalendar from './views/EventCalendar.vue';
 
 export default {
-
+  components: {
+    EventCalendar,
+  },
   setup() {
     const user = useLoggedInUserStore();
     const orgName = ref('Dataplatform');
@@ -171,13 +174,23 @@ export default {
     fetchOrgName();
     return { user, orgName, username, password, toast, logout };
   },
+  data() {
+    return {
+      upcomingEvents: [],
+    };
+  },
+  methods: {
+    setUpcomingEvents(events) {
+      this.upcomingEvents = events;
+    },
+  },
       props: {
     userStore: {
       type: Object,
       required: true,
     },
-      }
-}
+      },
+};
 // reference:
 // https://vuejs.org/api/composition-api-setup
 </script>

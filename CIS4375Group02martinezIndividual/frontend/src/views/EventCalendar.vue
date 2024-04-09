@@ -372,6 +372,10 @@ export default {
           console.error('Error fetching events:', error);
         });
     },
+    emitUpcomingEvents() {
+    this.$emit('upcoming-events', this.upcomingEvents);
+    this.$router.push({ name: 'Home', params: { upcomingEvents: this.upcomingEvents } });
+    },
     createEvent() {
       axios.post('http://localhost:3000/api/events', this.newEvent)
         .then(response => {
@@ -516,6 +520,16 @@ export default {
       .catch(error => {
         console.error('Error fetching events:', error);
       });
+  },
+  created() {
+  axios.get('http://localhost:3000/api/events')
+    .then(response => {
+      this.events = response.data;
+      this.$emit('upcoming-events', this.upcomingEvents);
+    })
+    .catch(error => {
+      console.error('Error fetching events:', error);
+    });
   }
 };
 </script>

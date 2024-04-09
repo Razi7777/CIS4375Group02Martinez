@@ -45,8 +45,13 @@
     <!-- Event Calendar Section -->
     <section class="event-calendar">
       <h2>Upcoming Events</h2>
+      <EventCalendar @upcoming-events="setUpcomingEvents" />
       <ul class="events-list">
-        <!-- Dynamically render events here -->
+        <li v-for="event in upcomingEvents" :key="event.Event_ID" class="event-item">
+          <strong>{{ event.Event_Description }}</strong>
+          <p>Date: {{ formatDate(event.Event_Date) }}</p>
+          <p>Address: {{ event.Address }}, {{ event.City }}, {{ event.Zipcode }}</p>
+        </li>
       </ul>
     </section>
   </div>
@@ -59,8 +64,16 @@ export default {
       // Add your data properties for featured items, blog posts, and events here
     };
   },
+  props: {
+    upcomingEvents: {
+      type: Array,
+      default: () => [],
+    },
+  },
   methods: {
-    // Add your methods for handling dynamic content here
+    formatDate(date) {
+      return new Date(date).toLocaleDateString();
+    },
   },
 };
 </script>
