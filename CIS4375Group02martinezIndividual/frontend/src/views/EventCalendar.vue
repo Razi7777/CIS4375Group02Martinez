@@ -388,7 +388,18 @@ export default {
             Event_Status_ID: null
           };
           this.fetchAllEvents();
-        })
+          
+          // Fetch the newly created event from the API
+          axios.get(`http://localhost:3000/api/events/${response.data.Event_ID}`)
+          .then(response => {
+            const newEvent = response.data;
+            // Add the new event to the events array
+            this.events.push(newEvent);
+          })
+          .catch(error => {
+          console.error('Error fetching the newly created event:', error);
+          });
+        })  
         .catch(error => {
           console.error('Error creating event:', error);
           this.createEventNotice = 'Failed to create event';
@@ -482,6 +493,9 @@ export default {
                 if (upcomingEventIndex !== -1) {
                   // Update the event in the events array with the fetched data
                   this.events.splice(upcomingEventIndex, 1, updatedEvent);
+                } else {
+                  // Add the updated event to the events array
+                  this.events.push(updatedEvent); 
                 }
               })
           })
