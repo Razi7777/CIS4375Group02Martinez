@@ -1,11 +1,13 @@
 <template>
   <div class="page-container">
 
-    <section class="hero">
-      <h1 class="hero-title">Discover Style with a Story</h1>
-      <p class="hero-subtitle">Every piece has a past. Make it part of your future.</p>
+  <section class="hero">
+    <h1 class="hero-title">Discover Style with a Story</h1>
+    <p class="hero-subtitle">Every piece has a past. Make it part of your future.</p>
+    <a href="https://poshmark.com/closet/trenditower" class="hero-cta-link">
       <button class="hero-cta">Explore Now</button>
-    </section>
+    </a>
+  </section> 
 
     <!-- How It Works Section -->
     <section class="how-it-works">
@@ -81,6 +83,7 @@ export default {
 <style>
 .page-container {
   font-family: 'Arial', sans-serif;
+  height: 100vh;
 }
 
 .hero {

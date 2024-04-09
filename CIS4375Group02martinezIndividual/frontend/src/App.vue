@@ -76,7 +76,7 @@
       
       <!--Page Content-->
       <div>
-        <EventCalendar @upcoming-events="setUpcomingEvents" />
+
         <router-view :upcoming-events="upcomingEvents"></router-view>
       </div>
     </div>
