@@ -366,7 +366,7 @@ export default {
     fetchAllEvents() {
       axios.get('http://localhost:3000/api/events')
         .then(response => {
-          this.allEvents = response.data;
+          this.allEvents = response.data.sort((a, b) => new Date(a.Event_Date) - new Date(b.Event_Date));
         })
         .catch(error => {
           console.error('Error fetching events:', error);
