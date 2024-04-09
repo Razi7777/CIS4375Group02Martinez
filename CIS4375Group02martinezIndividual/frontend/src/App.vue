@@ -27,7 +27,7 @@
               <router-link to="/serviceform">Services</router-link>
             </li>
             <li v-if="user.username === 'username1' || user.username === 'username2'">
-              <router-link to="/ordertracking">Orders</router-link>
+              <router-link to="/order-tracking">Orders</router-link>
             </li>
             <li v-if="user.username === 'username1' || user.username === 'username2'">
               <router-link to="/findevents">Events</router-link>
@@ -62,7 +62,7 @@
               <router-link to="/serviceform">Services</router-link>
             </li>
             <li v-if="user.username === 'username1' || user.username === 'username2'">
-              <router-link to="/ordertracking">Orders</router-link>
+              <router-link to="/order-tracking">Orders</router-link>
             </li>
             <li v-if="user.username === 'username1' || user.username === 'username2'">
               <router-link to="/findevents">Events</router-link>
