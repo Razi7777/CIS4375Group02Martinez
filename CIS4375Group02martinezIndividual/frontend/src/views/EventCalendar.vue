@@ -1,4 +1,5 @@
 <template>
+  <main>
   <div class="event-calendar-wrapper">
     <div class="event-calendar">
       <div class="announcement" v-if="upcomingEvents.length > 0">
@@ -215,6 +216,7 @@
       </div>
     </div>
   </div>
+</main>
 </template>
 
 <script>

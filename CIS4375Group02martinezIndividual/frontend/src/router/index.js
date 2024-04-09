@@ -18,11 +18,12 @@ const routes = [
     component: () => import('../views/Home.vue')
   },
 
-  {
-    path: '/event-calendar',
-    name: 'Event Calendar',
-    component: () => import('../views/EventCalendar.vue')
-  },
+
+{
+  path: '/event-calendar',
+  name: 'event-calendar', // Use hyphens for route names
+  component: () => import('../views/EventCalendar.vue')
+},
   {
     path: '/about',
     name: 'about',
@@ -36,9 +37,8 @@ const routes = [
     component: () => import('../views/clientform.vue')
   },
   {
-    path: '/ordertracking',
-    name: 'ordertracking',
-    //meta: { requiresAuth: true },
+    path: '/order-tracking', // Update to match the URL used in the application
+    name: 'order-tracking',
     component: () => import('../views/ordertracking.vue')
   },
   {
