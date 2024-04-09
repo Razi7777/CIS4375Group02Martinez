@@ -76,8 +76,7 @@
       
       <!--Page Content-->
       <div>
-        <EventCalendar @upcoming-events="setUpcomingEvents" />
-        <router-view :upcoming-events="upcomingEvents"></router-view>
+        <router-view></router-view>
       </div>
     </div>
   </main>
@@ -150,7 +149,6 @@ import EventCalendar from './views/EventCalendar.vue';
 
 export default {
   components: {
-    EventCalendar,
   },
   setup() {
     const user = useLoggedInUserStore();
@@ -173,16 +171,6 @@ export default {
     console.log(username, password);
     fetchOrgName();
     return { user, orgName, username, password, toast, logout };
-  },
-  data() {
-    return {
-      upcomingEvents: [],
-    };
-  },
-  methods: {
-    setUpcomingEvents(events) {
-      this.upcomingEvents = events;
-    },
   },
       props: {
     userStore: {

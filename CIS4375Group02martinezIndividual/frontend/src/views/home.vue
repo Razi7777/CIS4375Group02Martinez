@@ -43,38 +43,62 @@
     </section>
 
     <!-- Event Calendar Section -->
-    <section class="event-calendar">
-      <h2>Upcoming Events</h2>
-      <EventCalendar @upcoming-events="setUpcomingEvents" />
-      <ul class="events-list">
-        <li v-for="event in upcomingEvents" :key="event.Event_ID" class="event-item">
-          <strong>{{ event.Event_Description }}</strong>
-          <p>Date: {{ formatDate(event.Event_Date) }}</p>
-          <p>Address: {{ event.Address }}, {{ event.City }}, {{ event.Zipcode }}</p>
-        </li>
-      </ul>
-    </section>
+    <div class="announcement" v-if="upcomingEvents.length > 0">
+      <div class="announcement-header">
+        <h3>Upcoming Event</h3>
+        <div class="ribbon">New</div>
+      </div>
+      <div v-for="(event, index) in upcomingEvents" :key="index">
+        <p class="event-description">{{ event.Event_Description }}</p>
+        <div class="event-details">
+          <p>
+            <strong>Date:</strong> {{ formatDateTime(event.Event_Date) }}
+          </p>
+          <p>
+            <strong>Address:</strong> {{ event.Address }},
+            {{ event.City }}, {{ event.Zipcode }}
+          </p>
+        </div>
+        <hr v-if="index < upcomingEvents.length - 1">
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
       // Add your data properties for featured items, blog posts, and events here
+      upcomingEvents: []
     };
   },
-  props: {
-    upcomingEvents: {
-      type: Array,
-      default: () => [],
-    },
-  },
   methods: {
-    formatDate(date) {
-      return new Date(date).toLocaleDateString();
+    formatDate(datetime) {
+      const options = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      };
+      return new Date(datetime).toLocaleDateString('en-US', options);
     },
   },
+  created() {
+    axios.get('http://localhost:3000/api/events')
+      .then(response => {
+        const today = new Date();
+        const twoMonthsLater = new Date(today.getFullYear(), today.getMonth() + 2, today.getDate());
+        this.upcomingEvents = response.data.filter(event => {
+          const eventDate = new Date(event.Event_Date);
+          return eventDate >= today && eventDate <= twoMonthsLater && event.Event_Status_ID === 1;
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching events:', error);
+      });
+  }
 };
 </script>
 
