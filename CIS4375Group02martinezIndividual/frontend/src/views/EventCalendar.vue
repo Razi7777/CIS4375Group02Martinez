@@ -75,7 +75,7 @@
         </div>
       </div>
       <br>
-      <div class="event-list-form-wrapper">
+      <div class="event-list-form-wrapper" v-if="user.username === 'username1'">
         <div class="event-list-container">
           <div class="event-list fancy-container">
             <h3><strong><center>Event List</center></strong></h3>
@@ -85,6 +85,7 @@
                 <tr>
                   <th>Date</th>
                   <th>Description</th>
+                  <th>Address</th>
                   <th>Category</th>
                   <th>Status</th>
                 </tr>
@@ -93,6 +94,7 @@
                 <tr v-for="event in allEvents" :key="event.Event_ID">
                   <td>{{ formatDateTime(event.Event_Date) }}</td>
                   <td>{{ event.Event_Description }}</td>
+                  <td>{{ getFullAddress(event) }}</td>
                   <td>{{ getEventCategory(event.Event_Category_ID) }}</td>
                   <td>{{ getEventStatus(event.Event_Status_ID) }}</td>
                 </tr>
@@ -103,8 +105,10 @@
         </div>
 
         <div class="event-form-container">
+          <div class="event-update-form-header">
+            <h3><strong>Create Event</strong></h3>
+          </div>
           <div class="event-form fancy-container">
-            <h3><strong><center>Create Event</center></strong></h3>
             <form class="fancy-form" @submit.prevent="createEvent">
               <div class="form-group">
                 <label for="eventDate">Date:</label>
@@ -151,8 +155,10 @@
         </div>
 
         <div class="event-update-form-container">
+          <div class="event-update-form-header">
+            <h3><strong>Update Event</strong></h3>
+          </div>
           <div class="event-update-form fancy-container">
-            <h3><strong><center>Update Event</center></strong></h3>
             <form class="fancy-form" @submit.prevent="updateEvent">
               <div class="form-group">
                 <label for="eventToUpdate">Select:</label>
@@ -187,6 +193,18 @@
                 <label for="updateEventDescription">Event Description:</label>
                 <textarea id="updateEventDescription" v-model="updateEventDescription"></textarea>
               </div>
+              <div class="form-group">
+                <label for="updateEventAddress">Event Address:</label>
+                <input type="text" id="updateEventAddress" v-model="updateEventAddress">
+              </div>
+              <div class="form-group">
+                <label for="updateEventCity">Event City:</label>
+                <input type="text" id="updateEventCity" v-model="updateEventCity">
+              </div>
+              <div class="form-group">
+                <label for="updateEventZipcode">Event Zipcode:</label>
+                <input type="text" id="updateEventZipcode" v-model="updateEventZipcode">
+              </div>
               <button type="submit" class="fancy-button">Update Event</button>
             </form>
             <p v-if="updateEventNotice" :class="{ 'success-notice': updateEventSuccess, 'error-notice': !updateEventSuccess }">
@@ -201,8 +219,13 @@
 
 <script>
 import axios from 'axios';
+import { useLoggedInUserStore } from '../store/loggedInUser';
 
 export default {
+  setup() {
+    const user = useLoggedInUserStore();
+    return { user };
+  },
   data() {
     return {
       currentDate: new Date(),
@@ -238,6 +261,9 @@ export default {
       updateEventStatus: null,
       updateEventDate: '',
       updateEventDescription: '',
+      updateEventAddress: '',
+      updateEventCity: '',
+      updateEventZipcode: '',
       updateEventNotice: '',
       updateEventSuccess: false,
     };
@@ -289,6 +315,11 @@ export default {
         const eventDate = new Date(event.Event_Date);
         return eventDate >= today && eventDate <= twoMonthsLater && event.Event_Status_ID === 1;
       });
+    },
+    getFullAddress() {
+      return (event) => {
+        return `${event.Address}, ${event.City}, ${event.Zipcode}`;
+      };
     }
   },
   methods: {
@@ -383,7 +414,9 @@ export default {
         }
 
         if (this.updateEventDate) {
-          updatedProperties.Event_Date = this.updateEventDate;
+          // Convert the selected date to ISO 8601 format
+          const eventDate = new Date(this.updateEventDate);
+          updatedProperties.Event_Date = eventDate.toISOString();
         } else {
           updatedProperties.Event_Date = currentEvent.Event_Date; // Keep the current value
         }
@@ -394,6 +427,25 @@ export default {
           updatedProperties.Event_Description = currentEvent.Event_Description; // Keep the current value
         }
         
+        // Include Address, City, and Zipcode in the updatedProperties object
+        if (this.updateEventAddress) {
+          updatedProperties.Address = this.updateEventAddress;
+        } else {
+          updatedProperties.Address = currentEvent.Address; // Keep the current value
+        }
+
+        if (this.updateEventCity) {
+          updatedProperties.City = this.updateEventCity;
+        } else {
+          updatedProperties.City = currentEvent.City; // Keep the current value
+        }
+
+        if (this.updateEventZipcode) {
+          updatedProperties.Zipcode = this.updateEventZipcode;
+        } else {
+          updatedProperties.Zipcode = currentEvent.Zipcode; // Keep the current value
+        }
+
         axios.put(`http://localhost:3000/api/events/${this.selectedEventId}`, updatedProperties)
           
           .then(response => {
@@ -401,12 +453,20 @@ export default {
             this.updateEventNotice = 'Event updated successfully';
             this.updateEventSuccess = true;
 
-            // Find the index of the updated event in the allEvents array
-            const eventIndex = this.allEvents.findIndex(event => event.Event_ID === this.selectedEventId);
+            // Find the index of the updated event in the allEventsForUpdate array
+            const eventIndexForUpdate = this.allEventsForUpdate.findIndex(event => event.Event_ID === this.selectedEventId);
         
-            if (eventIndex !== -1) {
+            if (eventIndexForUpdate !== -1) {
+              // Update the event properties in the allEventsForUpdate array
+              this.allEventsForUpdate[eventIndexForUpdate] = { ...this.allEventsForUpdate[eventIndexForUpdate], ...updatedProperties };
+            }
+
+            // Find the index of the updated event in the allEvents array
+            const eventIndexForList = this.allEvents.findIndex(event => event.Event_ID === this.selectedEventId);
+
+            if (eventIndexForList !== -1) {
               // Update the event properties in the allEvents array
-              this.allEvents[eventIndex] = { ...this.allEvents[eventIndex], ...updatedProperties };
+              this.allEvents[eventIndexForList] = { ...this.allEvents[eventIndexForList], ...updatedProperties };
             }
 
             // Fetch the updated event data from the API
@@ -464,12 +524,43 @@ export default {
 .event-list-form-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .event-list-container,
-.event-form-container {
+.event-form-container,
+.event-update-form-container {
+  display: flex;
+  flex-direction: column;
   margin-top: 0;
+}
+
+.event-update-form-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.event-form,
+.event-update-form {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 10px;
+  align-items: start;
+}
+
+.event-update-form-header h3 {
+  margin: 0;
+}
+
+.event-update-form h3 {
+  margin-bottom: 10px;
+}
+
+.event-form h3,
+.event-update-form h3 {
+  margin-bottom: 10px;
+  text-align: left;
 }
 
 .fancy-container {
@@ -490,6 +581,14 @@ export default {
   transition: background-color 0.3s ease;
 }
 
+.fancy-button[type="submit"] {
+  grid-column: span 2;
+  justify-self: center;
+  width: 50%;
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
 .fancy-button:hover {
   background-color: #e65c47;
 }
@@ -502,6 +601,7 @@ export default {
 .form-group {
   display: flex;
   flex-direction: column;
+  margin-bottom: 0;
 }
 
 .form-group label {
@@ -512,9 +612,25 @@ export default {
 .form-group input,
 .form-group textarea,
 .form-group select {
-  padding: 8px;
+  width: 100%;
+  padding: 6px 10px;
+  font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #fff;
+  background-position: right 8px center;
+  background-repeat: no-repeat;
+  background-size: auto 50%;
+  padding-right: 28px;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
 }
 .announcement {
   background-color: #f5f5f5;

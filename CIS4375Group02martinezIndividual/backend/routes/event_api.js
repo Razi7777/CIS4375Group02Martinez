@@ -45,14 +45,20 @@ router.post('/events', (req, res) => {
 // Update an event
 router.put('/events/:id', (req, res) => {
   const eventId = req.params.id;
-  const { Event_Status_ID } = req.body;
+  const { Event_Status_ID, Event_Category_ID, Event_Date, Event_Description } = req.body;
 
   const query = `
     UPDATE Event
-    SET Event_Status_ID = ?
+    SET Event_Status_ID = COALESCE(?, Event_Status_ID),
+        Event_Category_ID = COALESCE(?, Event_Category_ID),
+        Event_Date = COALESCE(?, Event_Date),
+        Event_Description = COALESCE(?, Event_Description)
+        Address = COALESCE(?, Address),
+        City = COALESCE(?, City),
+        Zipcode = COALESCE(?, Zipcode)
     WHERE Event_ID = ?
   `;
-  const values = [Event_Status_ID, eventId];
+  const values = [Event_Status_ID, Event_Category_ID, Event_Date, Event_Description, Address, City, Zipcode, eventId];
 
   db.query(query, values, (err, result) => {
     if (err) {
