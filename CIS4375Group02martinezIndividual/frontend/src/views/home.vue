@@ -1,13 +1,11 @@
 <template>
   <div class="page-container">
 
-  <section class="hero">
-    <h1 class="hero-title">Discover Style with a Story</h1>
-    <p class="hero-subtitle">Every piece has a past. Make it part of your future.</p>
-    <a href="https://poshmark.com/closet/trenditower" class="hero-cta-link">
+    <section class="hero">
+      <h1 class="hero-title">Discover Style with a Story</h1>
+      <p class="hero-subtitle">Every piece has a past. Make it part of your future.</p>
       <button class="hero-cta">Explore Now</button>
-    </a>
-  </section> 
+    </section>
 
     <!-- How It Works Section -->
     <section class="how-it-works">
@@ -47,13 +45,8 @@
     <!-- Event Calendar Section -->
     <section class="event-calendar">
       <h2>Upcoming Events</h2>
-      <EventCalendar @upcoming-events="setUpcomingEvents" />
       <ul class="events-list">
-        <li v-for="event in upcomingEvents" :key="event.Event_ID" class="event-item">
-          <strong>{{ event.Event_Description }}</strong>
-          <p>Date: {{ formatDate(event.Event_Date) }}</p>
-          <p>Address: {{ event.Address }}, {{ event.City }}, {{ event.Zipcode }}</p>
-        </li>
+        <!-- Dynamically render events here -->
       </ul>
     </section>
   </div>
@@ -66,16 +59,8 @@ export default {
       // Add your data properties for featured items, blog posts, and events here
     };
   },
-  props: {
-    upcomingEvents: {
-      type: Array,
-      default: () => [],
-    },
-  },
   methods: {
-    formatDate(date) {
-      return new Date(date).toLocaleDateString();
-    },
+    // Add your methods for handling dynamic content here
   },
 };
 </script>
@@ -83,7 +68,6 @@ export default {
 <style>
 .page-container {
   font-family: 'Arial', sans-serif;
-  height: 100vh;
 }
 
 .hero {

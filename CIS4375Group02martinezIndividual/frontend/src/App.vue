@@ -1,3 +1,5 @@
+<!-- This is the main frontend file. It displays a navigation bar and rendered components. -->
+
 <template>
   <main class="flex flex-row">    
     <div class="grow w-5/5">
@@ -5,31 +7,36 @@
         <img src="@/assets/Marisol.svg" alt="Logo" class="logo-svg"/>
         <div class="navbar container">
           <div class="mobile-container nav-container-mobile">
-            <input class="checkbox" type="checkbox" v-model="isMenuOpen" />
-            <div class="hamburger-lines" @click="toggleMenu">
+            <input class="checkbox" type="checkbox" name="" id="" />
+            <div class="hamburger-lines">
               <span class="line line1"></span>
               <span class="line line2"></span>
               <span class="line line3"></span>
             </div>
             <div class="menu-items">
-              <router-link to="/home" @click.native="closeMenu">Home</router-link>
-              <router-link to="/event-calendar" @click.native="closeMenu">Events</router-link>
-              <router-link to="/login" v-if="user.username !== 'username1' && user.username !== 'username2'" @click.native="closeMenu">Login</router-link>
-            
-              <li v-if="user.username === 'username1'">
-                <router-link to="/clientform" @click.native="closeMenu">Clients</router-link>
-              </li>
-              <li v-if="user.username === 'username1'">
-                <router-link to="/serviceform" @click.native="closeMenu">Services</router-link>
-              </li>
-              <li v-if="user.username === 'username1' || user.username === 'username2'">
-                <router-link to="/order-tracking" @click.native="closeMenu">Orders</router-link>
-              </li>
-              <li v-if="user.username === 'username1' || user.username === 'username2'">
-                <router-link to="/home" @click.native="logout">Logout</router-link>
-              </li>
-            </div> 
-        </div>
+              <router-link to="/home">Home</router-link>
+              <router-link to="/login" v-if="user.username !== 'username1' && user.username !== 'username2'">Login</router-link>
+
+            <li v-if="user.username === 'username1'">
+              <router-link to="/clientform">Clients</router-link>
+            </li>
+            <li v-if="user.username === 'username1'">
+              <router-link to="/eventform">Events</router-link>       
+            </li>
+            <li v-if="user.username === 'username1'">
+              <router-link to="/serviceform">Services</router-link>
+            </li>
+            <li v-if="user.username === 'username1' || user.username === 'username2'">
+              <router-link to="/order-tracking">Orders</router-link>
+            </li>
+            <li v-if="user.username === 'username1' || user.username === 'username2'">
+              <router-link to="/findevents">Events</router-link>
+            </li>
+            <li v-if="user.username === 'username1' || user.username === 'username2'">
+              <router-link to="/home" @click="logout">Logout</router-link>
+            </li>
+            </div>  
+          </div>
         </div>
         <section class="justify-end items-center h-24 flex">
           <h1 class="Title"><a href="/home"></a></h1>
@@ -58,6 +65,9 @@
               <router-link to="/order-tracking">Orders</router-link>
             </li>
             <li v-if="user.username === 'username1' || user.username === 'username2'">
+              <router-link to="/findevents">Events</router-link>
+            </li>
+            <li v-if="user.username === 'username1' || user.username === 'username2'">
               <router-link to="/home" @click="logout">Logout</router-link>
             </li>
           </ul>
@@ -66,8 +76,7 @@
       
       <!--Page Content-->
       <div>
-
-        <router-view :upcoming-events="upcomingEvents"></router-view>
+        <router-view></router-view>
       </div>
     </div>
   </main>
@@ -136,17 +145,19 @@ import { useLoggedInUserStore } from './store/loggedInUser'
 import { getOrgName } from './api/api'
 import { useToast } from 'vue-toastification'
 import { ref } from 'vue'
-import EventCalendar from './views/EventCalendar.vue';
+
 
 export default {
-  components: {
-    EventCalendar,
-  },
+
   setup() {
     const user = useLoggedInUserStore();
     const orgName = ref('Dataplatform');
-    // Notifications
+    //Notifications
     const toast = useToast();
+    const username = user.username;
+    const password = user.password;
+    const logout = user.logout;
+
 
     const fetchOrgName = async () => {
       try {
@@ -155,43 +166,18 @@ export default {
         throw error;
       }
     }
-
+    //getting prop from our pages to update the nav bar based on page
+    console.log(username, password);
     fetchOrgName();
-    return { user, orgName, toast };
+    return { user, orgName, username, password, toast, logout };
   },
-  data() {
-    return {
-      isMenuOpen: false,
-      upcomingEvents: [],
-    };
-  },
-  methods: {
-    setUpcomingEvents(events) {
-      this.upcomingEvents = events;
-    },
-    toggleMenu() {
-      this.isMenuOpen = !this.isMenuOpen;
-    },
-    closeMenu() {
-      if (this.isMenuOpen) {
-        this.isMenuOpen = false;
-      }
-    },
-    logout() {
-      this.closeMenu();
-      // Add your logout logic here
-      this.user.logout();
-    },
-  },
-  props: {
+      props: {
     userStore: {
       type: Object,
       required: true,
     },
-  },
-};
-
-
+      }
+}
 // reference:
 // https://vuejs.org/api/composition-api-setup
 </script>

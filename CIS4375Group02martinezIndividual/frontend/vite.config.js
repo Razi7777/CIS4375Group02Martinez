@@ -10,6 +10,14 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+
+  // HMR overlay configuration correctly placed here
+  server: {
+    hmr: {
+      overlay: false, // Disables the full-screen error overlay
+    },
+  },
+
   define: {
     'process.env': {}, // Include any other global variables that need to be defined
     __VUE_OPTIONS_API__: true,
