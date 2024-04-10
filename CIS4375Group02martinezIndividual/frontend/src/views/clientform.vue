@@ -138,8 +138,9 @@
         <div></div>
    
      
-      
+      <div class="ml-10"> 
      <h2 class="text-2xl font-bold">Update Existing Client</h2>
+      </div> 
      <form @submit.prevent="updateClientFunction" class="grid grid-cols-2 gap-x-40 gap-y-15">
       <div>
           <label for="ID">Enter ID to update:</label>
@@ -187,14 +188,16 @@
       <div></div>
       <div></div>
       <div></div>
-      <div class="ml-10"><h2 class="text-2xl font-bold">Delete Client</h2></div>
-
-        <form @submit.prevent="deleteClientFunction"><br>
-
-          <label for="ID">Enter ID to Delete:</label>
+      <div class="ml-10"> 
+      <h2 class="text-2xl font-bold">Delete Client</h2>
+      </div>
+        <form @submit.prevent="deleteClientFunction" class="grid grid-cols-2 gap-x-40 gap-y-15">
+        <div>
+          <label for="ID">Enter ID to Delete: </label>
           <input type="text" id="ID" v-model="deleteClient.Customer_ID" required>
-
+        
         <button class="bg-orange-800 text-white rounded" type="submit">Delete Client</button>
+      </div>
         </form>
 
     </div>
