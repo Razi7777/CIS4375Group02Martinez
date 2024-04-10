@@ -47,7 +47,7 @@ app.use('/org', require('./routes/org'));
 app.use('/services', require('./routes/services'));
 app.use('/users', require('./routes/users'));
 app.use('/trackorder', require('./routes/trackorder'));
-
+app.use('/eventapi', require('./routes/event_api'));
 
 const PORT = process.env.PORT || 3000;
 
