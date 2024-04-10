@@ -41,13 +41,19 @@ checkConnection();
 module.exports = app;
 
 
+app.use('/clients', require('./routes/clients'));
+app.use('/events', require('./routes/events'));
+app.use('/org', require('./routes/org'));
+app.use('/services', require('./routes/services'));
+app.use('/users', require('./routes/users'));
+app.use('/trackorder', require('./routes/trackorder'));
 
 
+const PORT = process.env.PORT || 3000;
 
-
-
-
-
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
 
 
 
@@ -76,23 +82,14 @@ module.exports = app;
  // });
 
 // declare port number for the api
-const PORT = process.env.PORT || 3000;
+
 
 // setup and access request body
 //app.use(express.json());
 //app.use(morgan('dev'));
 
 // setup middle ware for routes
-app.use('/clients', require('./routes/clients'));
-app.use('/events', require('./routes/events'));
-app.use('/org', require('./routes/org'));
-app.use('/services', require('./routes/services'));
-app.use('/users', require('./routes/users'));
-app.use('/trackorder', require('./routes/trackorder'));
 
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-});
 
 // error handler
 /*app.use(function (err, req, res, next) {
