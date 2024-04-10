@@ -10,7 +10,8 @@
 
 
 <div class="px-10 pt-20">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-10 items-center"> <!-- Added items-center -->
+    <div class="grid grid-cols-1 md:grid-cols-6 gap-x-6 gap-y-10 items-center"> <!-- Added items-center -->
+      <div></div>
         <!--Search Client By selection-->
         <h2 class="text-2xl font-bold">Search Clients</h2>
         <div class="col-span-1 md:col-span-2">
@@ -46,13 +47,14 @@
 
 
     <hr class="mt-10 mb-10" />
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
+    <div class="grid grid-cols-1 md:grid-cols-6 gap-x-6 gap-y-10">
+
       <div class="ml-10">
         <h2 class="text-2xl font-bold">List of Clients</h2>
         <!--h3 class="italic">Click table row to view Order details</h3-->
       </div>
       <!--Table showing list of Clients-->
-      <div class="flex flex-col col-span-3 max-h-[220px] max-w-[3000] overflow-y-auto">
+      <div class="flex flex-col col-span-4 max-h-[220px] max-w-[3000] overflow-y-auto">
         <table class="w-full  shadow-md rounded">
           <thead class="bg-gray-50 text-xl">
             <tr>
@@ -63,7 +65,6 @@
               <th class="p-4 text-left">Zipcode</th>
               <th class="p-4 text-left">Email</th>
               <th class="p-4 text-left">Phone Number</th>
-              <th class="p-4 text-left">Birthday</th>
             </tr>
           </thead>
           <tbody  v-if="result && result.length > 0" class="divide-y divide-gray-300">
@@ -74,8 +75,8 @@
               <td class="p-2 text-left">{{ Client.City }}</td>
               <td class="p-2 text-left">{{ Client.Zipcode }}</td>
               <td class="p-2 text-left">{{ Client.Email }}</td>
-              <td class="p-2 text-left">{{ Client.Phone_Number }}</td>
-              <td class="p-2 text-left">{{ Client.Birthday }}</td>
+              <td class="p-2 text-center">{{ Client.Phone_Number }}</td>
+              
             </tr>
           </tbody>
           <tbody v-else class="divide-y divide-gray-300">
@@ -86,8 +87,7 @@
               <td class="p-2 text-left">{{ Client.City }}</td>
               <td class="p-2 text-left">{{ Client.Zipcode }}</td>
               <td class="p-2 text-left">{{ Client.Email }}</td>
-              <td class="p-2 text-left">{{ Client.Phone_Number }}</td>
-              <td class="p-2 text-left">{{ Client.Birthday }}</td>
+              <td class="p-2 text-center">{{ Client.Phone_Number }}</td>
             </tr>
           </tbody>
         </table>
@@ -95,92 +95,100 @@
       <div></div>
       <div class="ml-10">
         <h2 class="text-2xl font-bold">Add New Client</h2>
-        <!--h3 class="italic">Click table row to view Order details</h3-->
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 min-w-full shadow-md rounded"> 
-        <form @submit.prevent="addnewClient"><br>
-        
-        
-              <label for="Name">Name:</label>
-              <input type="text" id="Name" v-model="newClient.Customer_Name" required>
-        
-              <label for="Address">Address:</label>
-              <input type="text" id="Address" v-model="newClient.Address" required>
-        
-              <label for="City">City:</label>
-              <input type="text" id="City" v-model="newClient.City" required>
-
-              <label for="Zipcode">Zipcode:</label>
-              <input type="text" id="Zipcode" v-model="newClient.Zipcode" required>
-
-              <label for="email">Email:</label>
-              <input type="text" id="email" v-model="newClient.Email" required>
-
-              <label for="PhoneNumber">Phone Number:</label>
-              <input type="text" id="PhoneNumber" v-model="newClient.Phone_Number" required>
-
-              <label for="Birthday">Birthday:</label>
-              <input type="text" id="Birthday" v-model="newClient.Birthday" required>
-
-              <label for="CustomerCategory">Customer Category:</label>
-              <input type="text" id="CustomerCategory" v-model="newClient.Customer_Category_ID" required>
-
-              <label for="CustomerStatus">Customer Status:</label>
-              <input type="text" id="CustomerStatus" v-model="newClient.Customer_Status_ID" required>
-
-              <label for="StateProvinceTerritory">State/Province/Territory:</label>
-              <input type="text" id="StateProvinceTerritory" v-model="newClient.State_Province_Territory_ID" required>
-
-              <button class="bg-orange-800 text-white rounded" type="submit">Add Client</button>
-        </form>
-        
-      </div>
-      <div></div>
-      <div></div>
-      <div class="ml-10"><h2 class="text-2xl font-bold">Update Existing Client</h2></div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 min-w-full shadow-md rounded"> 
-        <form @submit.prevent="updateClientFunction"><br>
-
-          <label for="ID">Enter ID to update:</label>
-          <input type="text" id="ID" v-model="updateClient.Customer_ID" required>
-
+      <form @submit.prevent="addnewClient" class="grid grid-cols-2 gap-x-40 gap-y-15">
+        <div>
           <label for="Name">Name:</label>
-          <input type="text" id="Name" v-model="updateClient.Customer_Name" required>
-    
+          <input type="text" id="Name" v-model="newClient.Customer_Name" required><br><br>
+      
           <label for="Address">Address:</label>
-          <input type="text" id="Address" v-model="updateClient.Address" required>
-    
+          <input type="text" id="Address" v-model="newClient.Address" required><br><br>
+      
           <label for="City">City:</label>
-          <input type="text" id="City" v-model="updateClient.City" required>
-
+          <input type="text" id="City" v-model="newClient.City" required><br><br>
+      
           <label for="Zipcode">Zipcode:</label>
-          <input type="text" id="Zipcode" v-model="updateClient.Zipcode" required>
-
+          <input type="text" id="Zipcode" v-model="newClient.Zipcode" required><br><br>
+      
           <label for="email">Email:</label>
-          <input type="text" id="email" v-model="updateClient.Email" required>
-
+          <input type="text" id="email" v-model="newClient.Email" required><br><br>
+          <button class="col-span-2 bg-orange-800 text-white rounded" type="submit">Add Client</button>
+        </div>
+        <div>
           <label for="PhoneNumber">Phone Number:</label>
-          <input type="text" id="PhoneNumber" v-model="updateClient.Phone_Number" required>
-
+          <input type="text" id="PhoneNumber" v-model="newClient.Phone_Number" required><br><br>
+      
           <label for="Birthday">Birthday:</label>
-          <input type="text" id="Birthday" v-model="updateClient.Birthday" required>
-
-          <label for="CustomerCategory">Customer Category:</label>
-          <input type="text" id="CustomerCategory" v-model="updateClient.Customer_Category_ID" required>
-
-          <label for="CustomerStatus">Customer Status:</label>
-          <input type="text" id="CustomerStatus" v-model="updateClient.Customer_Status_ID" required>
-
+          <input type="text" id="Birthday" v-model="newClient.Birthday" required><br><br>
+      
+          <label for="CustomerCategory">CustomerCategory:</label>
+          <input type="text" id="CustomerCategory" v-model="newClient.Customer_Category_ID" required><br><br>
+      
+          <label for="CustomerStatus">CustomerStatus:</label>
+          <input type="text" id="CustomerStatus" v-model="newClient.Customer_Status_ID" required><br><br>
+      
           <label for="StateProvinceTerritory">State/Province/Territory:</label>
-          <input type="text" id="StateProvinceTerritory" v-model="updateClient.State_Province_Territory_ID" required>
-
-        <button class="bg-orange-800 text-white rounded" type="submit">Update Client</button>
-        </form>
+          <input type="text" id="StateProvinceTerritory" v-model="newClient.State_Province_Territory_ID" required><br><br>
+        </div>
+        
+      </form>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+   
+     
+      
+     <h2 class="text-2xl font-bold">Update Existing Client</h2>
+     <form @submit.prevent="updateClientFunction" class="grid grid-cols-2 gap-x-40 gap-y-15">
+      <div>
+          <label for="ID">Enter ID to update:</label>
+          <input type="text" id="ID" v-model="updateClient.Customer_ID" required><br><br>
+  
+          <label for="Name">Name:</label>
+          <input type="text" id="Name" v-model="updateClient.Customer_Name" required><br><br>
+  
+          <label for="Address">Address:</label>
+          <input type="text" id="Address" v-model="updateClient.Address" required><br><br>
+  
+          <label for="City">City:</label>
+          <input type="text" id="City" v-model="updateClient.City" required><br><br>
+  
+          <label for="Zipcode">Zipcode:</label>
+          <input type="text" id="Zipcode" v-model="updateClient.Zipcode" required><br><br>
+  
+          <label for="email">Email:</label>
+          <input type="text" id="email" v-model="updateClient.Email" required><br><br>
+          <button class="col-span-2 bg-orange-800 text-white rounded" type="submit">Update Client</button>
       </div>
+      <div>
+          <label for="PhoneNumber">Phone Number:</label>
+          <input type="text" id="PhoneNumber" v-model="updateClient.Phone_Number" required><br><br>
+  
+          <label for="Birthday">Birthday:</label>
+          <input type="text" id="Birthday" v-model="updateClient.Birthday" required><br><br>
+  
+  
+                  <label for="CustomerCategory">CustomerCategory:</label>
+                  <input type="text" id="CustomerCategory" v-model="updateClient.Customer_Category_ID" required><br><br>
+             
+          
+                  <label for="CustomerStatus">CustomerStatus:</label>
+                  <input type="text" id="CustomerStatus" v-model="updateClient.Customer_Status_ID" required><br><br>
+         
+          
+  
+          <label for="StateProvinceTerritory">State/Province/Territory:</label>
+          <input type="text" id="StateProvinceTerritory" v-model="updateClient.State_Province_Territory_ID" required><br><br>
+      </div>
+      
+  </form>
+      <div></div>
+      <div></div>
       <div></div>
       <div></div>
       <div class="ml-10"><h2 class="text-2xl font-bold">Delete Client</h2></div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 min-w-full shadow-md rounded"> 
+
         <form @submit.prevent="deleteClientFunction"><br>
 
           <label for="ID">Enter ID to Delete:</label>
@@ -188,7 +196,7 @@
 
         <button class="bg-orange-800 text-white rounded" type="submit">Delete Client</button>
         </form>
-      </div>
+
     </div>
  
   </main>
@@ -427,8 +435,19 @@ if (newClient.value.ClientLastName !== null && newClient.value.ClientFirstName !
 //todo: Make it so that clicking an item in the table allows the user to see a description of the item
 //fix css and styling to be more pleasing to end users
 </script>
+<style>
+form {
+  margin-bottom: 20px; /* Add margin at the bottom of the form */
+}
 
+label {
+  margin-bottom: 5px; /* Add margin below each label */
+}
 
+input {
+  margin-bottom: 10px; /* Add margin below each input */
+}
+</style>
 <!-- Options API -->
 <!-- <script>
 //import functionalities for validation
