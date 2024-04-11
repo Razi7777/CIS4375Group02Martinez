@@ -43,11 +43,16 @@
     </section>
 
     <!-- Event Calendar Section -->
-    <section class="event-calendar">
-      <h2>Upcoming Events</h2>
-      <ul class="events-list">
-        <!-- Dynamically render events here -->
-      </ul>
+    <section class="event-announcements">
+      <h2><strong>Current and Upcoming Events</strong></h2>
+      <div class="event-box">
+        <div v-for="event in events" :key="event.Event_ID">
+          <h3>{{ event.Event_Description }}</h3>
+          <p><strong>Date:</strong> {{ formatDate(event.Event_Date) }}</p>
+          <p><strong>Address:</strong> {{ event.Address }}, {{ event.City }}, {{ event.Zipcode }}</p>
+          <hr v-if="event !== events[events.length - 1]">
+        </div>
+      </div>
     </section>
   </div>
 </template>
@@ -57,15 +62,32 @@ export default {
   data() {
     return {
       // Add your data properties for featured items, blog posts, and events here
+      events: [],
     };
   },
   methods: {
     // Add your methods for handling dynamic content here
+    async fetchEvents() {
+      try {
+        const response = await fetch('http://localhost:3000/api/events');
+        const data = await response.json();
+        this.events = data.filter(event => event.Event_Status_ID === 1);
+      } catch (error) {
+        console.error('Error fetching events:', error);
+      }
+    },
+    formatDate(dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    },
+  },
+  mounted() {
+  this.fetchEvents();
   },
 };
 </script>
 
-<style>
+<style scoped>
 .page-container {
   font-family: 'Arial', sans-serif;
 }
@@ -136,20 +158,25 @@ export default {
   gap: 1rem;
 }
 
-.event-calendar {
+.event-announcements {
   padding: 2rem;
   text-align: center;
 }
 
-.events-list {
-  list-style-type: none;
-  padding: 0;
+.event-box {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
 }
 
-.events-list .event-item {
-  background-color: #eee;
+.event-box h3 {
   margin-bottom: 0.5rem;
-  padding: 0.5rem;
+}
+
+.event-box p {
+  margin: 0;
 }
 
 @media (max-width: 768px) {
