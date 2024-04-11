@@ -367,14 +367,11 @@ export default {
       axios.get('http://localhost:3000/api/events')
         .then(response => {
           this.allEvents = response.data.sort((a, b) => new Date(a.Event_Date) - new Date(b.Event_Date));
+          this.allEventsForUpdate = response.data.sort((a, b) => new Date(a.Event_Date) - new Date(b.Event_Date));
         })
         .catch(error => {
           console.error('Error fetching events:', error);
         });
-    },
-    emitUpcomingEvents() {
-    this.$emit('upcoming-events', this.upcomingEvents);
-    this.$router.push({ name: 'Home', params: { upcomingEvents: this.upcomingEvents } });
     },
     createEvent() {
       axios.post('http://localhost:3000/api/events', this.newEvent)
@@ -521,16 +518,6 @@ export default {
         console.error('Error fetching events:', error);
       });
   },
-  created() {
-  axios.get('http://localhost:3000/api/events')
-    .then(response => {
-      this.events = response.data;
-      this.$emit('upcoming-events', this.upcomingEvents);
-    })
-    .catch(error => {
-      console.error('Error fetching events:', error);
-    });
-  }
 };
 </script>
 

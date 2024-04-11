@@ -2,7 +2,7 @@
 const express = require('express');
 /*const db = require('../DbConnection');*/
 
-const bodyParser = require('body-parser');
+/*const bodyParser = require('body-parser');*/
 const pool = require('../DbConnection.js');
 const app = require('../app.js');
 const router = express.Router();
