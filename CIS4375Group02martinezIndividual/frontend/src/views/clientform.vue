@@ -10,24 +10,24 @@
 
 
 <div class="px-10 pt-20">
-    <div class="grid grid-cols-1 md:grid-cols-6 gap-x-6 gap-y-10 items-center"> <!-- Added items-center -->
-      <div></div>
+  <div class="grid flex flex-col md:flex-row gap-x-6 gap-y-10 items-center bg-gray-300 p-5 rounded-lg shadow-md"> <!-- Added items-center -->
         <!--Search Client By selection-->
+        <div class=col-span-1>
         <h2 class="text-2xl font-bold">Search Clients</h2>
-        <div class="col-span-1 md:col-span-2">
+        </div>
             <!-- Search form -->
             <form>
-                <div class="flex flex-col mt-5">
+              
                     <label class="block">
                         <input type="text"
-                               class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                               class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                v-model="searchBy" :placeholder="showFirstForm ? 'Enter Client City' : 'Enter Client ID'"/>
                     </label>
-                </div>
+
             </form>
 
             <!-- Toggle form button -->
-            <div class="mt-5">
+            <div class=col-span-1>
                 <button class="bg-orange-800 text-white rounded px-4 py-2 mr-4" @click="toggleForm">
                     {{ showFirstForm ? 'Search By Client ID' : 'Search By Client City' }}
                 </button>
@@ -37,66 +37,70 @@
             <button class="bg-orange-800 text-white rounded px-4 py-2 mr-4" @click="searchClients" type="submit">
                 Search Clients
             </button>
-            </div>
-        </div>
+          </div>
+        
     </div>
 </div>
 
 
 
 
-
+ <div class="px-10 pt-20"></div>
     <hr class="mt-10 mb-10" />
-    <div class="grid grid-cols-1 md:grid-cols-6 gap-x-6 gap-y-10">
+    <div class="grid flex flex-col md:flex-row gap-x-6 gap-y-10 items-center bg-gray-300 p-5 rounded-lg shadow-md">
 
-      <div class="ml-10">
+      <div>
         <h2 class="text-2xl font-bold">List of Clients</h2>
         <!--h3 class="italic">Click table row to view Order details</h3-->
       </div>
       <!--Table showing list of Clients-->
-      <div class="flex flex-col col-span-4 max-h-[220px] max-w-[3000] overflow-y-auto">
+      <div class="overflow-x-auto overflow-y-auto w-100 h-64">
         <table class="w-full  shadow-md rounded">
           <thead class="bg-gray-50 text-xl">
             <tr>
-              <th class="p-4 text-left">Client ID</th>
-              <th class="p-4 text-left">Client Name</th>
-              <th class="p-4 text-left">Address</th>
-              <th class="p-4 text-left">City</th>
-              <th class="p-4 text-left">Zipcode</th>
-              <th class="p-4 text-left">Email</th>
-              <th class="p-4 text-left">Phone Number</th>
+              <th class="p-4 text-left w-8">Client ID</th>
+              <th class="p-4 text-left w-8">Client Name</th>
+              <th class="p-4 text-left w-8">Address</th>
+              <th class="p-4 text-left w-8">City</th>
+              <th class="p-4 text-left w-8">Zipcode</th>
+              <th class="p-4 text-left w-20">Email</th>
+              <th class="p-4 text-left w-8">Phone Number</th>
+              <th class="p-4 text-left w-8">Customer Category</th>
+              <th class="p-4 text-left w-8">Customer Status</th>
             </tr>
           </thead>
           <tbody  v-if="result && result.length > 0" class="divide-y divide-gray-300">
             <tr v-for="Client in result" :key="Client.ClientID">
-              <td class="p-2 text-left">{{ Client.Customer_ID }}</td>
-              <td class="p-2 text-left">{{ Client.Customer_Name }}</td>
-              <td class="p-2 text-left">{{ Client.Address }}</td>
-              <td class="p-2 text-left">{{ Client.City }}</td>
-              <td class="p-2 text-left">{{ Client.Zipcode }}</td>
-              <td class="p-2 text-left">{{ Client.Email }}</td>
-              <td class="p-2 text-center">{{ Client.Phone_Number }}</td>
+              <td class="p-2 text-left w-8">{{ Client.Customer_ID }}</td>
+              <td class="p-2 text-left w-8">{{ Client.Customer_Name }}</td>
+              <td class="p-2 text-left w-8">{{ Client.Address }}</td>
+              <td class="p-2 text-left w-8">{{ Client.City }}</td>
+              <td class="p-2 text-left w-8">{{ Client.Zipcode }}</td>
+              <td class="p-2 text-left w-17">{{ Client.Email }}</td>
+              <td class="p-2 text-left w-8">{{ Client.Phone_Number }}</td>
               
             </tr>
           </tbody>
           <tbody v-else class="divide-y divide-gray-300">
             <tr v-for="Client in Clients" :key="Client.ClientID">
-              <td class="p-2 text-left">{{ Client.Customer_ID }}</td>
-              <td class="p-2 text-left">{{ Client.Customer_Name }}</td>
-              <td class="p-2 text-left">{{ Client.Address }}</td>
-              <td class="p-2 text-left">{{ Client.City }}</td>
-              <td class="p-2 text-left">{{ Client.Zipcode }}</td>
-              <td class="p-2 text-left">{{ Client.Email }}</td>
-              <td class="p-2 text-center">{{ Client.Phone_Number }}</td>
+              <td class="p-2 text-left w-8">{{ Client.Customer_ID }}</td>
+              <td class="p-2 text-left w-8">{{ Client.Customer_Name }}</td>
+              <td class="p-2 text-left w-8">{{ Client.Address }}</td>
+              <td class="p-2 text-left w-8">{{ Client.City }}</td>
+              <td class="p-2 text-left w-8">{{ Client.Zipcode }}</td>
+              <td class="p-2 text-left w-17">{{ Client.Email }}</td>
+              <td class="p-2 text-left w-8">{{ Client.Phone_Number }}</td>
             </tr>
           </tbody>
         </table>
       </div>
+      </div>
+      
       <div></div>
       <div class="ml-10">
         <h2 class="text-2xl font-bold">Add New Client</h2>
       </div>
-      <form @submit.prevent="addnewClient" class="grid grid-cols-2 gap-x-40 gap-y-15">
+      <form @submit.prevent="addnewClient" class="grid flex flex-col md:flex-row gap-x-6 gap-y-10 items-center bg-gray-300 p-5 rounded-lg shadow-md">
         <div>
           <label for="Name">Name:</label>
           <input type="text" id="Name" v-model="newClient.Customer_Name" required><br><br>
@@ -124,8 +128,12 @@
           <label for="CustomerCategory">CustomerCategory:</label>
           <input type="text" id="CustomerCategory" v-model="newClient.Customer_Category_ID" required><br><br>
       
-          <label for="CustomerStatus">CustomerStatus:</label>
-          <input type="text" id="CustomerStatus" v-model="newClient.Customer_Status_ID" required><br><br>
+          <label for="CustomerCategory">Customer Category:</label>
+          <select id="CustomerCategory" v-model="newClient.Customer_Category_ID" required>
+          <option value="1">Active</option>
+          <option value="2">Inactive</option>
+          <option value="3">Suspended</option>
+          </select><br><br>
       
           <label for="StateProvinceTerritory">State/Province/Territory:</label>
           <input type="text" id="StateProvinceTerritory" v-model="newClient.State_Province_Territory_ID" required><br><br>
@@ -200,7 +208,7 @@
       </div>
         </form>
 
-    </div>
+
  
   </main>
 </template>
@@ -438,17 +446,309 @@ if (newClient.value.ClientLastName !== null && newClient.value.ClientFirstName !
 //todo: Make it so that clicking an item in the table allows the user to see a description of the item
 //fix css and styling to be more pleasing to end users
 </script>
-<style>
-form {
-  margin-bottom: 20px; /* Add margin at the bottom of the form */
+<style scoped>
+
+.event-calendar-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  flex-grow: 1;
 }
 
-label {
-  margin-bottom: 5px; /* Add margin below each label */
+.event-calendar {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  flex-grow: 1;
 }
 
-input {
-  margin-bottom: 10px; /* Add margin below each input */
+.event-list-form-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.event-list-container,
+.event-form-container,
+.event-update-form-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0;
+}
+
+.event-update-form-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.event-form,
+.event-update-form {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 10px;
+  align-items: start;
+}
+
+.event-update-form-header h3 {
+  margin: 0;
+}
+
+.event-update-form h3 {
+  margin-bottom: 10px;
+}
+
+.event-form h3,
+.event-update-form h3 {
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.fancy-container {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.fancy-button {
+  background-color: #ff6347;
+  color: #fff;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.fancy-button[type="submit"] {
+  grid-column: span 2;
+  justify-self: center;
+  width: 50%;
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.fancy-button:hover {
+  background-color: #e65c47;
+}
+
+.fancy-form {
+  display: grid;
+  grid-gap: 10px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #fff;
+  background-position: right 8px center;
+  background-repeat: no-repeat;
+  background-size: auto 50%;
+  padding-right: 28px;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+.announcement {
+  background-color: #f5f5f5;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+.announcement-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.announcement-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+.ribbon {
+  background-color: #ff6347;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+.event-description {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+.event-details {
+  display: flex;
+  justify-content: space-between;
+}
+.event-details p {
+  margin: 0;
+  color: #777;
+}
+.event-details strong {
+  color: #333;
+}
+.calendar {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+.calendar-header {
+  background-color: #333;
+  color: #fff;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.calendar-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+.month-switcher {
+  display: flex;
+  align-items: center;
+}
+.month-switcher button {
+  background-color: #ff6347;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px;
+}
+.month-switcher .current-month {
+  margin: 0 8px;
+  font-size: 1rem;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+th,
+td {
+  padding: 12px;
+  text-align: center;
+  position: relative;
+}
+.weekdays th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+  color: #333;
+}
+.event-day {
+  background-color: #e0f0ff;
+  cursor: pointer;
+}
+.today {
+  background-color: #ffd699;
+}
+.day-number {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  color: #333;
+}
+.event-details-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+.event-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #ff6347;
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.popup-content {
+  background-color: #fff;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+.popup-header {
+  background-color: #333;
+  color: #fff;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.popup-header h4 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+.close-btn {
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.popup-body {
+  padding: 16px;
+}
+.popup-body p {
+  margin: 8px 0;
+}
+.popup-body strong {
+  color: #333;
+}
+
+.success-notice {
+  color: green;
+}
+
+.error-notice {
+  color: red;
 }
 </style>
 <!-- Options API -->
