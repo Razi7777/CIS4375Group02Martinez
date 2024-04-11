@@ -80,7 +80,7 @@
         <div class="event-list-container">
           <div class="event-list fancy-container">
             <h3><strong><center>Event List</center></strong></h3>
-            <button class="fancy-button" @click="fetchAllEvents">Fetch All Events</button>
+            <center><button class="fancy-button" @click="fetchAllEvents">Fetch All Events</button></center>
             <table v-if="allEvents.length > 0">
               <thead>
                 <tr>
