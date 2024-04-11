@@ -45,7 +45,7 @@
 
 
 
- <div class="px-10 pt-20"></div>
+ <div class="px-10 pt-20">
     <hr class="mt-10 mb-10" />
     <div class="grid flex flex-col md:flex-row gap-x-6 gap-y-10 items-center bg-gray-300 p-5 rounded-lg shadow-md">
 
@@ -93,15 +93,17 @@
             </tr>
           </tbody>
         </table>
+        </div>
       </div>
       </div>
       
       <div></div>
+      <div class="px-10 pt-20">
       <div class="ml-10">
         <h2 class="text-2xl font-bold">Add New Client</h2>
       </div>
-      <form @submit.prevent="addnewClient" class="grid flex flex-col md:flex-row gap-x-6 gap-y-10 items-center bg-gray-300 p-5 rounded-lg shadow-md">
-        <div>
+      <form @submit.prevent="addnewClient" class="grid flex grid-cols-2  flex-col md:flex-row gap-x-6 gap-y-10 items-center bg-gray-300 p-5 rounded-lg shadow-md">
+        <div class="col-span-1 mx-auto">
           <label for="Name">Name:</label>
           <input type="text" id="Name" v-model="newClient.Customer_Name" required><br><br>
       
@@ -118,7 +120,7 @@
           <input type="text" id="email" v-model="newClient.Email" required><br><br>
           <button class="col-span-2 bg-orange-800 text-white rounded" type="submit">Add Client</button>
         </div>
-        <div>
+        <div class="col-span-1 mx-auto">
           <label for="PhoneNumber">Phone Number:</label>
           <input type="text" id="PhoneNumber" v-model="newClient.Phone_Number" required><br><br>
       
@@ -140,6 +142,7 @@
         </div>
         
       </form>
+    </div>
         <div></div>
         <div></div>
         <div></div>
