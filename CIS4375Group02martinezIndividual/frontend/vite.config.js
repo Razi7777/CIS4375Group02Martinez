@@ -19,7 +19,9 @@ export default defineConfig({
   },
 
   define: {
-    'process.env': {}, // Include any other global variables that need to be defined
+    define: {
+      'process.env.API_URL': JSON.stringify(process.env.API_URL),
+    },    
     __VUE_OPTIONS_API__: true,
     __VUE_PROD_DEVTOOLS__: false,
     __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: true, // Set this to false in production if you want

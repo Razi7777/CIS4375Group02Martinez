@@ -4,7 +4,7 @@
     <section class="hero">
       <h1 class="hero-title">Discover Style with a Story</h1>
       <p class="hero-subtitle">Every piece has a past. Make it part of your future.</p>
-      <button class="hero-cta">Explore Now</button>
+      <button class="hero-cta" @click="navigateToPoshmark">Explore Now</button>
     </section>
 
     <!-- How It Works Section -->
@@ -66,26 +66,34 @@ export default {
     };
   },
   methods: {
-    // Add your methods for handling dynamic content here
-    async fetchEvents() {
-      try {
-        const response = await fetch('http://localhost:3000/api/events');
-        const data = await response.json();
-        this.events = data.filter(event => event.Event_Status_ID === 1);
-      } catch (error) {
-        console.error('Error fetching events:', error);
-      }
+    navigateToPoshmark() {
+      window.open('https://poshmark.com/closet/trenditower', '_blank');
     },
     formatDate(dateString) {
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       return new Date(dateString).toLocaleDateString(undefined, options);
     },
+    // Define the fetchEvents method
+    async fetchEvents() {
+      try {
+        const response = await fetch('http://localhost:3000/api/events'); // Adjust the URL to your needs
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        this.events = data.filter(event => event.Event_Status_ID === 1);
+      } catch (error) {
+        console.error('Error fetching events:', error);
+        // Optionally handle the error in a user-friendly way, e.g., show a notification
+      }
+    },
   },
   mounted() {
-  this.fetchEvents();
+    this.fetchEvents();
   },
 };
 </script>
+
 
 <style scoped>
 .page-container {

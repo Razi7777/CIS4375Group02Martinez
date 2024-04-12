@@ -7,16 +7,15 @@
         <img src="@/assets/Marisol.svg" alt="Logo" class="logo-svg"/>
         <div class="navbar container">
           <div class="mobile-container nav-container-mobile">
-            <input class="checkbox" type="checkbox" name="" id="" />
-            <div class="hamburger-lines">
+          <input class="checkbox" type="checkbox" v-model="isMenuOpen" />
+          <div class="hamburger-lines" @click="toggleMenu">
               <span class="line line1"></span>
               <span class="line line2"></span>
               <span class="line line3"></span>
             </div>
             <div class="menu-items">
-              <router-link to="/home">Home</router-link>
-              <router-link to="/login" v-if="user.username !== 'username1' && user.username !== 'username2'">Login</router-link>
-
+            <router-link to="/home" @click="closeMenu">Home</router-link>
+            <router-link to="/login" v-if="user.username !== 'username1' && user.username !== 'username2'" @click="closeMenu">Login</router-link>
             <li v-if="user.username === 'username1'">
               <router-link to="/clientform">Clients</router-link>
             </li>
@@ -141,46 +140,61 @@
 
 <!-- Composition API -->
 <script>
-import { useLoggedInUserStore } from './store/loggedInUser'
-import { getOrgName } from './api/api'
-import { useToast } from 'vue-toastification'
-import { ref } from 'vue'
-
+import { ref, onMounted } from 'vue';
+import { useLoggedInUserStore } from './store/loggedInUser';
+import { getOrgName } from './api/api';
+import { useToast } from 'vue-toastification';
 
 export default {
-
   setup() {
     const user = useLoggedInUserStore();
     const orgName = ref('Dataplatform');
-    //Notifications
+    // Create a reactive state variable for the menu open/close state
+    const isMenuOpen = ref(false);
     const toast = useToast();
-    const username = user.username;
-    const password = user.password;
-    const logout = user.logout;
 
-
-    const fetchOrgName = async () => {
+    // Fetch organization name on component mount
+    onMounted(async () => {
       try {
         orgName.value = await getOrgName();
       } catch (error) {
-        throw error;
+        toast.error('Error fetching organization name');
+        console.error(error);
       }
-    }
-    //getting prop from our pages to update the nav bar based on page
-    console.log(username, password);
-    fetchOrgName();
-    return { user, orgName, username, password, toast, logout };
+    });
+
+    // Toggle the menu open/close state
+    const toggleMenu = () => {
+      isMenuOpen.value = !isMenuOpen.value;
+    };
+
+    // Close the menu by setting the state to false
+    const closeMenu = () => {
+      isMenuOpen.value = false;
+    };
+
+    // Ensure the logout method correctly clears the state and performs logout logic
+    const logout = () => {
+      // Assuming logout is a method in your user store that you want to call
+      user.logout();
+      closeMenu();
+    };
+
+    // Remove unused props or return only what is needed
+    return {
+      user,
+      orgName,
+      isMenuOpen,
+      toggleMenu,
+      closeMenu,
+      logout
+    };
   },
-      props: {
-    userStore: {
-      type: Object,
-      required: true,
-    },
-      }
-}
-// reference:
-// https://vuejs.org/api/composition-api-setup
+};
 </script>
+
+<!-- // reference:
+// https://vuejs.org/api/composition-api-setup -->
 
 <!-- Options API -->
 <!-- <script>
