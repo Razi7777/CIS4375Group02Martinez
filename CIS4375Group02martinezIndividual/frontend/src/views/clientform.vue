@@ -2,18 +2,18 @@
 <template>
   <main class='client-details-container'>
     <!--Header-->
-    <h1 class="font-bold text-4xl text-orange-800 tracking-widest text-center mt-10">
-        Client Details
+    <h1 class="font-bold text-4xl text-red-300 tracking-widest text-center mt-10">
+        Customer Details
     </h1>
 
 
 
 
 <div class="px-10 pt-20">
-  <div class="grid flex flex-col md:flex-row gap-x-6 gap-y-10 items-center bg-gray-300 p-5 rounded-lg shadow-md"> <!-- Added items-center -->
+  <div class="grid flex flex-col md:flex-row gap-x-6 gap-y-10 items-center max-w-lg bg-gray-300 p-5 rounded-lg shadow-md"> <!-- Added items-center -->
         <!--Search Client By selection-->
         <div class=col-span-1>
-        <h2 class="text-2xl font-bold">Search Clients</h2>
+        <h2 class="text-2xl font-bold">Search Customers</h2>
         </div>
             <!-- Search form -->
             <form>
@@ -21,22 +21,24 @@
                     <label class="block">
                         <input type="text"
                                class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                               v-model="searchBy" :placeholder="showFirstForm ? 'Enter Client City' : 'Enter Client ID'"/>
+                               v-model="searchBy" :placeholder="showFirstForm ? 'Enter Customer City' : 'Enter Customer ID'"/>
                     </label>
 
             </form>
 
             <!-- Toggle form button -->
             <div class=col-span-1>
-                <button class="bg-orange-800 text-white rounded px-4 py-2 mr-4" @click="toggleForm">
-                    {{ showFirstForm ? 'Search By Client ID' : 'Search By Client City' }}
+                <button class="bg-red-300 text-white rounded px-4 py-2 mr-4" @click="toggleForm">
+                    {{ showFirstForm ? 'Search By Customer ID' : 'Search By Customer City' }}
                 </button>
-                <button class="bg-orange-800 text-white rounded px-4 py-2 mr-4" @click="clearData" type="submit">
+                <button class="bg-red-300 text-white rounded px-4 py-2 mr-4" @click="clearData" type="submit">
                 Clear Filter
             </button>
-            <button class="bg-orange-800 text-white rounded px-4 py-2 mr-4" @click="searchClients" type="submit">
-                Search Clients
+            <div class="pt-6">
+            <button class="bg-red-300 text-white rounded px-4 pt-2 py-2 mr-4" @click="searchClients" type="submit">
+                Search Customers
             </button>
+          </div>
           </div>
         
     </div>
@@ -50,7 +52,7 @@
     <div class="grid flex flex-col md:flex-row gap-x-6 gap-y-10 items-center bg-gray-300 p-5 rounded-lg shadow-md">
 
       <div>
-        <h2 class="text-2xl font-bold">List of Clients</h2>
+        <h2 class="text-2xl font-bold">List of Customers</h2>
         <!--h3 class="italic">Click table row to view Order details</h3-->
       </div>
       <!--Table showing list of Clients-->
@@ -58,8 +60,8 @@
         <table class="w-full  shadow-md rounded">
           <thead class="bg-gray-50 text-xl">
             <tr>
-              <th class="p-4 text-left w-8">Client ID</th>
-              <th class="p-4 text-left w-8">Client Name</th>
+              <th class="p-4 text-left w-8">Customer ID</th>
+              <th class="p-4 text-left w-8">Customer Name</th>
               <th class="p-4 text-left w-8">Address</th>
               <th class="p-4 text-left w-8">City</th>
               <th class="p-4 text-left w-8">Zipcode</th>
@@ -78,7 +80,16 @@
               <td class="p-2 text-left w-8">{{ Client.Zipcode }}</td>
               <td class="p-2 text-left w-17">{{ Client.Email }}</td>
               <td class="p-2 text-left w-8">{{ Client.Phone_Number }}</td>
-              
+              <td class="p-2 text-left w-8">
+                {{ Client.Customer_Category_ID === 1 ? 'Subscribed' : (Client.Customer_Category_ID === 2 ? 'Guest' : '') }}
+              </td>
+              <td class="p-2 text-left w-8">
+                {{ 
+                  Client.Customer_Status_ID === 1 ? 'Active' : 
+                  (Client.Customer_Status_ID === 2 ? 'Inactive' : 
+                  (Client.Customer_Status_ID === 3 ? 'Suspended' : '')) 
+                }}
+              </td>
             </tr>
           </tbody>
           <tbody v-else class="divide-y divide-gray-300">
@@ -90,6 +101,16 @@
               <td class="p-2 text-left w-8">{{ Client.Zipcode }}</td>
               <td class="p-2 text-left w-17">{{ Client.Email }}</td>
               <td class="p-2 text-left w-8">{{ Client.Phone_Number }}</td>
+              <td class="p-2 text-left w-8">
+                {{ Client.Customer_Category_ID === 1 ? 'Subscribed' : (Client.Customer_Category_ID === 2 ? 'Guest' : '') }}
+              </td>
+              <td class="p-2 text-left w-8">
+                {{ 
+                  Client.Customer_Status_ID === 1 ? 'Active' : 
+                  (Client.Customer_Status_ID === 2 ? 'Inactive' : 
+                  (Client.Customer_Status_ID === 3 ? 'Suspended' : '')) 
+                }}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -100,45 +121,52 @@
       <div></div>
       <div class="px-10 pt-20">
       <div class="ml-10">
-        <h2 class="text-2xl font-bold">Add New Client</h2>
+        <h2 class="text-2xl font-bold">Add New Customer</h2>
       </div>
-      <form @submit.prevent="addnewClient" class="grid flex grid-cols-2  flex-col md:flex-row gap-x-6 gap-y-10 items-center bg-gray-300 p-5 rounded-lg shadow-md">
-        <div class="col-span-1 mx-auto">
-          <label for="Name">Name:</label>
-          <input type="text" id="Name" v-model="newClient.Customer_Name" required><br><br>
+      <form @submit.prevent="addnewClient" class="grid flex grid-cols-2 max-w-lg flex-col md:flex-row gap-x-6 gap-y-10 bg-gray-300 p-5 rounded-lg shadow-md">
+        <div class="col-span-1 ">
+          <label for="Name"></label>
+          <input type="text" id="Name" placeholder="Enter name" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newClient.Customer_Name" required><br><br>
       
-          <label for="Address">Address:</label>
-          <input type="text" id="Address" v-model="newClient.Address" required><br><br>
+          <label for="Address"></label>
+          <input type="text" id="Address" placeholder="Address"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newClient.Address" required><br><br>
+          
+
+          <label for="City"></label>
+          <input type="text" id="City" placeholder="City" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newClient.City" required><br><br>
       
-          <label for="City">City:</label>
-          <input type="text" id="City" v-model="newClient.City" required><br><br>
+          <label for="Zipcode"></label>
+          <input type="text" id="Zipcode" placeholder="Zipcode" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newClient.Zipcode" required><br><br>
       
-          <label for="Zipcode">Zipcode:</label>
-          <input type="text" id="Zipcode" v-model="newClient.Zipcode" required><br><br>
-      
-          <label for="email">Email:</label>
-          <input type="text" id="email" v-model="newClient.Email" required><br><br>
-          <button class="col-span-2 bg-orange-800 text-white rounded" type="submit">Add Client</button>
+          <label for="email"></label>
+          <input type="text"  placeholder="Email"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"  id="email" v-model="newClient.Email" required><br><br>
+
+          <button class="col-span-2 bg-red-300 text-white rounded" type="submit">Add Customer</button>
         </div>
-        <div class="col-span-1 mx-auto">
-          <label for="PhoneNumber">Phone Number:</label>
-          <input type="text" id="PhoneNumber" v-model="newClient.Phone_Number" required><br><br>
+        <div class="col-span-1">
+          <label for="PhoneNumber"></label>
+          <input type="text" id="PhoneNumber" placeholder="Phone Number xxx-xxx-xxxx"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newClient.Phone_Number" required><br><br>
       
-          <label for="Birthday">Birthday:</label>
-          <input type="text" id="Birthday" v-model="newClient.Birthday" required><br><br>
+          <label for="Birthday"></label>
+          <input type="text" id="Birthday" placeholder="Birthday yyyy/mm/dd"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newClient.Birthday" required><br><br>
       
-          <label for="CustomerCategory">CustomerCategory:</label>
-          <input type="text" id="CustomerCategory" v-model="newClient.Customer_Category_ID" required><br><br>
-      
-          <label for="CustomerCategory">Customer Category:</label>
-          <select id="CustomerCategory" v-model="newClient.Customer_Category_ID" required>
+          <label for="CustomerCategory">Customer Category: </label><br>
+          <select id="CustomerCategory" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newClient.Customer_Category_ID" required>
+          <option value="1">Subscribed</option>
+          <option value="2">Guest</option>
+          </select><br><br>
+
+          <label for="CustomerStatus">Customer Status: </label><br>
+          <select id="CustomerStatus" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newClient.Customer_Status_ID" required>
           <option value="1">Active</option>
           <option value="2">Inactive</option>
           <option value="3">Suspended</option>
           </select><br><br>
       
-          <label for="StateProvinceTerritory">State/Province/Territory:</label>
-          <input type="text" id="StateProvinceTerritory" v-model="newClient.State_Province_Territory_ID" required><br><br>
+          <label for="CustomerStatus">State/Province/Territory: </label><br>
+          <select class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newClient.State_Province_Territory_ID">
+            <option v-for="Territory in Territories" :key="Territory.State_Province_Territory_ID" :value="Territory.State_Province_Territory_ID">{{ Territory.State_Province_Territory }}</option>
+          </select>
         </div>
         
       </form>
@@ -148,68 +176,83 @@
         <div></div>
         <div></div>
    
-     
+     <div class="px-10 pt-20">
       <div class="ml-10"> 
-     <h2 class="text-2xl font-bold">Update Existing Client</h2>
+     <h2 class="text-2xl font-bold">Update Existing Customer</h2>
       </div> 
-     <form @submit.prevent="updateClientFunction" class="grid grid-cols-2 gap-x-40 gap-y-15">
+     <form @submit.prevent="updateClientFunction" class="grid flex grid-cols-2 max-w-lg flex-col md:flex-row gap-x-6 gap-y-10 bg-gray-300 p-5 rounded-lg shadow-md">
       <div>
-          <label for="ID">Enter ID to update:</label>
-          <input type="text" id="ID" v-model="updateClient.Customer_ID" required><br><br>
+          <label for="ID"></label>
+          <input type="text" id="ID" placeholder="Enter ID to update"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updateClient.Customer_ID" required><br><br>
   
-          <label for="Name">Name:</label>
-          <input type="text" id="Name" v-model="updateClient.Customer_Name" required><br><br>
+          <label for="Name"></label>
+          <input type="text" id="Name" placeholder="Enter name"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updateClient.Customer_Name" required><br><br>
   
-          <label for="Address">Address:</label>
-          <input type="text" id="Address" v-model="updateClient.Address" required><br><br>
+          <label for="Address"></label>
+          <input type="text" id="Address"  placeholder="Address" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updateClient.Address" required><br><br>
   
-          <label for="City">City:</label>
-          <input type="text" id="City" v-model="updateClient.City" required><br><br>
+          <label for="City"></label>
+          <input type="text" id="City" placeholder="City"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"  v-model="updateClient.City" required><br><br>
   
-          <label for="Zipcode">Zipcode:</label>
-          <input type="text" id="Zipcode" v-model="updateClient.Zipcode" required><br><br>
+          <label for="Zipcode"></label>
+          <input type="text" id="Zipcode" placeholder="Zipcode"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"  v-model="updateClient.Zipcode" required><br><br>
   
-          <label for="email">Email:</label>
-          <input type="text" id="email" v-model="updateClient.Email" required><br><br>
-          <button class="col-span-2 bg-orange-800 text-white rounded" type="submit">Update Client</button>
+          <label for="email"></label>
+          <input type="text" id="email" placeholder="email"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"  v-model="updateClient.Email" required><br><br>
+          <button class="col-span-2 bg-red-300 text-white rounded" type="submit">Update Customer</button>
       </div>
       <div>
-          <label for="PhoneNumber">Phone Number:</label>
-          <input type="text" id="PhoneNumber" v-model="updateClient.Phone_Number" required><br><br>
+          <label for="PhoneNumber"></label>
+          <input type="text"  placeholder="Phone Number xxx-xxx-xxxx"   class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="PhoneNumber" v-model="updateClient.Phone_Number" required><br><br>
   
-          <label for="Birthday">Birthday:</label>
-          <input type="text" id="Birthday" v-model="updateClient.Birthday" required><br><br>
+          <label for="Birthday"></label>
+          <input type="text" placeholder="Birthday xx/xx/xxxx" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="Birthday" v-model="updateClient.Birthday" required><br><br>
   
   
-                  <label for="CustomerCategory">CustomerCategory:</label>
-                  <input type="text" id="CustomerCategory" v-model="updateClient.Customer_Category_ID" required><br><br>
+                   
+          <label for="CustomerCategory">Customer Category: </label><br>
+          <select id="CustomerCategory" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updateClient.Customer_Category_ID" required>
+          <option value="1">Subscribed</option>
+          <option value="2">Guest</option>
+          </select><br><br>
              
           
-                  <label for="CustomerStatus">CustomerStatus:</label>
-                  <input type="text" id="CustomerStatus" v-model="updateClient.Customer_Status_ID" required><br><br>
-         
-          
+          <label for="CustomerStatus">Customer Status: </label><br>
+          <select id="CustomerStatus" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updateClient.Customer_Status_ID" required>
+          <option value="1">Active</option>
+          <option value="2">Inactive</option>
+          <option value="3">Suspended</option>
+          </select><br><br>
   
-          <label for="StateProvinceTerritory">State/Province/Territory:</label>
-          <input type="text" id="StateProvinceTerritory" v-model="updateClient.State_Province_Territory_ID" required><br><br>
+          <label for="CustomerStatus">State/Province/Territory: </label><br>
+          <select class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updateClient.State_Province_Territory_ID">
+            <option v-for="Territory in Territories" :key="Territory.State_Province_Territory_ID" :value="Territory.State_Province_Territory_ID">{{ Territory.State_Province_Territory }}</option>
+          </select>
       </div>
       
   </form>
+</div>
       <div></div>
       <div></div>
       <div></div>
       <div></div>
+      <div class="px-10 pt-20 pb-20">
       <div class="ml-10"> 
-      <h2 class="text-2xl font-bold">Delete Client</h2>
+      <h2 class="text-2xl font-bold">Delete Customer</h2>
       </div>
-        <form @submit.prevent="deleteClientFunction" class="grid grid-cols-2 gap-x-40 gap-y-15">
+        <form @submit.prevent="deleteClientFunction" class="grid flex grid-cols-2 max-w-lg flex-col md:flex-row gap-x-6 gap-y-10 bg-gray-300 p-5 rounded-lg shadow-md">
         <div>
-          <label for="ID">Enter ID to Delete: </label>
-          <input type="text" id="ID" v-model="deleteClient.Customer_ID" required>
+          <label for="ID"></label>
+          <input type="text" id="ID" placeholder="Enter ID to delete" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="deleteClient.Customer_ID" required>
+          <div class="mt-4">
+          <button class="bg-red-300 text-white rounded" type="submit">Delete Customer</button>
+        </div>
+        </div>
         
-        <button class="bg-orange-800 text-white rounded" type="submit">Delete Client</button>
-      </div>
+     
+      
         </form>
+      </div>
 
 
  
@@ -273,6 +316,13 @@ export default {
 
       //this is the toggle for what to search by
     ]);
+
+    const Territories = ref([
+
+    ]);
+
+
+
     const toggleForm = () => {
       showFirstForm.value = !showFirstForm.value;
     };
@@ -301,13 +351,37 @@ export default {
 
     try {
         const response = await axios.request(options);
-        console.log(response.data);
         Clients.value = response.data;
         Datetimechange();
     } catch (error) {
         console.error(error);
     }
 }
+
+async function loadTerritories() {
+    const options = {
+        method: 'GET',
+        url: 'http://127.0.0.1:3000/Territory/get',
+        
+  
+    };
+
+    try {
+        const response = await axios.request(options);
+        Territories.value = response.data;
+        console.log(Territories.value);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
+
+
+
+
+
+
 
 function Datetimechange() {
       Clients.value.forEach(function(Client) {
@@ -420,6 +494,7 @@ if (newClient.value.ClientLastName !== null && newClient.value.ClientFirstName !
     
  onMounted(() => {
       loadClients();
+      loadTerritories();
     });
 
 
@@ -441,7 +516,9 @@ if (newClient.value.ClientLastName !== null && newClient.value.ClientFirstName !
       loadClients,
       Datetimechange,
       deleteClient,
-      deleteClientFunction
+      deleteClientFunction,
+      Territories,
+      loadTerritories
 
     }
   }
