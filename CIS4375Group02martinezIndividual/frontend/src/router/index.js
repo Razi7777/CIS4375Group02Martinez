@@ -5,7 +5,7 @@ import { useLoggedInUserStore } from '../store/loggedInUser'
 const routes = [
   {
     path: '/',
-    redirect: '/login' // Redirect root URL to login page
+    redirect: '/home' // Redirect root URL to login page
   },
   {
     path: "/login",

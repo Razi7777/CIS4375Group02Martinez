@@ -32,9 +32,6 @@
       </form>
     </div>
     <div>
-    editor username: username1
-    viewer username: username2
-    password: password
     </div>
 </template>
 
@@ -63,12 +60,13 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useLoggedInUserStore} from '@/store/loggedInUser'
+import { useToast } from 'vue-toastification'
 
 export default {
   setup() {
     const router = useRouter()
     const loggedInUserStore = useLoggedInUserStore()
-
+    const toast = useToast()
 
 
     const goToHome = () => {
@@ -97,8 +95,8 @@ export default {
         //goToHome();
         //}     
         else {
-        console.error('Invalid credentials');
-        error.value = "Invalid credentials"; 
+        console.log("login failed")
+        toast.error('Error Logging in: Please Check Username and Password')
       }
     }
 

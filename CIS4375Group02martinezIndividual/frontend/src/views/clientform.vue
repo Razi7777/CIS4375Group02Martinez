@@ -16,24 +16,32 @@
         <h2 class="text-2xl font-bold">Search Customers</h2>
         </div>
             <!-- Search form -->
-            <form>
-              
-                    <label class="block">
-                        <input type="text"
-                               class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                               v-model="searchBy" :placeholder="showFirstForm ? 'Enter Customer City' : 'Enter Customer ID'"/>
-                    </label>
-
-            </form>
+            <div class="col-span-1"  v-if="showFirstForm">
+              <label for="toggleFormSelect1" class="block font-bold mb-2">Select Customer Status</label>
+              <select id="toggleFormSelect1" v-model="searchByStatus" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                  <option value="1">Active</option>
+                  <option value="2">Inactive</option>
+                  <option value="3">Suspended</option>
+              </select>
+          </div>
+          
+          <!-- Toggle form select -->
+          <div  v-else class="col-span-1">
+              <label for="toggleFormSelect2" class="block font-bold mb-2">Select Customer Category</label>
+              <select id="toggleFormSelect2" v-model="searchByCategory" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                  <option value="1">Subscribed</option>
+                  <option value="2">Guest</option>
+              </select>
+          </div>
 
             <!-- Toggle form button -->
             <div class=col-span-1>
                 <button class="bg-red-300 text-white rounded px-4 py-2 mr-4" @click="toggleForm">
-                    {{ showFirstForm ? 'Search By Customer ID' : 'Search By Customer City' }}
+                    {{ showFirstForm ? 'Search By Customer Category' : 'Search By Customer Status' }}
                 </button>
                 <button class="bg-red-300 text-white rounded px-4 py-2 mr-4" @click="clearData" type="submit">
                 Clear Filter
-            </button>
+                </button>
             <div class="pt-6">
             <button class="bg-red-300 text-white rounded px-4 pt-2 py-2 mr-4" @click="searchClients" type="submit">
                 Search Customers
@@ -276,7 +284,8 @@ export default {
   setup() {
     const showFirstForm = ref(true);
     const toast = useToast()
-    const searchBy = ref('');
+    const searchByStatus = ref('');
+    const searchByCategory = ref('');
     const result = ref([]);
     const newClient = ref({
         Customer_Name: '',
@@ -324,20 +333,22 @@ export default {
 
 
     const toggleForm = () => {
-      showFirstForm.value = !showFirstForm.value;
+    showFirstForm.value = !showFirstForm.value;
+    searchByStatus.value = ""; // Clear the search by status value
+    searchByCategory.value = ""; // Clear the search by category value
+ 
     };
-
     function searchClients() {
     result.value = []; // Initialize an array to store filtered orders
     for (let i = 0; i < Clients.value.length; i++) {
-        if (Clients.value[i].City == (searchBy.value)) {
-            result.value.push(Clients.value[i]); // Push matching orders into the result array from the first type of query
+      if (Clients.value[i].Customer_Category_ID == searchByCategory.value) {
+            result.value.push(Clients.value[i]); // Push matching clients into the result array from the first type of query
         }
-        else if (Clients.value[i].Customer_ID == (searchBy.value)) {
+        else if (Clients.value[i].Customer_Status_ID == (searchByStatus.value)) {
             result.value.push(Clients.value[i]); // Push matching orders into the result array from the second type of query
         }
     }
-    client.value = result.value;
+    Clients.value = result.value;
     result.value = [];
   }
     
@@ -354,7 +365,8 @@ export default {
         Clients.value = response.data;
         Datetimechange();
     } catch (error) {
-        console.error(error);
+      toast.error('Error Logging in: Please Check Username and Password')
+
     }
 }
 
@@ -371,7 +383,7 @@ async function loadTerritories() {
         Territories.value = response.data;
         console.log(Territories.value);
     } catch (error) {
-        console.error(error);
+        toast.error('Error Logging in: Please Check Username and Password')
     }
 }
 
@@ -402,10 +414,10 @@ function Datetimechange() {
 
     try {
         const response = await axios.request(options);
-        console.log(response.data);
+        toast.success('Customer Successfully added')
         loadClients();
     } catch (error) {
-        console.error(error);
+       toast.error('Failed to Add Customer')
     }
 }
 
@@ -422,8 +434,9 @@ async function updateClientFunction() {
     const response = await axios.request(options);
     console.log(response.data);
     loadClients();
+    toast.success('Customer Successfully Updated')
   } catch (error) {
-    console.error(error);
+    toast.error('Could not update Customer')
   }
 }
 
@@ -436,10 +449,10 @@ async function deleteClientFunction() {
 
   try {
     const response = await axios.request(options);
-    console.log(response.data);
+    toast.success('Customer Successfully Deleted')
     loadClients(); 
   } catch (error) {
-    console.error(error);
+    toast.error('Could not delete Customer')
   }
 }
 
@@ -488,8 +501,10 @@ if (newClient.value.ClientLastName !== null && newClient.value.ClientFirstName !
 
 
     function clearData() {
-      result.value = [];
-    };
+    loadClients(); // Reload the clients data from the server to reset the table
+    result.value = []; // Clear the search result array
+                     // Reset the form to its initial state
+}
 
     
  onMounted(() => {
@@ -502,7 +517,8 @@ if (newClient.value.ClientLastName !== null && newClient.value.ClientFirstName !
 
     return {
       Clients,
-      searchBy,
+      searchByCategory,
+      searchByStatus,
       searchClients,
       clearData,
       result,
