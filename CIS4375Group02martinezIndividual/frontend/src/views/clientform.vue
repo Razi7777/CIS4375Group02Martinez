@@ -609,7 +609,7 @@ if (newClient.value.ClientLastName !== null && newClient.value.ClientFirstName !
 }
 
 .fancy-button {
-  background-color: #ff6347;
+  background-color: #F07F7F;
   color: #fff;
   font-weight: bold;
   padding: 10px 20px;
@@ -628,7 +628,7 @@ if (newClient.value.ClientLastName !== null && newClient.value.ClientFirstName !
 }
 
 .fancy-button:hover {
-  background-color: #e65c47;
+  background-color: #F07F7F
 }
 
 .fancy-form {
@@ -690,7 +690,7 @@ if (newClient.value.ClientLastName !== null && newClient.value.ClientFirstName !
   color: #333;
 }
 .ribbon {
-  background-color: #ff6347;
+  background-color: #F07F7F;
   color: #fff;
   font-size: 0.8rem;
   font-weight: bold;
@@ -737,7 +737,7 @@ if (newClient.value.ClientLastName !== null && newClient.value.ClientFirstName !
   align-items: center;
 }
 .month-switcher button {
-  background-color: #ff6347;
+  background-color: #F07F7F;
   border: none;
   color: #fff;
   font-size: 1.2rem;
@@ -796,7 +796,7 @@ td {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: #ff6347;
+  background-color: #F07F7F;
   position: absolute;
   bottom: 4px;
   left: 50%;
