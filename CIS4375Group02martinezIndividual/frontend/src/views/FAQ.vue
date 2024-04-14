@@ -1,5 +1,5 @@
 <template>
-  <main class="flex justify-center min-h-screen bg-gray-100">
+  <main class="flex justify-center min-h-screen bg-white-100">
     <div class="flex-grow">
       <AppNavBar :userStore="userStore" />
       <header class="w-full">
@@ -9,7 +9,7 @@
         <div class="max-w-2xl mx-auto p-4 bg-white shadow-lg rounded-lg">
           <ul>
             <li v-for="(faq, index) in faqs" :key="index" class="mb-4">
-              <h2 @click="toggleFAQ(index)" class="cursor-pointer font-semibold text-pink-400">
+              <h2 @click="toggleFAQ(index)" class="cursor-pointer font-semibold forced-colors:#F07F7F">
                 <span class="material-icons" :class="{ 'transform rotate-180': faq.open }">
                   expand_more
                 </span>
@@ -41,7 +41,7 @@ export default {
         },
         {
           question: 'How does your thrift store ensure the quality of the clothes?',
-          answer: 'Our team carefully inspects each item for quality, cleanliness, and integrity. We only sell items that are in good condition and meet our standards for resale.',
+          answer: 'I carefully inspects each item for quality, cleanliness, and integrity. We tend to sell items that are in good condition and meet our standards for resale.',
           open: false
         },
         {
@@ -50,15 +50,25 @@ export default {
           open: false
         },
         {
-          question: 'How often do you restock items?',
-          answer: 'We add new items to our inventory weekly. Follow us on social media or subscribe to our newsletter to get updates on our latest stock.',
-          open: false
-        },
-        {
-          question: 'Do you clean the clothes before selling them?',
-          answer: 'Yes, all clothing is laundered or steamed before being put out for sale. We strive to ensure that you receive your items clean and ready to wear.',
-          open: false
-        },
+        question: 'What size do you carry?',
+        answer: 'We carry a range of sizes from X-Small to 2X-Large to accommodate a variety of body types.',
+        open: false
+      },
+      {
+        question: 'How fast is shipping?',
+        answer: 'Shipments are made on Saturdays and Mondays. If you purchase from Jamble Live, we ship the next day on Tuesdays and Thursdays.',
+        open: false
+      },
+      {
+        question: 'How often do you add new items?',
+        answer: 'New items are added to our inventory weekly on Sundays. Stay tuned to our social media for the latest updates.',
+        open: false
+      },
+      {
+        question: 'Where can I shop?',
+        answer: 'You can shop at multiple places. My third-party shops are Poshmark and Jamble. I post on Poshmark and go live on Jamble Mondays and Wednesdays at 6:55 PM. I also post on my Instagram, where I do story sales and weekly bidding on my feed.',
+        open: false
+      },
         // ... other FAQs
       ],
     };
@@ -71,4 +81,12 @@ export default {
 };
 </script>
 
+<style scoped>
+
+
+h2 {
+  color: #F07F7F; /* This is the hex color for a pinkish tone */
+}
+
+</style>
 

@@ -17,19 +17,16 @@
             <router-link to="/home" @click="closeMenu">Home</router-link>
             <router-link to="/login" v-if="user.username !== 'username1' && user.username !== 'username2'" @click="closeMenu">Login</router-link>
             <li v-if="user.username === 'username1'">
-              <router-link to="/clientform">Clients</router-link>
+              <router-link to="/clientform"  @click="closeMenu ">Clients</router-link>
             </li>
             <li v-if="user.username === 'username1'">
-              <router-link to="/eventform">Events</router-link>       
+              <router-link to="/event-calendar"  @click="closeMenu ">Events</router-link>       
             </li>
             <li v-if="user.username === 'username1'">
-              <router-link to="/serviceform">Services</router-link>
+              <router-link to="/serviceform"  @click="closeMenu ">Services</router-link>
             </li>
             <li v-if="user.username === 'username1' || user.username === 'username2'">
-              <router-link to="/order-tracking">Orders</router-link>
-            </li>
-            <li v-if="user.username === 'username1' || user.username === 'username2'">
-              <router-link to="/findevents">Events</router-link>
+              <router-link to="/order-tracking"  @click="closeMenu ">Orders</router-link>
             </li>
             <li v-if="user.username === 'username1' || user.username === 'username2'">
               <router-link to="/home" @click="logout">Logout</router-link>
@@ -54,18 +51,12 @@
             <li v-if="user.username === 'username1'">
               <router-link to="/clientform">Clients</router-link>
             </li>
-            <li v-if="user.username === 'username1'">
-              <router-link to="/eventform">Events</router-link>
-            </li>
-            <li v-if="user.username === 'username1'">
-              <router-link to="/serviceform">Services</router-link>
-            </li>
+
+
             <li v-if="user.username === 'username1' || user.username === 'username2'">
               <router-link to="/order-tracking">Orders</router-link>
             </li>
-            <li v-if="user.username === 'username1' || user.username === 'username2'">
-              <router-link to="/findevents">Events</router-link>
-            </li>
+
             <li v-if="user.username === 'username1' || user.username === 'username2'">
               <router-link to="/home" @click="logout">Logout</router-link>
             </li>

@@ -9,7 +9,7 @@
         <div class="flex justify-center mt-10">
           <label>
             <span class="text-gray-700">Username</span>
-            <span style="color: #ff0000">*</span>
+            <span style="color: #F07F7F">*</span>
             <input type="text"
               class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               placeholder v-model="form_input.user_name" />
@@ -18,7 +18,7 @@
         <div class="flex justify-center mt-10">
           <label>
             <span class="text-gray-700">Password</span>
-            <span style="color: #ff0000">*</span>
+            <span style="color: #F07F7F">*</span>
             <input type="password"
               class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               placeholder v-model="form_input.pass_word" />
@@ -27,6 +27,7 @@
         <!--Login button-->
         <div class="flex justify-center mt-10">
           <button class="bg-orange-900 text-white rounded" type="submit">Login</button>
+
         </div>
         <p v-if="error">{{ error }}</p>
       </form>
