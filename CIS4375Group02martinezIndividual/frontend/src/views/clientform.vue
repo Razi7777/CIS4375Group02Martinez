@@ -26,7 +26,7 @@
           </div>
           
           <!-- Toggle form select -->
-          <div  v-else class="col-span-1">
+          <div  v-if="showSecondForm" class="col-span-1">
               <label for="toggleFormSelect2" class="block font-bold mb-2">Select Customer Category</label>
               <select id="toggleFormSelect2" v-model="searchByCategory" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                   <option value="1">Subscribed</option>
@@ -34,11 +34,19 @@
               </select>
           </div>
 
+          <div v-if="showThirdForm" class="col-span-1">
+      <!-- State/Territory list box -->
+      <label for="toggleFormSelect2" class="block font-bold mb-2">Select Customer Region</label>
+          <select id="toggleFormSelect3" v-model="searchByTerritory" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+          <option v-for="territory in Territories" :key="territory.State_Province_Territory_ID" :value="territory.State_Province_Territory_ID">{{ territory.State_Province_Territory }}</option>
+          </select>
+          </div>
             <!-- Toggle form button -->
             <div class=col-span-1>
                 <button class="bg-red-300 text-white rounded px-4 py-2 mr-4" @click="toggleForm">
-                    {{ showFirstForm ? 'Search By Customer Category' : 'Search By Customer Status' }}
+                  Toggle Search Criteria
                 </button>
+
                 <button class="bg-red-300 text-white rounded px-4 py-2 mr-4" @click="clearData" type="submit">
                 Clear Filter
                 </button>
@@ -72,11 +80,11 @@
               <th class="p-4 text-left w-8">Customer Name</th>
               <th class="p-4 text-left w-8">Address</th>
               <th class="p-4 text-left w-8">City</th>
-              <th class="p-4 text-left w-8">Zipcode</th>
               <th class="p-4 text-left w-20">Email</th>
               <th class="p-4 text-left w-8">Phone Number</th>
               <th class="p-4 text-left w-8">Customer Category</th>
               <th class="p-4 text-left w-8">Customer Status</th>
+              <th class="p-4 text-left w-8">Customer Region</th>
             </tr>
           </thead>
           <tbody  v-if="result && result.length > 0" class="divide-y divide-gray-300">
@@ -85,7 +93,6 @@
               <td class="p-2 text-left w-8">{{ Client.Customer_Name }}</td>
               <td class="p-2 text-left w-8">{{ Client.Address }}</td>
               <td class="p-2 text-left w-8">{{ Client.City }}</td>
-              <td class="p-2 text-left w-8">{{ Client.Zipcode }}</td>
               <td class="p-2 text-left w-17">{{ Client.Email }}</td>
               <td class="p-2 text-left w-8">{{ Client.Phone_Number }}</td>
               <td class="p-2 text-left w-8">
@@ -97,6 +104,9 @@
                   (Client.Customer_Status_ID === 2 ? 'Inactive' : 
                   (Client.Customer_Status_ID === 3 ? 'Suspended' : '')) 
                 }}
+              </td>
+              <td class="p-2 text-left w-8">
+                <td class="p-2 text-left w-8">{{ Client.State_Province_Territory }}</td>
               </td>
             </tr>
           </tbody>
@@ -106,7 +116,6 @@
               <td class="p-2 text-left w-8">{{ Client.Customer_Name }}</td>
               <td class="p-2 text-left w-8">{{ Client.Address }}</td>
               <td class="p-2 text-left w-8">{{ Client.City }}</td>
-              <td class="p-2 text-left w-8">{{ Client.Zipcode }}</td>
               <td class="p-2 text-left w-17">{{ Client.Email }}</td>
               <td class="p-2 text-left w-8">{{ Client.Phone_Number }}</td>
               <td class="p-2 text-left w-8">
@@ -118,6 +127,9 @@
                   (Client.Customer_Status_ID === 2 ? 'Inactive' : 
                   (Client.Customer_Status_ID === 3 ? 'Suspended' : '')) 
                 }}
+              </td>
+              <td class="p-2 text-left w-8">
+                <td class="p-2 text-left w-8">{{ Client.State_Province_Territory }}</td>
               </td>
             </tr>
           </tbody>
@@ -283,9 +295,12 @@ export default {
   },
   setup() {
     const showFirstForm = ref(true);
+    const showSecondForm = ref(false);
+    const showThirdForm = ref(false);
     const toast = useToast()
     const searchByStatus = ref('');
     const searchByCategory = ref('');
+    const searchByTerritory = ref('');
     const result = ref([]);
     const newClient = ref({
         Customer_Name: '',
@@ -333,10 +348,30 @@ export default {
 
 
     const toggleForm = () => {
-    showFirstForm.value = !showFirstForm.value;
-    searchByStatus.value = ""; // Clear the search by status value
-    searchByCategory.value = ""; // Clear the search by category value
- 
+        if (showFirstForm.value) {
+            showFirstForm.value = false;
+            showSecondForm.value = true;
+            showThirdForm.value = false;
+            
+            searchByCategory.value = '';
+            searchByTerritory.value = '';
+        } else if (showSecondForm.value) {
+            showFirstForm.value = false;
+            showSecondForm.value = false;
+            showThirdForm.value = true;
+          
+            searchByStatus.value = '';
+            searchByTerritory.value = '';
+        } else if (showThirdForm.value) {
+            showFirstForm.value = true;
+            showSecondForm.value = false;
+            showThirdForm.value = false;
+          
+            searchByStatus.value = '';
+            searchByCategory.value = '';
+        }
+        // Clear search result when toggling forms
+        result.value = [];
     };
     function searchClients() {
     result.value = []; // Initialize an array to store filtered orders
@@ -345,6 +380,9 @@ export default {
             result.value.push(Clients.value[i]); // Push matching clients into the result array from the first type of query
         }
         else if (Clients.value[i].Customer_Status_ID == (searchByStatus.value)) {
+            result.value.push(Clients.value[i]); // Push matching orders into the result array from the second type of query
+        }
+        else if (Clients.value[i].State_Province_Territory_ID == (searchByTerritory.value)) {
             result.value.push(Clients.value[i]); // Push matching orders into the result array from the second type of query
         }
     }
@@ -365,7 +403,7 @@ export default {
         Clients.value = response.data;
         Datetimechange();
     } catch (error) {
-      toast.error('Error Logging in: Please Check Username and Password')
+      toast.error()
 
     }
 }
@@ -383,7 +421,7 @@ async function loadTerritories() {
         Territories.value = response.data;
         console.log(Territories.value);
     } catch (error) {
-        toast.error('Error Logging in: Please Check Username and Password')
+        toast.error()
     }
 }
 
@@ -519,11 +557,14 @@ if (newClient.value.ClientLastName !== null && newClient.value.ClientFirstName !
       Clients,
       searchByCategory,
       searchByStatus,
+      searchByTerritory,
       searchClients,
       clearData,
       result,
       VueDatePicker,
       showFirstForm,
+      showSecondForm,
+      showThirdForm,
       toggleForm,
       newClient,
       addnewClient,

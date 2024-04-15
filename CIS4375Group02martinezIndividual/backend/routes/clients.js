@@ -18,7 +18,7 @@ app.get('/Customer/get', (req, res) => {
   const clientId = req.params.id;
 
   // Construct the SQL query to fetch data from the database
-  const sql = 'SELECT * FROM Customer';
+  const sql = 'SELECT Customer.*, State_Province_Territory.State_Province_Territory FROM Customer LEFT JOIN State_Province_Territory ON Customer.State_Province_Territory_ID = State_Province_Territory.State_Province_Territory_ID';
 
   // Execute the query
   pool.query(sql, (error, results, fields) => {
