@@ -78,7 +78,6 @@
       <ul>
         <li><router-link to="/contact">Contact Us</router-link></li>
         <li><router-link to="/shipping">Shipping</router-link></li>
-        <li><router-link to="/track-order">Track Your Order</router-link></li>
       </ul>
     </div>
 

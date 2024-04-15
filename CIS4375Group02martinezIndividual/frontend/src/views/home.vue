@@ -75,18 +75,22 @@ export default {
     },
     // Define the fetchEvents method
     async fetchEvents() {
-      try {
-        const response = await fetch('http://localhost:3000/api/events'); // Adjust the URL to your needs
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        this.events = data.filter(event => event.Event_Status_ID === 1);
-      } catch (error) {
-        console.error('Error fetching events:', error);
-        // Optionally handle the error in a user-friendly way, e.g., show a notification
-      }
-    },
+  try {
+    const response = await fetch('http://localhost:3000/api/events');
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    this.events = data.filter(event => event.Event_Status_ID === 1);
+  } catch (error) {
+    console.error('Error fetching events:', error);
+    // Update state to reflect that an error occurred
+    this.hasError = true;
+    // Display a user-friendly message or retry mechanism
+    // e.g., this.errorMessage = "Failed to load events. Please try again later.";
+  }
+}
+,
   },
   mounted() {
     this.fetchEvents();
