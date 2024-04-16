@@ -16,7 +16,7 @@
         <h2 class="text-2xl font-bold">Search Customers</h2>
         </div>
             <!-- Search form -->
-            <div class="col-span-1"  v-if="showFirstForm">
+            <div class="col-span-1">
               <label for="toggleFormSelect1" class="block font-bold mb-2">Select Customer Status</label>
               <select id="toggleFormSelect1" v-model="searchByStatus" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                   <option value="1">Active</option>
@@ -26,7 +26,7 @@
           </div>
           
           <!-- Toggle form select -->
-          <div  v-if="showSecondForm" class="col-span-1">
+          <div class="col-span-1">
               <label for="toggleFormSelect2" class="block font-bold mb-2">Select Customer Category</label>
               <select id="toggleFormSelect2" v-model="searchByCategory" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                   <option value="1">Subscribed</option>
@@ -34,7 +34,7 @@
               </select>
           </div>
 
-          <div v-if="showThirdForm" class="col-span-1">
+          <div class="col-span-1">
       <!-- State/Territory list box -->
       <label for="toggleFormSelect2" class="block font-bold mb-2">Select Customer Region</label>
           <select id="toggleFormSelect3" v-model="searchByTerritory" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
@@ -44,11 +44,11 @@
             <!-- Toggle form button -->
             <div class=col-span-1>
                 <button class="bg-red-300 text-white rounded px-4 py-2 mr-4" @click="toggleForm">
-                  Toggle Search Criteria
+                  Clear Search Criteria
                 </button>
 
                 <button class="bg-red-300 text-white rounded px-4 py-2 mr-4" @click="clearData" type="submit">
-                Clear Filter
+                Clear Current Filter
                 </button>
             <div class="pt-6">
             <button class="bg-red-300 text-white rounded px-4 pt-2 py-2 mr-4" @click="searchClients" type="submit">
@@ -353,6 +353,7 @@ export default {
             showSecondForm.value = true;
             showThirdForm.value = false;
             
+            searchByStatus.value ='';
             searchByCategory.value = '';
             searchByTerritory.value = '';
         } else if (showSecondForm.value) {
@@ -360,6 +361,7 @@ export default {
             showSecondForm.value = false;
             showThirdForm.value = true;
           
+            searchByCategory.value = '';
             searchByStatus.value = '';
             searchByTerritory.value = '';
         } else if (showThirdForm.value) {
@@ -367,16 +369,17 @@ export default {
             showSecondForm.value = false;
             showThirdForm.value = false;
           
+            searchByTerritory.value = '';
             searchByStatus.value = '';
             searchByCategory.value = '';
         }
         // Clear search result when toggling forms
         result.value = [];
     };
-    function searchClients() {
+    /*function searchClients() {
     result.value = []; // Initialize an array to store filtered orders
     for (let i = 0; i < Clients.value.length; i++) {
-      if (Clients.value[i].Customer_Category_ID == searchByCategory.value) {
+      if (Clients.value[i].Customer_Category_ID == (searchByCategory.value)) {
             result.value.push(Clients.value[i]); // Push matching clients into the result array from the first type of query
         }
         else if (Clients.value[i].Customer_Status_ID == (searchByStatus.value)) {
@@ -387,8 +390,20 @@ export default {
         }
     }
     Clients.value = result.value;
-    result.value = [];
-  }
+  }*/
+  function searchClients() {
+    let filteredClients = Clients.value.slice(); // Create a copy of the original Clients array to avoid mutating it
+    if (searchByCategory.value) {
+        filteredClients = filteredClients.filter(client => client.Customer_Category_ID == searchByCategory.value);
+    }
+    if (searchByStatus.value) {
+        filteredClients = filteredClients.filter(client => client.Customer_Status_ID == searchByStatus.value);
+    }
+    if (searchByTerritory.value) {
+        filteredClients = filteredClients.filter(client => client.State_Province_Territory_ID == searchByTerritory.value);
+    }
+    Clients.value = filteredClients; // Update the Clients array with the filtered results
+}
     
   async function loadClients() {
     const options = {
