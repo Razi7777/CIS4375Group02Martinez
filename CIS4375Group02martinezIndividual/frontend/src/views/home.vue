@@ -32,7 +32,7 @@
   <div class="carousel-container">
     <div v-for="item in featuredItems" :key="item.id" class="carousel-slide">
       <img :src="item.imageUrl" :alt="item.description">
-      <p class="carousel-description">{{ item.description }}</p>
+
     </div>
   </div>
 </section>
