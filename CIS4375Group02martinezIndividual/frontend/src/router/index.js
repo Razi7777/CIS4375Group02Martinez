@@ -17,7 +17,11 @@ const routes = [
     name: 'Home',
     component: () => import('../views/Home.vue')
   },
-
+  {
+    path: '/products', 
+    name: 'products',
+    component: () => import('../views/products.vue')
+  },
 
 {
   path: '/event-calendar',

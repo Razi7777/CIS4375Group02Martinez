@@ -49,6 +49,7 @@ app.use('/services', require('./routes/services'));
 app.use('/users', require('./routes/users'));
 app.use('/trackorder', require('./routes/trackorder'));
 app.use('/api/events', require('./routes/event_api'));
+app.use('/products', require('./routes/product_api')); 
 
 const PORT = process.env.PORT || 3000;
 

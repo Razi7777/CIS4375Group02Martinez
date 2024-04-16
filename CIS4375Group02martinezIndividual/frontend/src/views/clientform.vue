@@ -497,7 +497,7 @@ async function deleteClientFunction() {
   const customerId = deleteClient.value.Customer_ID;
   const options = {
     method: 'DELETE', // Change method to DELETE
-    url: `http://127.0.0.1:3000/Customer/Delete/${customerId}`, // Include the Customer_ID in the URL
+    url: `http://127.0.0.1:3000/Customer/Delete/${customerId}`, 
   };
 
   try {
@@ -512,51 +512,11 @@ async function deleteClientFunction() {
 
 
 
-//function allows for users to enter last names or id and search the table with them
-
-
-
- //need to use.value when referring to the value saved in a reactive variable, cannot for instance push into the original array structure
- //reactivity needs to be declared for us to trigger updates in the DOM based on changes we make on the variable, in order to keep the page structure in sync with our changes in the code
- //within the scope of a function, we can fill up an array by using the .push mutating method to update its values, here we utilize this to fill up the result of the search with the parts of the order array that fulfill the search condition
- //for a single entry in a reactive array, to access is arrayname.value[index of the entry]
-    
-
-/*function addnewClient(){
-if (newClient.value.ClientLastName !== null && newClient.value.ClientFirstName !== null  && newClient.value.ClientAddress !== null  && newClient.value.PhoneNumber !== null){
-    newClient.value.ClientID = (Clients.value.length);
-    Clients.value.push(newClient.value);
-    newClient.value = [];
-
-}
-}*/
-
-
-
-//}
-/*function updateClientFunction() {
-      result.value = [];
-        for (let i = 0; i < Clients.value.length; i++) {
-          if (Clients.value[i].ClientID == updateClient.value.ClientID){
-            result.value.push(updateClient.value)
-            
-          }
-          else if (Clients.value[i].ClientID !== updateClient.value.ClientID){
-            result.value.push(Clients.value[i])
-
-          }
-
-
-        }
-
-    }*/
-    
-
 
     function clearData() {
-    loadClients(); // Reload the clients data from the server to reset the table
-    result.value = []; // Clear the search result array
-                     // Reset the form to its initial state
+    loadClients(); 
+    result.value = []; 
+                     
 }
 
     
@@ -595,91 +555,6 @@ if (newClient.value.ClientLastName !== null && newClient.value.ClientFirstName !
     }
   }
 }
-//todo: Make it so that clicking an item in the table allows the user to see a description of the item
-//fix css and styling to be more pleasing to end users
+
 </script>
-
-<!-- Options API -->
-<!-- <script>
-//import functionalities for validation
-import useVuelidate from '@vuelidate/core'
-import { required, email, numeric, minLength, maxLength } from '@vuelidate/validators'
-import { createClient } from '../api/api'
-import { useToast } from 'vue-toastification'
-
-//Notifications
-const toast = useToast()
-
-export default {
-  data() {
-    return {
-      //client variable to hold new client information
-      client: {
-        firstName: null,
-        middleName: null,
-        lastName: null,
-        email: null,
-        phoneNumber: {
-          primary: null,
-          alternate: null
-        },
-        address: {
-          line1: null,
-          line2: null,
-          city: null,
-          county: null,
-          zip: null
-        },
-      }
-    }
-  },
-  setup() {
-    // Register Vuelidate
-    const v$ = useVuelidate();
-    return { v$ };
-  },
-  validations() {
-    // validations for client
-    return {
-      client: {
-        firstName: { required },
-        lastName: { required },
-        email: { required, email },
-        phoneNumber: {
-          primary: {
-            required,
-            numeric,
-            minLength: minLength(10),
-            maxLength: maxLength(10),
-          },
-        },
-        address: {
-          city: { required },
-        },
-      },
-    };
-  },
-  methods: {
-    // method called when user submits the form
-    async submitForm() {
-      // Trigger validation
-      this.v$.$validate();
-
-      if (this.v$.$error) {
-        // Form is invalid, do not proceed
-        return;
-      }
-
-      try {
-        const response = await createClient(this.client);
-        this.$router.push('/findclient')
-        toast.success(response)
-      } catch (error) {
-        toast.error(error)
-      }
-    },
-  }
-}
-</script> -->
-
 

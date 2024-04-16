@@ -51,7 +51,9 @@
             <li v-if="user.username === 'username1'">
               <router-link to="/clientform">Clients</router-link>
             </li>
-
+            <li v-if="user.username === 'username1'">
+              <router-link to="/products">Products</router-link>
+            </li>
 
             <li v-if="user.username === 'username1' || user.username === 'username2'">
               <router-link to="/order-tracking">Orders</router-link>
