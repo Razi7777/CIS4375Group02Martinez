@@ -10,8 +10,21 @@
 
 html, body {
   height: 100%;
+  min-height: 100vh; /* Ensures the minimum height is full viewport height */
   margin: 0;
+  padding: 0;
+  background-color: #FEDBE4; /* Fallback background color */
+  background-image: url('@/assets/5044561.jpg'); /* Adjust the path as needed */
+  background-size: cover;
+  background-position: center; /* Centers the background image */
+/* Prevents the background image from repeating */
 }
+
+
+.nav-container{
+  background-color: transparent;
+}
+
 
 
 #app {
@@ -21,8 +34,7 @@ html, body {
 }
 
 .Appvue_container {
-  background-color: #FEDBE4;
-  flex: 1;
+
 }
 
 .page-container {
@@ -69,12 +81,12 @@ html, body {
 }
 
 .nav-container {
-  background-color: var(--main-clr);
+
   display: flex;
   justify-content: center; /* Aligns child elements (including the logo) to the left */
   align-items: center; /* Centers child elements vertically */
   flex-direction: column;
-  background-image: url('@/assets/5044561.jpg'); /* Path to the image */
+
   background-size: cover;
   margin-bottom: 20px;
 }
@@ -137,12 +149,10 @@ html, body {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
-  background-color: var(--main-clr);
   padding: 20px;
   font-size: 15px;
-  background-image: url('@/assets/5044561.jpg'); /* Path to the image */
-  background-size: auto;
   margin-top: auto;
+  background-color: #FEDBE4;
 }
 
 .footer-column h5 {
