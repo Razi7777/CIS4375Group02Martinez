@@ -168,7 +168,7 @@
           <input type="text" id="PhoneNumber" placeholder="Phone Number xxx-xxx-xxxx"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newClient.Phone_Number" required><br><br>
       
           <label for="Birthday"></label>
-          <input type="text" id="Birthday" placeholder="Birthday yyyy/mm/dd"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newClient.Birthday" required><br><br>
+          <input type="text" id="Birthday" placeholder="Birthday yyyy/mm/dd"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newClient.Birthday" ><br><br>
       
           <label for="CustomerCategory">Customer Category: </label><br>
           <select id="CustomerCategory" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newClient.Customer_Category_ID" required>
@@ -226,7 +226,7 @@
           <input type="text"  placeholder="Phone Number xxx-xxx-xxxx"   class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="PhoneNumber" v-model="updateClient.Phone_Number" required><br><br>
   
           <label for="Birthday"></label>
-          <input type="text" placeholder="Birthday xx/xx/xxxx" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="Birthday" v-model="updateClient.Birthday" required><br><br>
+          <input type="text" placeholder="Birthday xx/xx/xxxx" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="Birthday" v-model="updateClient.Birthday" ><br><br>
   
   
                    
