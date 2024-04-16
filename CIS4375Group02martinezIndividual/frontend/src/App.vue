@@ -223,10 +223,3 @@ export default {
   }
 }
 </script> -->
-<style scoped>
-
-.Appvue_container {
-  background-color: #FEDBE4;
-}
-
-</style>

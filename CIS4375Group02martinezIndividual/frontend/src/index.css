@@ -8,6 +8,23 @@
   --accent-clr: #EA4848;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.Appvue_container {
+  background-color: #FEDBE4;
+  flex: 1;
+}
+
 .page-container {
   background-color: var(--main-clr); /* Fallback color */
   background-size: auto; /* Ensures the image covers the container */
@@ -125,6 +142,7 @@
   font-size: 15px;
   background-image: url('@/assets/5044561.jpg'); /* Path to the image */
   background-size: auto;
+  margin-top: auto;
 }
 
 .footer-column h5 {
