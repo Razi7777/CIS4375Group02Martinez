@@ -1,8 +1,8 @@
 <!-- This is the main frontend file. It displays a navigation bar and rendered components. -->
 
 <template>
-  <main class="flex flex-row">    
-    <div class="grow w-5/5">
+  <main class="Appvue_container">    
+    <div>
       <div class="nav-container">
         <img src="@/assets/Marisol.svg" alt="Logo" class="logo-svg"/>
         <div class="navbar container">
@@ -223,3 +223,10 @@ export default {
   }
 }
 </script> -->
+<style scoped>
+
+.Appvue_container {
+  background-color: #FEDBE4;
+}
+
+</style>
