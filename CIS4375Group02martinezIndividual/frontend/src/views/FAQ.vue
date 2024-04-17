@@ -1,5 +1,5 @@
 <template>
-  <main class="flex justify-center min-h-screen bg-white-100">
+  <main class="flex justify-center  bg-white-100">
     <div class="flex-grow">
       <AppNavBar :userStore="userStore" />
       <header class="w-full">

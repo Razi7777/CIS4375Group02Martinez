@@ -1,8 +1,8 @@
 <template>
-  <main class="flex flex-col items-center min-h-screen bg-main-bg">
+  <main class="flex flex-col items-center  bg-main-bg">
     <div class="w-full max-w-4xl px-4 py-8 text-center">
       <!-- Profile Picture -->
-      <div class="profile-picture shadow-lg">
+      <div class="profile-picture ">
         <img src="@/assets/About.jpg" alt="Marisol - Owner of TrendiFindz" class="rounded-lg">
       </div>
 
@@ -71,16 +71,16 @@ font-size: 1.75rem;
 .about-marisol p {
 font-family: 'Quicksand', sans-serif;
 color: var(--text-color);
-background-color: rgba(255, 192, 203, 0.3); /* Soft pink background for the paragraph */
+
 border-radius: 15px;
 padding: 20px;
 line-height: 1.6;
-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
 }
 
 /* Add a cute floral or similar pattern to the background */
 .main-bg {
-background: url('path-to-your-floral-pattern.png') no-repeat center center fixed;
+background: url('5044561.jpg') no-repeat center center fixed;
 background-size: cover;
 }
 

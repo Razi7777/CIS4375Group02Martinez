@@ -1,5 +1,5 @@
 <template>
-  <main class=" min-h-screen flex flex-col items-center justify-center py-4">
+  <main class="  flex flex-col items-center justify-center py-4">
     <div class="container mx-auto p-4 bg-white rounded-xl shadow-lg max-w-lg text-center">
       <h1 class="text-cute-title mb-4">Welcome to Trendi Finds!</h1>
   

@@ -590,6 +590,7 @@ export default {
   flex-direction: column;
   min-height: 100vh;
   flex-grow: 1;
+
 }
 
 .event-calendar {
@@ -597,11 +598,12 @@ export default {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  flex-grow: 1;
+  
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border: 1px solid #ccc;
+  height: fit-content;
 }
 
 .event-list-form-wrapper {

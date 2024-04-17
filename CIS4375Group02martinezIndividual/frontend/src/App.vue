@@ -23,7 +23,7 @@
               <router-link to="/event-calendar"  @click="closeMenu ">Events</router-link>       
             </li>
             <li v-if="user.username === 'Admin'">
-              <router-link to="/serviceform"  @click="closeMenu ">Services</router-link>
+              <router-link to="/products"  @click="closeMenu ">Products</router-link>
             </li>
             <li v-if="user.username === 'Admin' || user.username === 'username2'">
               <router-link to="/order-tracking"  @click="closeMenu ">Orders</router-link>
