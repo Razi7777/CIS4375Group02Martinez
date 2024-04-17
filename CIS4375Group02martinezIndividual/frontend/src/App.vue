@@ -19,9 +19,7 @@
             <li v-if="user.username === 'Admin'">
               <router-link to="/clientform"  @click="closeMenu ">Clients</router-link>
             </li>
-            <li v-if="user.username === 'Admin'">
-              <router-link to="/event-calendar"  @click="closeMenu ">Events</router-link>       
-            </li>
+           <li><router-link to="/event-calendar"  @click="closeMenu ">Events</router-link></li>
             <li v-if="user.username === 'Admin'">
               <router-link to="/products"  @click="closeMenu ">Products</router-link>
             </li>
@@ -118,20 +116,20 @@
 
     <!-- Newsletter-->
     <div class="footer-column newsletter-social">
-      <h5>TrendiFindz Insider Club</h5>
-      <form @submit.prevent="subscribeToNewsletter">
-        <input type="email" placeholder="Email Address" />
-        <button type="submit">
-          <p>Sign Up</p>
-        </button>
-      </form>
-    
-    </div>
+  <h5>TrendiFindz Insider Club</h5>
+  <form @submit.prevent="subscribeToNewsletter">
+    <input type="email" v-model="email" placeholder="Email Address" required />
+    <button type="submit">
+      <p>Sign Up</p>
+    </button>
+  </form>
+</div>
+
   </footer>
 </template>
 
-<!-- Composition API -->
 <script>
+// <!-- Composition API -->
 import { ref, onMounted } from 'vue';
 import { useLoggedInUserStore } from './store/loggedInUser';
 import { getOrgName } from './api/api';
@@ -141,11 +139,25 @@ export default {
   setup() {
     const user = useLoggedInUserStore();
     const orgName = ref('Dataplatform');
-    // Create a reactive state variable for the menu open/close state
+    // State variable for the email input in the newsletter form
+    const email = ref('');
     const isMenuOpen = ref(false);
     const toast = useToast();
 
-    // Fetch organization name on component mount
+    const subscribeToNewsletter = async () => {
+      try {
+        // Add your actual newsletter subscription logic here
+        console.log(`Subscribing ${email.value} to the newsletter...`);
+        // After subscription, you would usually make an API call
+        // Once successful, reset the email field and show a success message
+        email.value = '';
+        toast.success('Successfully subscribed to the newsletter!');
+      } catch (error) {
+        toast.error('Failed to subscribe to the newsletter.');
+        console.error(error);
+      }
+    };
+
     onMounted(async () => {
       try {
         orgName.value = await getOrgName();
@@ -155,34 +167,32 @@ export default {
       }
     });
 
-    // Toggle the menu open/close state
     const toggleMenu = () => {
       isMenuOpen.value = !isMenuOpen.value;
     };
 
-    // Close the menu by setting the state to false
     const closeMenu = () => {
       isMenuOpen.value = false;
     };
 
-    // Ensure the logout method correctly clears the state and performs logout logic
     const logout = () => {
-      // Assuming logout is a method in your user store that you want to call
       user.logout();
       closeMenu();
     };
 
-    // Remove unused props or return only what is needed
     return {
       user,
       orgName,
       isMenuOpen,
       toggleMenu,
       closeMenu,
-      logout
+      logout,
+      email,          // This line was missing a comma at the end in your original code
+      subscribeToNewsletter
     };
   },
 };
+
 </script>
 
 <!-- // reference:

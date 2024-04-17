@@ -159,6 +159,16 @@ export default {
   margin-bottom: 2rem; /* 32px bottom margin */
 }
 
+.hero-title, .hero-subtitle {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-cta:hover {
+  background-color: #e91e63; /* Adjust the color to fit your branding */
+  transform: scale(1.05);
+}
+
+
 .hero-cta {
   padding: 1rem 2rem; /* Padding around the text */
   background-color: pink; /* Background color */
@@ -305,6 +315,10 @@ export default {
   height: 500px; /* Adjust the height as needed */
 }
 
+.carousel-slide > img{
+  border-radius: 10px;
+}
+
 ::v-deep .bold-text {
   font-weight: bold;
   font-size: larger; /* This keyword will make the text larger relative to its surroundings */
@@ -314,5 +328,11 @@ export default {
   margin: 0 auto; /* This centers the carousel horizontally */
   max-width: 600px; /* Adjust max-width as needed */
 }
+
+::v-deep .carousel-slide img:hover {
+  opacity: 0.9;
+  transition: opacity 0.5s ease;
+}
+
 </style>
 
