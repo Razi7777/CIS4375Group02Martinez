@@ -3,7 +3,7 @@
     <main class='client-details-container'>
       <!--Header-->
       <h1 class="font-bold text-4xl text-red-300 tracking-widest text-center mt-10">
-          Customer Details
+          Product Details
       </h1>
   
   
@@ -13,11 +13,11 @@
     <div class="grid flex flex-col md:flex-row gap-x-6 gap-y-10 items-center max-w-lg bg-gray-300 p-5 rounded-lg shadow-md"> <!-- Added items-center -->
           <!--Search Client By selection-->
           <div class=col-span-1>
-          <h2 class="text-2xl font-bold">Search Customers</h2>
+          <h2 class="text-2xl font-bold">Search Products</h2>
           </div>
               <!-- Search form -->
               <div class="col-span-1">
-                <label for="toggleFormSelect1" class="block font-bold mb-2">Select Customer Status</label>
+                <label for="toggleFormSelect1" class="block font-bold mb-2">Select Product Status</label>
                 <select id="toggleFormSelect1" v-model="searchByStatus" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     <option value="1">Active</option>
                     <option value="2">Inactive</option>
@@ -27,7 +27,7 @@
             
             <!-- Toggle form select -->
             <div class="col-span-1">
-                <label for="toggleFormSelect2" class="block font-bold mb-2">Select Customer Category</label>
+                <label for="toggleFormSelect2" class="block font-bold mb-2">Select Product Category</label>
                 <select id="toggleFormSelect2" v-model="searchByCategory" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     <option value="1">Subscribed</option>
                     <option value="2">Guest</option>
@@ -36,9 +36,9 @@
   
             <div class="col-span-1">
         <!-- State/Territory list box -->
-        <label for="toggleFormSelect2" class="block font-bold mb-2">Select Customer Region</label>
-            <select id="toggleFormSelect3" v-model="searchByTerritory" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-            <option v-for="territory in Territories" :key="territory.State_Province_Territory_ID" :value="territory.State_Province_Territory_ID">{{ territory.State_Province_Territory }}</option>
+        <label for="toggleFormSelect2" class="block font-bold mb-2">Select Supplier</label>
+            <select id="toggleFormSelect3" v-model="searchBySupplier" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            <option v-for="Supplier in Suppliers" :key="Supplier.Supplier_ID" :value="Supplier.Supplier_ID">{{ Supplier.Supplier_Name }}</option>
             </select>
             </div>
               <!-- Toggle form button -->
@@ -52,7 +52,7 @@
                   </button>
               <div class="pt-6">
               <button class="bg-red-300 text-white rounded px-4 pt-2 py-2 mr-4" @click="searchClients" type="submit">
-                  Search Customers
+                  Search Products
               </button>
             </div>
             </div>
@@ -68,7 +68,7 @@
       <div class="grid flex flex-col md:flex-row gap-x-6 gap-y-10 items-center bg-gray-300 p-5 rounded-lg shadow-md">
   
         <div>
-          <h2 class="text-2xl font-bold">List of Customers</h2>
+          <h2 class="text-2xl font-bold">List of Products</h2>
           <!--h3 class="italic">Click table row to view Order details</h3-->
         </div>
         <!--Table showing list of Clients-->
@@ -76,60 +76,86 @@
           <table class="w-full  shadow-md rounded">
             <thead class="bg-gray-50 text-xl">
               <tr>
-                <th class="p-4 text-left w-8">Customer ID</th>
-                <th class="p-4 text-left w-8">Customer Name</th>
-                <th class="p-4 text-left w-8">Address</th>
-                <th class="p-4 text-left w-8">City</th>
-                <th class="p-4 text-left w-20">Email</th>
-                <th class="p-4 text-left w-8">Phone Number</th>
-                <th class="p-4 text-left w-8">Customer Category</th>
-                <th class="p-4 text-left w-8">Customer Status</th>
-                <th class="p-4 text-left w-8">Customer Region</th>
+                <th class="p-4 text-left w-8">Product ID</th>
+                <th class="p-4 text-left w-8">Product Name</th>
+                <th class="p-4 text-left w-8">Product Description</th>
+                <th class="p-4 text-left w-8">Quantity</th>
+                <th class="p-4 text-left w-8">Price</th>
+                <th class="p-4 text-left w-8">Supplier</th>
+                <th class="p-4 text-left w-8">Product Category</th>
+                <th class="p-4 text-left w-8">Product Type</th>
+                <th class="p-4 text-left w-8">Product Status</th>
               </tr>
             </thead>
             <tbody  v-if="result && result.length > 0" class="divide-y divide-gray-300">
-              <tr v-for="Client in result" :key="Client.ClientID">
-                <td class="p-2 text-left w-8">{{ Client.Customer_ID }}</td>
-                <td class="p-2 text-left w-8">{{ Client.Customer_Name }}</td>
-                <td class="p-2 text-left w-8">{{ Client.Address }}</td>
-                <td class="p-2 text-left w-8">{{ Client.City }}</td>
-                <td class="p-2 text-left w-17">{{ Client.Email }}</td>
-                <td class="p-2 text-left w-8">{{ Client.Phone_Number }}</td>
-                <td class="p-2 text-left w-8">
-                  {{ Client.Customer_Category_ID === 1 ? 'Subscribed' : (Client.Customer_Category_ID === 2 ? 'Guest' : '') }}
-                </td>
+              <tr v-for="Product in result" :key="Product.Product_ID">
+                <td class="p-2 text-left w-8">{{ Product.Product_ID }}</td>
+                <td class="p-2 text-left w-8">{{ Product.Product_Name }}</td>
+                <td class="p-2 text-left w-8">{{ Product.Product_Description }}</td>
+                <td class="p-2 text-left w-8">{{ Product.Quantity }}</td>
+                <td class="p-2 text-left w-8">{{ Product.Price }}</td>
+                <td class="p-2 text-left w-8">{{ Product.Supplier_Name }}</td>
                 <td class="p-2 text-left w-8">
                   {{ 
-                    Client.Customer_Status_ID === 1 ? 'Active' : 
-                    (Client.Customer_Status_ID === 2 ? 'Inactive' : 
-                    (Client.Customer_Status_ID === 3 ? 'Suspended' : '')) 
+                    Product.Product_Category_ID === 1 ? 'Tops' : 
+                    (Product.Product_Category_ID === 2 ? 'Bottoms' : 
+                    (Product.Product_Category_ID === 3 ? 'Shoes' :
+                    (Product.Product_Category_ID === 4 ? 'Accessories' :
+                    (Product.Product_Category_ID === 5 ? 'Jewelry' :
+                    (Product.Product_Category_ID === 6 ? 'Miscellaneous' : '')))))
                   }}
                 </td>
                 <td class="p-2 text-left w-8">
-                  <td class="p-2 text-left w-8">{{ Client.State_Province_Territory }}</td>
+                  {{ 
+                    Product.Product_Type_ID === 1 ? 'New' : 
+                    (Product.Product_Type_ID === 2 ? 'Used' : 
+                    (Product.Product_Type_ID === 3 ? 'Like New' : 
+                    (Product.Product_Type_ID === 4 ? 'Refurbished' : '')))
+                  }}
+                </td>
+                <td class="p-2 text-left w-8">
+                  {{ 
+                    Product.Product_Status_ID === 1 ? 'In-Stock' : 
+                    (Product.Product_Status_ID === 2 ? 'Out-of-Stock' : 
+                    (Product.Product_Status_ID === 3 ? 'Sold Out' : 
+                    (Product.Product_Status_ID === 4 ? 'Coming soon' : '')))
+                  }}
                 </td>
               </tr>
             </tbody>
             <tbody v-else class="divide-y divide-gray-300">
-              <tr v-for="Client in Clients" :key="Client.ClientID">
-                <td class="p-2 text-left w-8">{{ Client.Customer_ID }}</td>
-                <td class="p-2 text-left w-8">{{ Client.Customer_Name }}</td>
-                <td class="p-2 text-left w-8">{{ Client.Address }}</td>
-                <td class="p-2 text-left w-8">{{ Client.City }}</td>
-                <td class="p-2 text-left w-17">{{ Client.Email }}</td>
-                <td class="p-2 text-left w-8">{{ Client.Phone_Number }}</td>
-                <td class="p-2 text-left w-8">
-                  {{ Client.Customer_Category_ID === 1 ? 'Subscribed' : (Client.Customer_Category_ID === 2 ? 'Guest' : '') }}
-                </td>
+              <tr v-for="Product in Products" :key="Product.Product_ID">
+                <td class="p-2 text-left w-8">{{ Product.Product_ID }}</td>
+                <td class="p-2 text-left w-8">{{ Product.Product_Name }}</td>
+                <td class="p-2 text-left w-8">{{ Product.Product_Description }}</td>
+                <td class="p-2 text-left w-8">{{ Product.Quantity }}</td>
+                <td class="p-2 text-left w-8">{{ Product.Price }}</td>
+                <td class="p-2 text-left w-8">{{ Product.Supplier_Name }}</td>
                 <td class="p-2 text-left w-8">
                   {{ 
-                    Client.Customer_Status_ID === 1 ? 'Active' : 
-                    (Client.Customer_Status_ID === 2 ? 'Inactive' : 
-                    (Client.Customer_Status_ID === 3 ? 'Suspended' : '')) 
+                    Product.Product_Category_ID === 1 ? 'Tops' : 
+                    (Product.Product_Category_ID === 2 ? 'Bottoms' : 
+                    (Product.Product_Category_ID === 3 ? 'Shoes' :
+                    (Product.Product_Category_ID === 4 ? 'Accessories' :
+                    (Product.Product_Category_ID === 5 ? 'Jewelry' :
+                    (Product.Product_Category_ID === 6 ? 'Miscellaneous' : '')))))
                   }}
                 </td>
                 <td class="p-2 text-left w-8">
-                  <td class="p-2 text-left w-8">{{ Client.State_Province_Territory }}</td>
+                  {{ 
+                    Product.Product_Type_ID === 1 ? 'New' : 
+                    (Product.Product_Type_ID === 2 ? 'Used' : 
+                    (Product.Product_Type_ID === 3 ? 'Like New' : 
+                    (Product.Product_Type_ID === 4 ? 'Refurbished' : '')))
+                  }}
+                </td>
+                <td class="p-2 text-left w-8">
+                  {{ 
+                    Product.Product_Status_ID === 1 ? 'In-Stock' : 
+                    (Product.Product_Status_ID === 2 ? 'Out-of-Stock' : 
+                    (Product.Product_Status_ID === 3 ? 'Sold Out' : 
+                    (Product.Product_Status_ID === 4 ? 'Coming soon' : '')))
+                  }}
                 </td>
               </tr>
             </tbody>
@@ -336,12 +362,12 @@
   
       //initializing an object vs an array? is this only because I need 1 instance of new client?
   
-      const Clients = ref([
+      const Products = ref([
   
         //this is the toggle for what to search by
       ]);
   
-      const Territories = ref([
+      const Suppliers = ref([
   
       ]);
   
@@ -391,13 +417,13 @@
       }
       Clients.value = result.value;
     }*/
-    function searchClients() {
-      let filteredClients = Clients.value.slice(); // Create a copy of the original Clients array to avoid mutating it
+    function searchProducts() {
+      let filteredProducts = Products.value.slice(); // Create a copy of the original Clients array to avoid mutating it
       if (searchByCategory.value) {
-          filteredClients = filteredClients.filter(client => client.Customer_Category_ID == searchByCategory.value);
+          filteredProducts = filteredProducts.filter(Product => Product.Product_Category_ID == searchByCategory.value);
       }
       if (searchByStatus.value) {
-          filteredClients = filteredClients.filter(client => client.Customer_Status_ID == searchByStatus.value);
+          filteredClients = filteredClients.filter(client => client.Product_Status_ID == searchByStatus.value);
       }
       if (searchByTerritory.value) {
           filteredClients = filteredClients.filter(client => client.State_Province_Territory_ID == searchByTerritory.value);
@@ -405,35 +431,34 @@
       Clients.value = filteredClients; // Update the Clients array with the filtered results
   }
       
-    async function loadClients() {
+    async function loadProducts() {
       const options = {
           method: 'GET',
-          url: 'http://127.0.0.1:3000/Customer/get',
+          url: 'http://127.0.0.1:3000/products/get',
           
     
       };
   
       try {
           const response = await axios.request(options);
-          Clients.value = response.data;
-          Datetimechange();
+          Products.value = response.data;
       } catch (error) {
         toast.error()
   
       }
   }
   
-  async function loadTerritories() {
+  async function loadSuppliers() {
       const options = {
           method: 'GET',
-          url: 'http://127.0.0.1:3000/Territory/get',
+          url: 'http://127.0.0.1:3000/supplier/get',
           
     
       };
   
       try {
           const response = await axios.request(options);
-          Territories.value = response.data;
+          Suppliers.value = response.data;
           console.log(Territories.value);
       } catch (error) {
           toast.error()
@@ -468,7 +493,7 @@
       try {
           const response = await axios.request(options);
           toast.success('Customer Successfully added')
-          loadClients();
+          loadProducts();
       } catch (error) {
          toast.error('Failed to Add Customer')
       }
@@ -486,7 +511,7 @@
     try {
       const response = await axios.request(options);
       console.log(response.data);
-      loadClients();
+      loadProducts();
       toast.success('Customer Successfully Updated')
     } catch (error) {
       toast.error('Could not update Customer')
@@ -503,7 +528,7 @@
     try {
       const response = await axios.request(options);
       toast.success('Customer Successfully Deleted')
-      loadClients(); 
+      loadProducts(); 
     } catch (error) {
       toast.error('Could not delete Customer')
     }
@@ -514,22 +539,22 @@
   
   
       function clearData() {
-      loadClients(); 
+      loadProducts(); 
       result.value = []; 
                        
   }
   
       
    onMounted(() => {
-        loadClients();
-        loadTerritories();
+        loadProducts();
+        loadSuppliers();
       });
   
   
   
   
       return {
-        Clients,
+        Products,
         searchByCategory,
         searchByStatus,
         searchByTerritory,
@@ -545,12 +570,12 @@
         addnewClient,
         updateClient,
         updateClientFunction,
-        loadClients,
+        loadProducts,
         Datetimechange,
         deleteClient,
         deleteClientFunction,
-        Territories,
-        loadTerritories
+        Suppliers,
+        loadSuppliers
   
       }
     }
