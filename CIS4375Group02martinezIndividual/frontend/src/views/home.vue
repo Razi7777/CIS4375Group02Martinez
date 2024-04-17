@@ -49,14 +49,16 @@
     <!-- Event Calendar Section -->
     <section class="event-announcements">
       <h2><strong>Current and Upcoming Events</strong></h2>
-      <div class="event-box">
-        <div v-for="event in events" :key="event.Event_ID">
+      <div class="event-box" v-if="events.length > 0">
+        <div v-for="(event, index) in events" :key="event.Event_ID">
           <h3>{{ event.Event_Description }}</h3>
           <p><strong>Date:</strong> {{ formatDate(event.Event_Date) }}</p>
           <p><strong>Address:</strong> {{ event.Address }}, {{ event.City }}, {{ event.Zipcode }}</p>
-          <hr v-if="event !== events[events.length - 1]">
+          <hr v-if="index < events.length - 1">
         </div>
+        <span class="star" v-for="n in 20" :key="n" :style="{ top: `${Math.random() * 100}%`, left: `${Math.random() * 100}%` }">★</span>
       </div>
+      <p v-else>No upcoming events.</p>
     </section>
   </div>
 </template>
@@ -187,11 +189,69 @@ export default {
 }
 
 .event-box {
-  background-color: transparent; /* Light gray background */
-  border: 1px solid #ddd; /* Gray border */
-  border-radius: 4px; /* Rounded corners */
-  padding: 1rem; /* Padding */
-  margin-bottom: 1rem; /* Bottom margin */
+  background-color: #f5f5f5;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  animation: bling-bling 2s linear infinite;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.event-box::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3));
+  transform: rotate(45deg);
+  pointer-events: none;
+  animation: glow 5s linear infinite;
+}
+
+.event-box::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  border: 2px dashed rgba(240, 127, 127, 0.8);
+  border-radius: 12px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.event-box .star {
+  position: absolute;
+  font-size: 12px;
+  color: rgba(255, 215, 0, 0.8);
+  pointer-events: none;
+  animation: twinkle 2s linear infinite;
+}
+
+@keyframes bling-bling {
+  0%, 100% {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 10px rgba(240, 127, 127, 0.8);
+  }
+  50% {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 20px rgba(240, 127, 127, 0.8);
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.2;
+  }
 }
 
 .event-box h3 {

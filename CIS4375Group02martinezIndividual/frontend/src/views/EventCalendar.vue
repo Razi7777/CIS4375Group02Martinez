@@ -20,6 +20,7 @@
           </div>
           <hr v-if="index < upcomingEvents.length - 1">
         </div>
+        <span class="star" v-for="n in 20" :key="n" :style="{ top: `${Math.random() * 100}%`, left: `${Math.random() * 100}%` }">★</span>
       </div>
 
       <div class="calendar">
@@ -27,11 +28,11 @@
           <h2>Event Calendar</h2>
           <div class="month-switcher">
             <button class="prev-month" @click="previousMonth">
-              <i class="fas fa-chevron-left"></i>
+              <i class="fas fa-caret-up"></i>
             </button>
             <span class="current-month">{{ currentMonth }}</span>
             <button class="next-month" @click="nextMonth">
-              <i class="fas fa-chevron-right"></i>
+              <i class="fas fa-caret-down"></i>
             </button>
           </div>
         </div>
@@ -116,7 +117,7 @@
                 <input type="date" id="eventDate" v-model="newEvent.Event_Date" required>
               </div>
               <div class="form-group">
-                <label for="eventAddress">Address:</label>
+                <label for="eventAddress">Physical or Virtual Address:</label>
                 <input type="text" id="eventAddress" v-model="newEvent.Address" required>
               </div>
               <div class="form-group">
@@ -171,7 +172,7 @@
                 </select>
               </div>
               <div class="form-group">
-                <label for="updateEventStatus">Event Status:</label>
+                <label for="updateEventStatus">Status:</label>
                 <select id="updateEventStatus" v-model="updateEventStatus">
                   <option v-for="status in eventStatuses" :key="status.Event_Status_ID" :value="status.Event_Status_ID">
                     {{ status.Event_Status }}
@@ -179,7 +180,7 @@
                 </select>
               </div>
               <div class="form-group">
-                <label for="updateEventCategory">Event Category:</label>
+                <label for="updateEventCategory">Category:</label>
                 <select id="updateEventCategory" v-model="updateEventCategory">
                   <option v-for="category in eventCategories" :key="category.Event_Category_ID" :value="category.Event_Category_ID">
                     {{ category.Event_Category }}
@@ -187,29 +188,52 @@
                 </select>
               </div>
               <div class="form-group">
-                <label for="updateEventDate">Event Date:</label>
+                <label for="updateEventDate">Date:</label>
                 <input type="date" id="updateEventDate" v-model="updateEventDate">
               </div>
               <div class="form-group">
-                <label for="updateEventDescription">Event Description:</label>
+                <label for="updateEventDescription">Description:</label>
                 <textarea id="updateEventDescription" v-model="updateEventDescription"></textarea>
               </div>
               <div class="form-group">
-                <label for="updateEventAddress">Event Address:</label>
+                <label for="updateEventAddress">Physical or Virtual Address:</label>
                 <input type="text" id="updateEventAddress" v-model="updateEventAddress">
               </div>
               <div class="form-group">
-                <label for="updateEventCity">Event City:</label>
+                <label for="updateEventCity">City:</label>
                 <input type="text" id="updateEventCity" v-model="updateEventCity">
               </div>
               <div class="form-group">
-                <label for="updateEventZipcode">Event Zipcode:</label>
+                <label for="updateEventZipcode">Zipcode:</label>
                 <input type="text" id="updateEventZipcode" v-model="updateEventZipcode">
               </div>
               <button type="submit" class="fancy-button">Update Event</button>
             </form>
             <p v-if="updateEventNotice" :class="{ 'success-notice': updateEventSuccess, 'error-notice': !updateEventSuccess }">
               {{ updateEventNotice }}
+            </p>
+          </div>
+        </div>
+
+        <div class="event-delete-form-container">
+          <div class="event-delete-form-header">
+            <h3><strong>Delete Event</strong></h3>
+          </div>
+          <div class="event-delete-form fancy-container">
+            <form class="fancy-form" @submit.prevent="deleteEvent">
+              <div class="form-group">
+                <label for="eventToDelete">Select:</label>
+                <select id="eventToDelete" v-model="selectedEventIdToDelete" required>
+                  <option value="">Select an event</option>
+                  <option v-for="event in allEventsForUpdate" :key="event.Event_ID" :value="event.Event_ID">
+                    {{ event.Event_Description }} - {{ formatDateTime(event.Event_Date) }}
+                  </option>
+                </select>
+              </div>
+              <button type="submit" class="fancy-button">Delete Event</button>
+            </form>
+            <p v-if="deleteEventNotice" :class="{ 'success-notice': deleteEventSuccess, 'error-notice': !deleteEventSuccess }">
+              {{ deleteEventNotice }}
             </p>
           </div>
         </div>
@@ -268,6 +292,9 @@ export default {
       updateEventZipcode: '',
       updateEventNotice: '',
       updateEventSuccess: false,
+      selectedEventIdToDelete: '',
+      deleteEventNotice: '',
+      deleteEventSuccess: false,
     };
   },
   computed: {
@@ -506,7 +533,40 @@ export default {
             this.updateEventSuccess = false;
           });
       }
-    }
+    },
+    deleteEvent() {
+    if (this.selectedEventIdToDelete) {
+      axios.delete(`http://localhost:3000/api/events/${this.selectedEventIdToDelete}`)
+        .then(response => {
+          console.log('Event deleted:', response.data);
+          this.deleteEventNotice = 'Event deleted successfully';
+          this.deleteEventSuccess = true;
+
+          // Remove the deleted event from the allEventsForUpdate array
+          const deletedEventIndex = this.allEventsForUpdate.findIndex(event => event.Event_ID === this.selectedEventIdToDelete);
+          if (deletedEventIndex !== -1) {
+            this.allEventsForUpdate.splice(deletedEventIndex, 1);
+          }
+
+          // Remove the deleted event from the allEvents array
+          const deletedEventIndexForList = this.allEvents.findIndex(event => event.Event_ID === this.selectedEventIdToDelete);
+          if (deletedEventIndexForList !== -1) {
+            this.allEvents.splice(deletedEventIndexForList, 1);
+          }
+
+          // Remove the deleted event from the events array
+          const deletedUpcomingEventIndex = this.events.findIndex(event => event.Event_ID === this.selectedEventIdToDelete);
+          if (deletedUpcomingEventIndex !== -1) {
+            this.events.splice(deletedUpcomingEventIndex, 1);
+          }
+        })
+        .catch(error => {
+          console.error('Error deleting event:', error);
+          this.deleteEventNotice = 'Failed to delete event';
+          this.deleteEventSuccess = false;
+        });
+      }
+  },
   },
   created() {
     axios.get('http://localhost:3000/api/events')
@@ -522,6 +582,7 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
 
 .event-calendar-wrapper {
   display: flex;
@@ -531,11 +592,15 @@ export default {
 }
 
 .event-calendar {
-  font-family: Arial, sans-serif;
+  font-family: 'Playfair Display', serif;
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
   flex-grow: 1;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
 }
 
 .event-list-form-wrapper {
@@ -656,6 +721,8 @@ export default {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: relative;
+  overflow: hidden;
+  animation: bling-bling 2s linear infinite;
 }
 .announcement-header {
   display: flex;
@@ -667,6 +734,58 @@ export default {
   margin: 0;
   font-size: 1.5rem;
   color: #333;
+  font-family: 'Playfair Display', serif;
+}
+.announcement::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3));
+  transform: rotate(45deg);
+  pointer-events: none;
+  animation: glow 5s linear infinite;
+}
+
+.announcement::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  border: 2px dashed rgba(240, 127, 127, 0.8);
+  border-radius: 12px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.announcement .star {
+  position: absolute;
+  font-size: 12px;
+  color: rgba(255, 215, 0, 0.8);
+  pointer-events: none;
+  animation: twinkle 2s linear infinite;
+}
+
+@keyframes bling-bling {
+  0%, 100% {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 10px rgba(240, 127, 127, 0.8);
+  }
+  50% {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 20px rgba(240, 127, 127, 0.8);
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.2;
+  }
 }
 .ribbon {
   background-color: #F07F7F;
@@ -681,6 +800,7 @@ export default {
   font-size: 1.1rem;
   color: #555;
   margin-bottom: 10px;
+  font-family: 'Playfair Display', serif;
 }
 .event-details {
   display: flex;
@@ -700,48 +820,64 @@ export default {
   overflow: hidden;
 }
 .calendar-header {
-  background-color: #333;
-  color: #fff;
+  background-color: #f8d7da;
+  color: #721c24;
   padding: 16px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 .calendar-header h2 {
   margin: 0;
   font-size: 1.2rem;
+  font-family: 'Playfair Display', serif;
 }
 .month-switcher {
   display: flex;
+  flex-direction: column;
   align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .month-switcher button {
-  background-color: #F07F7F;
+  background-color: transparent;
   border: none;
-  color: #fff;
+  color: #333;
   font-size: 1.2rem;
   cursor: pointer;
   padding: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+.month-switcher button:hover {
+  color: #F07F7F;
 }
 .month-switcher .current-month {
   margin: 0 8px;
   font-size: 1rem;
+  font-family: 'Playfair Display', serif;
 }
 table {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
+  border: 1px solid #ccc;
 }
 th,
 td {
   padding: 12px;
   text-align: center;
   position: relative;
+  border: 1px solid #ccc;
 }
 .weekdays th {
   background-color: #f5f5f5;
   font-weight: bold;
   color: #333;
+  border: 1px solid #ccc;
+  font-family: 'Playfair Display', serif;
 }
 .event-day {
   background-color: #e0f0ff;
@@ -758,6 +894,7 @@ td {
   border-radius: 50%;
   font-size: 0.9rem;
   color: #333;
+  font-family: 'Playfair Display', serif;
 }
 .event-details-popup {
   position: fixed;
@@ -800,6 +937,7 @@ td {
 .popup-header h4 {
   margin: 0;
   font-size: 1.2rem;
+  font-family: 'Playfair Display', serif;
 }
 .close-btn {
   background-color: transparent;

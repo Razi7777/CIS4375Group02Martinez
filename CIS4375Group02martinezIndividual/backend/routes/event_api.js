@@ -140,4 +140,24 @@ app.put('/api/events/:id', (req, res) => {
   });
 });
 
+// Delete an event
+app.delete('/api/events/:id', (req, res) => {
+  const eventId = req.params.id;
+
+  const query = `
+    DELETE FROM Event
+    WHERE Event_ID = ?
+  `;
+  const values = [eventId];
+
+  pool.query(query, values, (error, result) => {
+    if (error) {
+      console.error('Error executing query:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+      return;
+    }
+    res.json({ message: 'Event deleted successfully' });
+  });
+});
+
 module.exports = router;
