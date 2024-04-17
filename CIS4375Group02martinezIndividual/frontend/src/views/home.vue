@@ -72,6 +72,8 @@ import T1Image from '@/assets/T1.jpeg';
 import T2Image from '@/assets/T2.jpeg';
 import T3Image from '@/assets/T3.jpeg';
 import T4Image from '@/assets/T4.jpeg';
+import T5Image from '@/assets/T5.jpeg';
+import T6Image from '@/assets/T6.jpeg';
 
 export default {
   data() {
@@ -82,6 +84,8 @@ export default {
         { id: 2, imageUrl: T2Image, description: 'Item 2 Description' },
         { id: 3, imageUrl: T3Image, description: 'Item 3 Description' },
         { id: 4, imageUrl: T4Image, description: 'Item 4 Description' },
+        { id: 5, imageUrl: T5Image, description: 'Item 5 Description' },
+        { id: 6, imageUrl: T6Image, description: 'Item 6 Description' },
       ]
     };
   },
@@ -168,7 +172,7 @@ export default {
 .how-it-works,
 .blog-highlights,
 .event-announcements {
-  background-color: #f9f9f9; /* Light gray background */
+  background-color: transparent; /* Light gray background */
   padding: 2rem; /* Padding */
   text-align: center; /* Centered text */
 }
@@ -183,7 +187,7 @@ export default {
 }
 
 .event-box {
-  background-color: #f9f9f9; /* Light gray background */
+  background-color: transparent; /* Light gray background */
   border: 1px solid #ddd; /* Gray border */
   border-radius: 4px; /* Rounded corners */
   padding: 1rem; /* Padding */

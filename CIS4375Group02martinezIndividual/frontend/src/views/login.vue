@@ -2,37 +2,35 @@
 <template>
   <div class="login-container">
     <!--Header-->
-    <h1 class="font-bold text-4xl text-red-700 tracking-widest text-center mt-10">Welcome</h1>
+    <h1 class="login-header">Welcome Marisol</h1>
       <!--Form-->
-      <!-- form @submit.prevent="store.login(username, password)" novalidate="true" -->
       <form @submit.prevent="login">
-        <div class="flex justify-center mt-10">
+        <div class="input-group">
           <label>
-            <span class="text-gray-700">Username</span>
-            <span style="color: #F07F7F">*</span>
+            <span class="label-text">Username</span>
+            <span class="required-marker">*</span>
             <input type="text"
-              class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              placeholder v-model="form_input.user_name" />
+              class="input-field"
+              placeholder="Enter your username"
+              v-model="form_input.user_name" />
           </label>
         </div>
-        <div class="flex justify-center mt-10">
+        <div class="input-group">
           <label>
-            <span class="text-gray-700">Password</span>
-            <span style="color: #F07F7F">*</span>
+            <span class="label-text">Password</span>
+            <span class="required-marker">*</span>
             <input type="password"
-              class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              placeholder v-model="form_input.pass_word" />
+              class="input-field"
+              placeholder="Enter your password"
+              v-model="form_input.pass_word" />
           </label>
         </div>
         <!--Login button-->
-        <div class="flex justify-center mt-10">
-          <button class="bg-orange-900 text-white rounded" type="submit">Login</button>
-
+        <div class="button-container">
+          <button class="login-button" type="submit">Login</button>
         </div>
-        <p v-if="error">{{ error }}</p>
+        <p v-if="error" class="error-text">{{ error }}</p>
       </form>
-    </div>
-    <div>
     </div>
 </template>
 
@@ -83,7 +81,7 @@ export default {
   const error = ref(""); 
 //hardcoded login info
     async function login() {
-      const hardcoded_username = "username1"; 
+      const hardcoded_username = "Admin"; 
       //const hardcoded_username2 = "username2"
       const hardcoded_password = "password"; 
       
@@ -115,3 +113,76 @@ export default {
 </script>
 
 
+<style>
+.login-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #f7ecf5; /* Light pink background */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 20px;
+  max-height: 350px;
+}
+
+.login-header {
+  color: #ea4848; /* Soft red color */
+  text-align: center;
+  margin-bottom: 30px;
+  font-family: cursive;
+  font-weight: bold;
+  
+}
+
+.input-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.label-text {
+  color: #9c27b0; /* Deep purple for contrast */
+  font-size: 16px;
+  font-family: cursive;
+}
+
+.required-marker {
+  color: #f07f7f;
+}
+
+.input-field {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ffb6c1; /* Light pink border */
+  border-radius: 15px;
+  margin-top: 5px;
+}
+
+.login-button {
+  background-color: #ffb6c1; /* Light pink button */
+  color: white;
+  border: none;
+  border-radius: 15px;
+  padding: 10px 20px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: background-color 0.3s;
+}
+
+.login-button:hover {
+  background-color: #f78da7; /* Darker shade when hovered */
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.error-text {
+  color: #e57373; /* Soft red for errors */
+  text-align: center;
+  font-size: 16px;
+}
+</style>
