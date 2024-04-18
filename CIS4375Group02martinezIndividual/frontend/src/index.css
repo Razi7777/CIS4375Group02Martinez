@@ -9,19 +9,24 @@
 }
 
 html, body {
+  height: 100%; /* This ensures the parallax has enough content height to show */
   block-size: 100%;
-  min-block-size: 100vh; /* Ensures the minimum height is full viewport height */
+  min-block-size: 100vh; /* Full viewport height */
   margin: 0;
   padding: 0;
   background-color: #FEDBE4; /* Fallback background color */
-  background-image: url('@/assets/5044561.jpg'); /* Adjust the path as needed */
-  background-size: cover;
+  background-image: url('@/assets/5044561.jpg'); /* Ensure the path is correct */
+  background-attachment: fixed; /* Key for parallax */
+  background-size: cover; /* Cover the full area */
   background-position: center;
-
-   /* Centers the background image */
-/* Prevents the background image from repeating */
+  background-repeat: no-repeat;
 }
 
+@media only screen and (max-device-width: 1366px) {
+  html, body {
+    background-attachment: scroll; /* Disable fixed attachment */
+  }
+}
 
 .nav-container{
   background-color: transparent;
