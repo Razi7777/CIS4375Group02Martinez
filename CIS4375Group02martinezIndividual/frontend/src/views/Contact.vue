@@ -2,14 +2,18 @@
   <main class="contact-page h-screen">
     <header class="contact-header">
       <h1>Contact Us</h1>
-      <section class="social-media-links">
-        <h2>Follow us:</h2>
+      <section class="contact-info">
+        <h2>Follow us on Instagram</h2>
         <p class="instagram-link">
-          <strong>Instagram:</strong> 
           <a href="https://www.instagram.com/trendifindz/">@trendifindz</a>
+        </p>
+        <h2>Email Us</h2>
+        <p class="email-link">
+          <a href="mailto:Blumay15@gmail.com">Blumay15@gmail.com</a>
         </p>
       </section>
     </header>
+    <!-- BottomBar component will be rendered here -->
     <BottomBar />
   </main>
 </template>
@@ -18,10 +22,12 @@
 .contact-page {
   display: flex;
   flex-direction: column;
-  justify-content: top;
-  align-items: center;
+  justify-content: Top; /* Vertically center the content on the page */
+  align-items: center; /* Horizontally center the content on the page */
   background: var(--background-color);
-  font-family: 'Helvetica', 'Arial', sans-serif;
+  font-family: var(--font-family);
+  height: 100vh;
+  padding: 4rem 1rem;
 }
 
 .contact-header {
@@ -30,55 +36,61 @@
 }
 
 .contact-header h1 {
-  font-size: 2rem; /* 24px */
-  font-weight: bold;
-  text-decoration: underline;
+  font-family: 'Great Vibes', cursive;
+  font-size: 3rem; /* Larger font size for the main heading */
   color: var(--header-color);
   margin-bottom: 1.5rem;
 }
 
 .social-media-links h2 {
-  font-size: 1.5rem; /* 24px */
-  font-weight: bold;
-  text-decoration: underline;
-  color: var(--header-color);
-  margin-bottom: 1rem;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 2rem;
+  color: var(--subheader-color);
+  margin: 1rem 0; /* Add top margin to space out from the heading */
 }
 
-.instagram-link {
-  font-size: 1rem; /* 16px */
-  margin-bottom: 0.5rem;
+.instagram-link,
+.email-link {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1.25rem; /* Slightly larger for better readability */
   color: var(--text-color);
+  margin: 0.5rem 0; /* Add some vertical spacing */
 }
 
-.instagram-link a {
+.instagram-link a,
+.email-link a {
   color: var(--accent-color);
   text-decoration: none;
+  transition: color 0.3s ease; /* Smooth color transition for hover effect */
 }
 
-.instagram-link a:hover {
-  text-decoration: underline;
+.instagram-link a:hover,
+.email-link a:hover {
+  color: var(--hover-color); /* Define a hover color variable or use a specific color */
+  text-decoration: underline; /* Underline on hover for better interactivity */
 }
 
 /* Global variable definitions */
 :root {
-  --background-color: #f8f9fa; /* A light grey background */
-  --header-color: #333333; /* A darker shade for headers */
-  --text-color: #555555; /* A medium shade for regular text */
-  --accent-color: #007bff; /* A bright blue for links */
+  --background-color: #FFF0F5; /* Assuming this matches the "About Me" page */
+  --header-color: #FF69B4;
+  --subheader-color: #DB7093;
+  --text-color: #555;
+  --accent-color: #e91e63; /* Link color */
+  --hover-color: #c2185b; /* Hover state color for links */
+  --font-family: 'Quicksand', sans-serif; /* This should match the "About Me" page */
 }
 
-
-/* Add responsiveness */
 @media (max-width: 768px) {
-  .contact-header h1,
-  .social-media-links h2 {
-    font-size: 1.5rem;
+  .contact-header h1 {
+    font-size: 2rem;
   }
 
-  .instagram-link {
-    font-size: 0.875rem; /* 14px */
+  .social-media-links h2,
+  .instagram-link,
+  .email-link {
+    font-size: 1rem;
   }
 }
-</style>
 
+</style>

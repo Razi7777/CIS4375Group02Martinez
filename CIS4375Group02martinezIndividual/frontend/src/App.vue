@@ -158,14 +158,14 @@ export default {
       }
     };
 
-    onMounted(async () => {
-      try {
-        orgName.value = await getOrgName();
-      } catch (error) {
-        toast.error('Error fetching organization name');
-        console.error(error);
-      }
-    });
+    // onMounted(async () => {
+    //   try {
+    //     orgName.value = await getOrgName();
+    //   } catch (error) {
+    //     toast.error('Error fetching organization name');
+    //     console.error(error);
+    //   }
+    // });
 
     const toggleMenu = () => {
       isMenuOpen.value = !isMenuOpen.value;

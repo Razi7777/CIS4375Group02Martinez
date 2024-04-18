@@ -1,5 +1,5 @@
 <template>
-  <main class="flex justify-center items-center  bg-main-bg p-4 md:p-10">
+  <main class="flex justify-center items-top min-h-screen bg-main-bg p-4 md:p-10">
     <div class="privacy-policy rounded-lg md:p-10 max-w-4xl bg-white shadow-xl">
       <h1 class="text-3xl font-bold text-center mb-6">Privacy Policy</h1>
       <p class="mb-5">

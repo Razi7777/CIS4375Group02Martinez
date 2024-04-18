@@ -1,6 +1,7 @@
 <!-- This is the login view. Users can login by entering a correct username and password -->
-<template>
-  <div class="login-container">
+<template> 
+
+  <div class="login-container ">
     <!--Header-->
     <h1 class="login-header">Welcome Marisol</h1>
       <!--Form-->

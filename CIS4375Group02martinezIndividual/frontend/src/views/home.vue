@@ -177,7 +177,7 @@ export default {
 .how-it-works,
 .blog-highlights,
 .event-announcements {
-  background-color: transparent; /* Light gray background */
+
   padding: 2rem; /* Padding */
   text-align: center; /* Centered text */
 }
@@ -375,6 +375,10 @@ export default {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
   margin: 2rem auto; /* Vertical spacing and centering */
   max-width: 800px; /* Maximum width for the content area */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
 }
 
 .how-it-works h2 {
@@ -413,10 +417,26 @@ export default {
   }
 }
 
+.steps-list {
+  list-style: none; /* Remove default list styling */
+  padding: 0; /* Remove default padding */
+  width: 100%; /* Full width to contain list items */
+}
+
+.step-icon {
+  flex-shrink: 0; /* Prevent the icon from shrinking */
+  max-width: 70px; /* Set maximum width for the icon to be smaller */
+  height: auto; /* Maintain aspect ratio */
+  margin-right: 20px; /* Space after the icon */
+}
+
 .step-item {
-  display: flex; /* Use flexbox for alignment */
-  align-items: center; /* Center items vertically */
-  padding: 10px 0; /* Add padding for spacing between list items */
+  display: flex; /* Use flex to align icon and text */
+  align-items: center; /* Align items vertically */
+  justify-content: flex-start; /* Align items to the start of the container */
+  gap: 20px; /* Space between icon and text */
+  margin-bottom: 1rem; /* Space between each list item */
+  padding: 1rem; /* Padding inside each list item */
 }
 .step-item h3 {
   font-size: 1.4em; /* Increase the size for headings */
@@ -426,18 +446,18 @@ export default {
 
 .step-item p {
   margin: 0; /* Remove default margin */
-  font-size: 1em; /* Set a standard size for paragraph text */
-  color: #333; /* A darker color for better readability */
+  font-size: 1rem; /* Size of the step description */
+  color: #333; /* Description color */
+  flex-grow: 2; /* Allow the description to fill the space */
 }
 
 
 /* Adding cute icons to each step */
-.step-icon {
-  width: 100%; /* Full width of its container */
-  max-width: 75px; /* Maximum width to control the size */
-  height: auto; /* Maintain aspect ratio */
-  margin: 0 auto 1rem; /* Center horizontally and margin below */
-  padding-left: 1rem; 
+.step-item h3 {
+  margin: 0; /* Remove default margin */
+  font-size: 1.25rem; /* Size of the step title */
+  color: #A52A2A; /* Title color */
+  flex-grow: 1; /* Allow the title to fill the space */
 }
 /* Hover effects for interaction */
 .step:hover {
@@ -447,14 +467,15 @@ export default {
 
 @media (max-width: 768px) {
   .step-item {
-    flex-direction:
-    column; 
-    text-align: center; 
-}
+    flex-direction: column; /* Stack icon and text vertically on smaller screens */
+    align-items: center; /* Center-align items */
+    text-align: center; /* Center-align text */
+  }
 
-.step-icon {
-margin-bottom: 10px; 
-}
+  .step-icon {
+    margin-bottom: 10px; /* Space below the icon */
+    
+  }
 }
 
 

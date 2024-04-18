@@ -1,5 +1,5 @@
 <template>
-  <main class="flex flex-col items-center  bg-main-bg">
+  <main class="flex flex-col items-center min-h-screen bg-main-bg">
     <div class="w-full max-w-4xl px-4 py-8 text-center">
       <!-- Profile Picture -->
       <div class="profile-picture ">
@@ -56,27 +56,46 @@ props: {
 
 .title-text {
   font-family: 'Pacifico', cursive;
-  color: var(--title-color);
+  color: #dd7e9d;
   margin-bottom: 1rem;
   font-size: 2.5rem;
+  font-weight: bolder;
 }
 
 .subheading-text {
   font-family: 'Quicksand', sans-serif;
-  color: var(--subheading-color);
+  color: #dd7e9d;
   margin-bottom: 0.5rem;
 font-size: 1.75rem;
+font-weight: bold;
+}
+
+.about-marisol {
+  border-radius: 15px; /* Rounded corners for the border */
+  padding: 20px; /* Padding inside the section for spacing */
+  margin: 20px 0; /* Margin outside the section for spacing */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow for depth */
+  background-color: rgba(255, 192, 203, 0.3);
+}
+
+.about-marisol h2 {
+  font-family: 'CursiveFontName', cursive; /* Replace with your actual cursive font name */
+  color: var(--subheading-color); /* Use the pale violet-red color */
+  margin-bottom: 0.5rem; /* Space below the subheading */
+  font-size: 1.75rem; /* Size of the subheading */
+  text-align: center; /* Center-align the subheading */
+  color: #DB7093;
 }
 
 .about-marisol p {
-font-family: 'Quicksand', sans-serif;
-color: var(--text-color);
-
-border-radius: 15px;
-padding: 20px;
-line-height: 1.6;
-
+  font-family: 'Quicksand', sans-serif; /* Keep the Quicksand font for the paragraph */
+  color: var(--text-color); /* Softened text color for easy reading */
+  font-size: 1rem; /* Size of the paragraph text */
+  line-height: 1.6; /* Line height for better readability */
+  text-align: justify; /* Justify the paragraph text for neat alignment */
+  
 }
+
 
 /* Add a cute floral or similar pattern to the background */
 .main-bg {

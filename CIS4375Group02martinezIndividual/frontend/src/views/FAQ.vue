@@ -1,5 +1,5 @@
 <template>
-  <main class="flex justify-center  bg-white-100">
+  <main class="flex justify-center w-full min-h-screen bg-white-100">
     <div class="flex-grow">
       <AppNavBar :userStore="userStore" />
       <header class="w-full">
@@ -86,6 +86,12 @@ export default {
 
 h2 {
   color: #F07F7F; /* This is the hex color for a pinkish tone */
+}
+
+h1 {
+  color: #F07F7F;
+  font-family: cursive;
+  font-weight: bolder;
 }
 
 </style>

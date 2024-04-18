@@ -1,5 +1,5 @@
 <template>
-  <main class="bg-main-bg  py-8">
+  <main class="bg-main-bg  min-h-screen width py-8">
     <div class="terms-and-conditions-container bg-white shadow-lg rounded-lg max-w-4xl mx-auto p-8 md:p-12">
       <h1 class="title-font text-secondary-clr text-3xl mb-6">Terms and Conditions</h1>
       <p class="mb-6">Welcome to Trendi Finds! These terms and conditions outline the rules and regulations for the use of our website.</p>
