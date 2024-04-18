@@ -834,6 +834,8 @@ export default {
   margin: 0;
   font-size: 1.2rem;
   font-family: 'Playfair Display', serif;
+  font-weight: bolder;
+  font-family: cursive;
 }
 .month-switcher {
   display: flex;

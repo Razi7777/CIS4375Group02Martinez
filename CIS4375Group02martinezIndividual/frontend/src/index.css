@@ -9,14 +9,16 @@
 }
 
 html, body {
-  height: 100%;
-  min-height: 100vh; /* Ensures the minimum height is full viewport height */
+  block-size: 100%;
+  min-block-size: 100vh; /* Ensures the minimum height is full viewport height */
   margin: 0;
   padding: 0;
   background-color: #FEDBE4; /* Fallback background color */
   background-image: url('@/assets/5044561.jpg'); /* Adjust the path as needed */
   background-size: cover;
-  background-position: center; /* Centers the background image */
+  background-position: center;
+
+   /* Centers the background image */
 /* Prevents the background image from repeating */
 }
 
@@ -30,7 +32,7 @@ html, body {
 #app {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  block-size: 100%;
 }
 
 .Appvue_container {

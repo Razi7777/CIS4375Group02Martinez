@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-
+    <!-- Hero Section -->
     <section class="hero">
       <h1 class="hero-title">Discover Style with a Story</h1>
       <p class="hero-subtitle">Every piece has a past. Make it part of your future.</p>
@@ -9,40 +9,33 @@
 
     <!-- How It Works Section -->
     <section class="how-it-works">
-      <h2>How It Works</h2>
-      <div class="steps">
-        <div class="step">
-          <h3>1. Find Your Gem</h3>
-          <p>Browse our unique collection to find the perfect item for you.</p>
-        </div>
-        <div class="step">
-          <h3>2. Make It Yours</h3>
-          <p>Reserve your item and we’ll hold it for you to try and buy.</p>
-        </div>
-        <div class="step">
-          <h3>3. Sustainable Style</h3>
-          <p>Enjoy your thrift find while supporting sustainable fashion.</p>
-        </div>
-      </div>
-    </section>
+  <h2>How It Works</h2>
+  <ol class="steps-list">
+    <li class="step-item">
+      <img src="@/assets/search.png" class="step-icon" alt="Find Your Gem Icon">
+      <h3>Find Your Gem</h3>
+      <p>Browse our unique collection to find the perfect item for you.</p>
+    </li>
+    <li class="step-item">
+      <img src="@/assets/reserved.png" class="step-icon" alt="Make It Yours Icon">
+      <h3>Make It Yours</h3>
+      <p>Reserve your item and we’ll hold it for you to try and buy.</p>
+    </li>
+    <li class="step-item">
+      <img src="@/assets/excited.png" class="step-icon" alt="Sustainable Style Icon">
+      <h3>Sustainable Style</h3>
+      <p>Enjoy your thrift find while supporting sustainable fashion.</p>
+    </li>
+  </ol>
+</section>
 
     <!-- Featured Items Section -->
     <section class="featured-items">
-  <h2>Featured Items</h2>
-  <div class="carousel-container">
-    <div v-for="item in featuredItems" :key="item.id" class="carousel-slide">
-      <img :src="item.imageUrl" :alt="item.description">
-
-    </div>
-  </div>
-</section>
-
-
-    <!-- Blog Highlights Section -->
-    <section class="blog-highlights">
-      <h2>From Our Blog</h2>
-      <div class="blog-posts">
-        <!-- Dynamically render blog post previews here -->
+      <h2>Featured Items</h2>
+      <div class="carousel-container">
+        <div v-for="item in featuredItems" :key="item.id" class="carousel-slide">
+          <img :src="item.imageUrl" :alt="item.description">
+        </div>
       </div>
     </section>
 
@@ -50,11 +43,11 @@
     <section class="event-announcements">
       <h2><strong>Current and Upcoming Events</strong></h2>
       <div class="event-box" v-if="events.length > 0">
-        <div v-for="(event, index) in events" :key="event.Event_ID">
+        <div v-for="event in events" :key="event.Event_ID">
           <h3>{{ event.Event_Description }}</h3>
           <p><strong>Date:</strong> {{ formatDate(event.Event_Date) }}</p>
           <p><strong>Address:</strong> {{ event.Address }}, {{ event.City }}, {{ event.Zipcode }}</p>
-          <hr v-if="index < events.length - 1">
+          <hr v-if="events.indexOf(event) < events.length - 1">
         </div>
         <span class="star" v-for="n in 20" :key="n" :style="{ top: `${Math.random() * 100}%`, left: `${Math.random() * 100}%` }">★</span>
       </div>
@@ -62,7 +55,6 @@
     </section>
   </div>
 </template>
-
 <script>
 import 'slick-carousel';
 import 'slick-carousel/slick/slick.css';
@@ -136,6 +128,7 @@ export default {
 <style scoped>
 .page-container {
   font-family: 'Arial', sans-serif;
+  background: transparent;
 }
 
 .hero {
@@ -189,6 +182,32 @@ export default {
   text-align: center; /* Centered text */
 }
 
+.event-announcements h2 {
+  margin-bottom: 20px; /* Adjust the value as needed to get the desired space */
+}
+
+.event-box {
+  background-color: transparent;
+  padding: 20px;
+  margin: 20px auto; /* Centered horizontally */
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  animation: bling-bling 2s linear infinite;
+  max-width: 600px; /* Centered and constrained width */
+  box-shadow: 0 15px 15px -15px rgba(255, 192, 203, 1) inset, 0 -15px 15px -15px rgba(255, 192, 203, 1) inset;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
+}
+
+.steps .step {
+  /* Adjust the .step class based on the image/icon size and alignment issues */
+  flex: 1; /* Equal flex grow to distribute space evenly */
+  align-items: center; /* Center-align the content */
+  text-align: center; /* Center text */
+  /* Other styles... */
+}
+
 .steps .step,
 .blog-posts,
 .items-container {
@@ -196,10 +215,11 @@ export default {
   justify-content: center; /* Center horizontally */
   gap: 1rem; /* Space between items */
   margin-bottom: 1rem; /* Bottom margin */
+  width: fit-content;
 }
 
 .event-box {
-  background-color: #f5f5f5;
+  background-color: transparent;
   padding: 20px;
   margin-bottom: 20px;
   border-radius: 8px;
@@ -224,6 +244,16 @@ export default {
   pointer-events: none;
   animation: glow 5s linear infinite;
 }
+.event-box {
+  box-shadow: 0 15px 15px -15px rgba(255, 192, 203, 1) inset, 0 -15px 15px -15px rgba(255, 192, 203, 1) inset;
+}
+
+.event-box {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
+}
+
+
 
 .event-box::after {
   content: "";
@@ -308,6 +338,8 @@ export default {
 
 }
 
+
+
 ::v-deep .carousel-slide {
   display: flex;
   justify-content: center;
@@ -334,5 +366,109 @@ export default {
   transition: opacity 0.5s ease;
 }
 
+/* ... other styles ... */
+
+.how-it-works {
+  background-color: rgba(255, 192, 203, 0.3); /* Light pastel pink background for soft look */
+  padding: 3rem 2rem; /* More padding for a spacious layout */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  margin: 2rem auto; /* Vertical spacing and centering */
+  max-width: 800px; /* Maximum width for the content area */
+}
+
+.how-it-works h2 {
+  font-family: 'Great Vibes', cursive; /* Cursive font for the section title */
+  color: #DB7093; /* Soft pink color */
+  margin-bottom: 1.5rem; /* Space below the section title */
+  text-align: center;
+}
+
+.steps {
+  display: flex; /* Flexbox layout for the steps */
+  flex-direction: row; /* Align steps in a row */
+  justify-content: space-around; /* Evenly space the steps */
+  align-items: flex-start; /* Align items to the start of the flex container */
+  width: fit-content;
+}
+
+.step h3 {
+  font-size: 1.2rem; /* Larger font size for step titles */
+  color: #A52A2A; /* Darker shade for better readability */
+  margin-bottom: 0.5rem; /* Space below the step title */
+}
+
+.step p {
+  color: #333; /* Dark grey color for readability */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .steps {
+    flex-direction: column; /* Stack steps vertically on smaller screens */
+  }
+
+  .step {
+    margin-bottom: 1rem; /* Space between stacked steps */
+  }
+}
+
+.step-item {
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Center items vertically */
+  padding: 10px 0; /* Add padding for spacing between list items */
+}
+.step-item h3 {
+  font-size: 1.4em; /* Increase the size for headings */
+  margin: 0 0 5px 0; /* Adjust margins as needed */
+  color: #A52A2A; /* Choose a color that fits the design */
+}
+
+.step-item p {
+  margin: 0; /* Remove default margin */
+  font-size: 1em; /* Set a standard size for paragraph text */
+  color: #333; /* A darker color for better readability */
+}
+
+
+/* Adding cute icons to each step */
+.step-icon {
+  width: 100%; /* Full width of its container */
+  max-width: 75px; /* Maximum width to control the size */
+  height: auto; /* Maintain aspect ratio */
+  margin: 0 auto 1rem; /* Center horizontally and margin below */
+  padding-left: 1rem; 
+}
+/* Hover effects for interaction */
+.step:hover {
+  transform: translateY(-5px); /* Slight move up */
+  transition: transform 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .step-item {
+    flex-direction:
+    column; 
+    text-align: center; 
+}
+
+.step-icon {
+margin-bottom: 10px; 
+}
+}
+
+
+body {
+font-family: 'Open Sans', sans-serif; 
+}
+
+
+h2 {
+font-family: 'Open Sans', sans-serif; 
+font-size: 2.2em; 
+color: #DB7093; 
+text-align: center; 
+margin-bottom: 1em; 
+}
 </style>
 
