@@ -18,7 +18,7 @@ app.get('/products/get', (req, res) => {
   const clientId = req.params.id;
 
   // Construct the SQL query to fetch data from the database
-  const sql = 'SELECT * FROM Product';
+  const sql = 'SELECT Product.*, Supplier.Supplier_Name FROM Product LEFT JOIN Supplier ON Product.Supplier_ID = Supplier.Supplier_ID';
 
   // Execute the query
   pool.query(sql, (error, results, fields) => {
