@@ -1,21 +1,38 @@
-/* eslint-disable prettier/prettier */
-// This is the main file for the backend
-
-// import functionalities
 const express = require('express');
-//const mongoose = require('mongoose');
-//const morgan = require('morgan');
-
+const crypto = require('crypto');
+const helmet = require('helmet');
 const cors = require('cors');
-// allow using a .env file
-//require('dotenv').config(); //require the dotenv
+const rateLimit = require('express-rate-limit');
+require('dotenv').config();
 
 // creates a new instance of express application
 const app = express();
+app.use(express.json()); // Ensure JSON parsing is enabled
+app.use(helmet()); // Set security-related HTTP headers
+app.use(cors({
+    origin: process.env.CORS_ORIGIN // Define allowed origins in your .env file
+}));
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // Limit each IP to 100 requests per window
+});
+app.use(limiter);
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
+
 
 const pool = require('./DbConnection.js');
 
+const authRoutes = require('./routes/auth');
 
+app.use('/auth', authRoutes);
 
 // add cors header to the server
 app.use(
@@ -38,6 +55,20 @@ function checkConnection() {
 // Call the function to trigger the query
 checkConnection();
 
+
+
+// Function to hash passwords using crypto
+function hashPassword(password) {
+  // Generate a random salt
+  const salt = crypto.randomBytes(16).toString('hex');
+  // Hash the password with the salt
+  const hashedPassword = crypto.pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex');
+  return { salt, hashedPassword };
+}
+// Example usage of the hashPassword function
+const { salt, hashedPassword } = hashPassword('password123');
+console.log('Salt:', salt);
+console.log('Hashed Password:', hashedPassword);
 
 module.exports = app;
 

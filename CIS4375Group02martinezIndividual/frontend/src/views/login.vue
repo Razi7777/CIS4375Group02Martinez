@@ -38,79 +38,54 @@
 
 
 
- <!-- Composition API -->
 <script>
- //original script code to be used for sprint 3
- // import { useLoggedInUserStore } from "../store/loggedInUser";
-
- // export default {
-   // data() {
-    //  return {
-      //  username: "",
-     //   password: "",
-   //   }
-  //  },
-   // setup() {
-    //  const store = useLoggedInUserStore();
-    //  return {
-   //     store
-   //   }
-  //  }
- // }
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useLoggedInUserStore} from '@/store/loggedInUser'
-import { useToast } from 'vue-toastification'
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useLoggedInUserStore } from '@/store/loggedInUser';
+import { useToast } from 'vue-toastification';
+import axios from 'axios';
 
 export default {
   setup() {
-    const router = useRouter()
-    const loggedInUserStore = useLoggedInUserStore()
-    const toast = useToast()
+    const router = useRouter();
+    const loggedInUserStore = useLoggedInUserStore();
+    const toast = useToast();
 
-
-    const goToHome = () => {
-      router.push('/home') 
-    }
-
-   
     const form_input = ref({
       user_name: "",
       pass_word: ""
     });
 
-  const error = ref(""); 
-//hardcoded login info
+    const error = ref(""); 
+
     async function login() {
-      const hardcoded_username = "Admin"; 
-      //const hardcoded_username2 = "username2"
-      const hardcoded_password = "password"; 
-      
-      if (form_input.value.user_name === hardcoded_username && form_input.value.pass_word === hardcoded_password) {
-        await loggedInUserStore.login2(form_input.value.user_name, form_input.value.pass_word)
-        goToHome();
+  if (!form_input.value.user_name || !form_input.value.pass_word) {
+    toast.error('Username and password are required');
+    return;
+  }
 
-        }//else if (form_input.value.user_name === hardcoded_username2 && form_input.value.pass_word === hardcoded_password) {
-        //await loggedInUserStore.login2(form_input.value.user_name, form_input.value.pass_word)
-        //goToHome();
-        //}     
-        else {
-        console.log("login failed")
-        toast.error('Error Logging in: Please Check Username and Password')
-      }
-    }
-
-
-  return {
-    form_input,
-    error,
-    login,
-    goToHome,
-  };
-  
-
+  try {
+    const response = await axios.post('/auth/login', {
+    username: form_input.value.user_name,
+    password: form_input.value.pass_word
+  });
+    const token = response.data.token; // Assuming the backend returns a token upon successful login
+    // Store the token in Vuex state or local storage for future requests
+    localStorage.setItem('token', token);
+    // Redirect the user to the home page
+    router.push('/home');
+  } catch (err) {
+    console.error("Login failed:", err);
+    error.value = err.message || 'Failed to login';
+    toast.error(error.value);
+  }
+}
+    return {
+      form_input,
+      error,
+      login
+    };
   }
 }
 </script>
-
 

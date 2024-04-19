@@ -1,31 +1,34 @@
-import { createApp, markRaw } from "vue";
-import router from "./router";
+import { createApp } from "vue";
 import App from "./App.vue";
+import router from "./router";
 import "./index.css";
+import { createPinia } from 'pinia';
 import Toast from "vue-toastification";
-// Import the CSS or use your own!
 import "vue-toastification/dist/index.css";
-//state management library
-import { createPinia } from 'pinia'
 import VueDatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css'
+import '@vuepic/vue-datepicker/dist/main.css';
+import { useLoggedInUserStore } from './store/loggedInUser'; // Corrected import statement
 
 const app = createApp(App);
 
-//create a pinia root store
+// Initialize Pinia and add it to the app
 const pinia = createPinia();
-//pinia should be able to use router - has to be setup as plugin
-pinia.use(({ store }) => {
-  store.$router = markRaw(router)
-});
+app.use(pinia);
 
-//add pinia object to our instance
-app.use(pinia)
-app.use(router);
-
-const options = {
+// Initialize and configure Toast notifications
+const toastOptions = {
   position: 'bottom-right'
 };
+app.use(Toast, toastOptions);
+
+// Register global components
 app.component('VueDatePicker', VueDatePicker);
-app.use(Toast, options);
+
+// Use the router with the app
+app.use(router);
+
 app.mount("#app");
+
+// After the app is mounted, then check the login state using Pinia store
+const loggedInUserStore = useLoggedInUserStore();
+loggedInUserStore.checkLogin();

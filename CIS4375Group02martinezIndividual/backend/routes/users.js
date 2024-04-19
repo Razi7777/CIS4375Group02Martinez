@@ -1,42 +1,49 @@
-// This file contains all API endpoints for interacting with the "users" collection in the MongoDB database
 const express = require('express');
 const router = express.Router();
-// import bcrypt for comparing password to hashed password
 const bcrypt = require('bcrypt');
-// import JWT (JSON Web Token) to create a web token to the user after a successful login - allows user to make API calls
 const jwt = require('jsonwebtoken');
-
-// import users data model schema
-const { users } = require('../models/models');
-
-const org = process.env.ORG_ID;
+const pool = require('../DbConnection'); // Ensure this path is correct.
 
 // API endpoint to handle login
-router.post('/login', async (req, res) => {
+router.post('/login', (req, res) => {
   const { username, password } = req.body;
 
-  try {
-    const user = await users.findOne({ username: username, org: org });
-    if (!user) {
+  // Query to select the user from the database
+  const query = 'SELECT * FROM users WHERE username = ?'; // Adjust the table name as necessary
+
+  pool.query(query, [username], async (error, results) => {
+    if (error) {
+      return res.status(500).send('Server error');
+    }
+
+    if (results.length === 0) {
       return res.status(400).json({ message: 'Invalid username' });
     }
 
+    // User exists, now we check the password
+    const user = results[0];
     const isMatch = await bcrypt.compare(password, user.password);
+
     if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid username or password' });
+      return res.status(400).json({ message: 'Invalid password' });
     }
 
     const payload = {
-      name: user.name,
+      id: user.id, // Use a unique attribute from the user record
+      name: user.name, // This and other fields depend on your database schema
       role: user.role
     };
 
-    // token expires in 30 days. This is not best security practice but still demonstrates how JWT work
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '30d' });
+    // Sign the JWT token and populate the payload with the user id, name, and role
+    const token = jwt.sign(
+      payload,
+      process.env.JWT_SECRET, // Make sure to have your JWT_SECRET in your .env file
+      { expiresIn: '30d' } // Consider shortening this duration for better security practices
+    );
+
+    // Send the JWT token to the client
     res.json({ token });
-  } catch (err) {
-    res.status(500).send('Server error');
-  }
+  });
 });
 
 module.exports = router;

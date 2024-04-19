@@ -15,18 +15,18 @@
             </div>
             <div class="menu-items">
             <router-link to="/home" @click="closeMenu">Home</router-link>
-            <router-link to="/login" v-if="user.username !== 'Admin' && user.username !== 'username2'" @click="closeMenu">Login</router-link>
-            <li v-if="user.username === 'Admin'">
-              <router-link to="/clientform"  @click="closeMenu ">Clients</router-link>
-            </li>
+            <router-link to="/login" v-if="isLoggedIn !== 'Admin' && isLoggedIn !== 'username2'" @click="closeMenu">Login</router-link>
+            <li v-if="user.isLoggedIn && user.role === 'Admin'">
+            <router-link to="/clientform" @click="closeMenu">Clients</router-link>
+          </li>
            <li><router-link to="/event-calendar"  @click="closeMenu ">Events</router-link></li>
-            <li v-if="user.username === 'Admin'">
+            <li v-if="isLoggedIn === 'Admin'">
               <router-link to="/products"  @click="closeMenu ">Products</router-link>
             </li>
-            <li v-if="user.username === 'Admin' || user.username === 'username2'">
+            <li v-if="isLoggedIn === 'Admin' || isLoggedIn === 'username2'">
               <router-link to="/order-tracking"  @click="closeMenu ">Orders</router-link>
             </li>
-            <li v-if="user.username === 'Admin' || user.username === 'username2'">
+            <li v-if="isLoggedIn === 'Admin' || isLoggedIn === 'username2'">
               <router-link to="/home" @click="logout">Logout</router-link>
             </li>
             </div>  
@@ -43,21 +43,21 @@
             <li>
               <router-link to="/event-calendar">Event Calendar</router-link>
             </li>
-            <li v-if="user.username !== 'Admin' && user.username !== 'username2'">
+            <li v-if="isLoggedIn !== 'Admin' && isLoggedIn !== 'username2'">
               <router-link to="/login">Login</router-link>
             </li>
-            <li v-if="user.username === 'Admin'">
+            <li v-if="isLoggedIn === 'Admin'">
               <router-link to="/clientform">Clients</router-link>
             </li>
-            <li v-if="user.username === 'Admin'">
+            <li v-if="isLoggedIn === 'Admin'">
               <router-link to="/products">Products</router-link>
             </li>
 
-            <li v-if="user.username === 'Admin' || user.username === 'username2'">
+            <li v-if="isLoggedIn === 'Admin' || isLoggedIn === 'username2'">
               <router-link to="/order-tracking">Orders</router-link>
             </li>
 
-            <li v-if="user.username === 'Admin' || user.username === 'username2'">
+            <li v-if="isLoggedIn === 'Admin' || isLoggedIn === 'username2'">
               <router-link to="/home" @click="logout">Logout</router-link>
             </li>
           </ul>
@@ -129,43 +129,29 @@
 </template>
 
 <script>
-// <!-- Composition API -->
-import { ref, onMounted } from 'vue';
+
+import { ref } from 'vue';
 import { useLoggedInUserStore } from './store/loggedInUser';
-import { getOrgName } from './api/api';
 import { useToast } from 'vue-toastification';
 
 export default {
   setup() {
-    const user = useLoggedInUserStore();
-    const orgName = ref('Dataplatform');
-    // State variable for the email input in the newsletter form
+    const toast = useToast();
+    const userStore = useLoggedInUserStore();
     const email = ref('');
     const isMenuOpen = ref(false);
-    const toast = useToast();
 
-    const subscribeToNewsletter = async () => {
-      try {
-        // Add your actual newsletter subscription logic here
-        console.log(`Subscribing ${email.value} to the newsletter...`);
-        // After subscription, you would usually make an API call
-        // Once successful, reset the email field and show a success message
-        email.value = '';
-        toast.success('Successfully subscribed to the newsletter!');
-      } catch (error) {
-        toast.error('Failed to subscribe to the newsletter.');
-        console.error(error);
-      }
+    const logout = () => {
+      userStore.logout(); // Make sure logout action is properly defined in your store
+      isMenuOpen.value = false;
+      toast.info('Logged out successfully.');
     };
 
-    // onMounted(async () => {
-    //   try {
-    //     orgName.value = await getOrgName();
-    //   } catch (error) {
-    //     toast.error('Error fetching organization name');
-    //     console.error(error);
-    //   }
-    // });
+    const subscribeToNewsletter = async () => {
+      // Your newsletter subscription logic
+      email.value = '';
+      toast.success('Successfully subscribed to the newsletter!');
+    };
 
     const toggleMenu = () => {
       isMenuOpen.value = !isMenuOpen.value;
@@ -175,63 +161,69 @@ export default {
       isMenuOpen.value = false;
     };
 
-    const logout = () => {
-      user.logout();
-      closeMenu();
-    };
-
     return {
-      user,
-      orgName,
+      user: userStore,
       isMenuOpen,
       toggleMenu,
       closeMenu,
       logout,
-      email,          // This line was missing a comma at the end in your original code
+      email,
       subscribeToNewsletter
     };
   },
 };
 
+
 </script>
+// <!-- </script>
+//     // onMounted(async () => {
+//     //   try {
+//     //     orgName.value = await getOrgName();
+//     //   } catch (error) {
+//     //     toast.error('Error fetching organization name');
+//     //     console.error(error);
+//     //   }
+//     // }); -->
 
-<!-- // reference:
-// https://vuejs.org/api/composition-api-setup -->
 
-<!-- Options API -->
-<!-- <script>
-import { useLoggedInUserStore } from './store/loggedInUser'
-import { getOrgName } from './api/api'
-import { useToast } from 'vue-toastification'
-//Notifications
-const toast = useToast()
 
-export default {
-  setup() {
-    const user = useLoggedInUserStore();
-    return { user };
-  },
-  data() {
-    return {
-      orgName: "Dataplatform",
-    };
-  },
-  async created() {
-    try {
-      this.orgName = await getOrgName();
-    } catch {
-      throw (error)
-    }
-  },
-  methods: {
-    logout() {
-      try {
-        this.$store.dispatch('clearSessionData');
-        this.$router.push('/')
-      } catch (error) {
-        toast.error('logout error', error)
-      }
-    },
-  }
-}
-</script> -->
+// <!-- // reference:
+// // https://vuejs.org/api/composition-api-setup -->
+
+// <!-- Options API -->
+// <!-- <script>
+// import { useLoggedInUserStore } from './store/loggedInUser'
+// import { getOrgName } from './api/api'
+// import { useToast } from 'vue-toastification'
+// //Notifications
+// const toast = useToast()
+
+// export default {
+//   setup() {
+//     const user = useLoggedInUserStore();
+//     return { user };
+//   },
+//   data() {
+//     return {
+//       orgName: "Dataplatform",
+//     };
+//   },
+//   async created() {
+//     try {
+//       this.orgName = await getOrgName();
+//     } catch {
+//       throw (error)
+//     }
+//   },
+//   methods: {
+//     logout() {
+//       try {
+//         this.$store.dispatch('clearSessionData');
+//         this.$router.push('/')
+//       } catch (error) {
+//         toast.error('logout error', error)
+//       }
+//     },
+//   }
+// }
+// </script> -->

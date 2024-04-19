@@ -1,62 +1,60 @@
-// This pinia store contains state with respect to whether a user is logged in 
 import { defineStore } from 'pinia'
 import { useToast } from 'vue-toastification'
-import { loginUser, logoutUser } from '../api/api' // import API calls
-import jwt_decode from 'jwt-decode'; // import JSON Web Token decoder to decode the token into the user's information
+import { loginUser, logoutUser } from '../api/api'
+import jwt_decode from 'jwt-decode';
+import router from '../router' // Ensure your router is correctly imported
 
-//Notifications
 const toast = useToast()
 
-// Defining a store
 export const useLoggedInUserStore = defineStore({
   id: 'loggedInUser',
-  state: () => {
-    return {
-      //name: "",
-      //role: "",
-      //isLoggedIn: false
-      username: "",
-      password: "",
-    }
-  },
+  state: () => ({
+    isLoggedIn: false,
+    name: "",
+    role: "",
+    token: localStorage.getItem('token') || "", // Initialize token from localStorage
+  }),
   actions: {
     async login(username, password) {
       try {
         const token = await loginUser(username, password);
-        // Get the user's name and role from the JWT token
+        localStorage.setItem('token', token); // Save token to localStorage
         const decodedToken = jwt_decode(token);
         this.$patch({
           isLoggedIn: true,
           role: decodedToken.role,
-          name: decodedToken.name
+          name: decodedToken.name,
+          token: token
         });
-        this.$router.push("/home");
-        toast.success("Login Sucessful!")
-
-      } catch ( error ) {
-        toast.error(error.message)
-      }
-    },
-    logout() {
-      logoutUser();
-      // Reset value after user log out
-      this.$patch({
-        username: "",
-        password: "",
-      });
-      this.$router.push("/login");
-      toast.info("You have been logged out!")
-    },
-    async login2(username, password) {
-      try {
-        this.$patch({
-          username: username,
-          password: password
-        });
+        router.push("/home");
         toast.success("Login Successful!");
       } catch (error) {
         toast.error(error.message);
       }
+    },
+    logout() {
+      logoutUser(); // Ideally, this should also make an API call to invalidate the token
+      localStorage.removeItem('token'); // Remove token from localStorage
+      this.$reset(); // Reset store state
+      router.push("/login");
+      toast.info("You have been logged out!");
+    },
+    checkLogin() {
+      if (this.token) {
+        try {
+          const decodedToken = jwt_decode(this.token);
+          this.$patch({
+            isLoggedIn: true,
+            role: decodedToken.role,
+            name: decodedToken.name
+          });
+        } catch (error) {
+          // Handle error if token is not valid or expired
+          this.logout();
+        }
+      }
     }
   }
 });
+
+// Call checkLogin in your main.js or App.vue to initialize the store state based on existing localStorage
