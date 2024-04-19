@@ -9,7 +9,7 @@
         </p>
         <h2>Email Us</h2>
         <p class="email-link">
-          <a href="mailto:Blumay15@gmail.com">Blumay15@gmail.com</a>
+          <a href="mailto:trenditower@gmail.com">trenditower@gmail.com</a>
         </p>
       </section>
     </header>
