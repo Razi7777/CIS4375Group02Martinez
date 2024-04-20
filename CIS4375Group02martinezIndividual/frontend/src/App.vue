@@ -1,16 +1,21 @@
 <template>
   <main class="Appvue_container">    
     <div>
+      <!-- Navigation Bar -->
       <div class="nav-container">
         <img src="@/assets/Marisol.svg" alt="Logo" class="logo-svg"/>
+        <!-- Main Navbar -->
         <div class="navbar container">
+          <!-- Mobile Menu Container -->
           <div class="mobile-container nav-container-mobile">
+            <!-- Hamburger Menu -->
             <input class="checkbox" type="checkbox" v-model="isMenuOpen" />
             <div class="hamburger-lines" @click="toggleMenu">
               <span class="line line1"></span>
               <span class="line line2"></span>
               <span class="line line3"></span>
             </div>
+            <!-- Menu Items -->
             <div class="menu-items">
               <router-link to="/home" @click="closeMenu">Home</router-link>
               <router-link to="/login" v-if="!isLoggedIn" @click="closeMenu">Login</router-link>
@@ -32,9 +37,11 @@
             </div>  
           </div>
         </div>
+        <!-- Title Section -->
         <section class="justify-end items-center h-24 flex">
           <h1 class="Title"><a href="/home"></a></h1>
         </section>
+        <!-- Links -->
         <div class="links">
           <ul>
             <li>
@@ -137,8 +144,6 @@ export default {
     const userStore = useLoggedInUserStore();
     const email = ref('');
     const isMenuOpen = ref(false);
-
-    // This computed property will automatically update when userStore.isLoggedIn changes
     const isLoggedIn = computed(() => userStore.isLoggedIn);
     const userRole = computed(() => userStore.role);
 
@@ -149,7 +154,6 @@ export default {
     };
 
     const subscribeToNewsletter = async () => {
-      // Newsletter subscription logic
       email.value = '';
       toast.success('Successfully subscribed to the newsletter!');
     };
@@ -172,7 +176,7 @@ export default {
       email,
       subscribeToNewsletter
     };
-  },
+  }
 };
 </script>
 
