@@ -77,7 +77,7 @@
         </div>
       </div>
       <br>
-      <div class="event-list-form-wrapper" v-if="user.username === 'Admin'">
+      <div class="event-list-form-wrapper" v-if="user.isLoggedIn">
         <div class="event-list-container">
           <div class="event-list fancy-container">
             <h3><strong><center>Event List</center></strong></h3>
