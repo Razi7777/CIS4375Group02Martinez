@@ -19,9 +19,10 @@
               <div class="col-span-1">
                 <label for="toggleFormSelect1" class="block font-bold mb-2">Select Product Status</label>
                 <select id="toggleFormSelect1" v-model="searchByStatus" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    <option value="1">Active</option>
-                    <option value="2">Inactive</option>
-                    <option value="3">Suspended</option>
+                    <option value="1">In-Stock</option>
+                    <option value="2">Out-of-Stock</option>
+                    <option value="3">Sold Out</option>
+                    <option value="4">Coming Soon</option>
                 </select>
             </div>
             
@@ -29,8 +30,12 @@
             <div class="col-span-1">
                 <label for="toggleFormSelect2" class="block font-bold mb-2">Select Product Category</label>
                 <select id="toggleFormSelect2" v-model="searchByCategory" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    <option value="1">Subscribed</option>
-                    <option value="2">Guest</option>
+                  <option value="1">Tops</option>
+                  <option value="2">Bottoms</option>
+                  <option value="3">Shoes</option>
+                  <option value="4">Accessories</option>
+                  <option value="5">Jewelry</option>
+                  <option value="6">Miscellaneous</option>
                 </select>
             </div>
   
@@ -51,7 +56,7 @@
                   Clear Current Filter
                   </button>
               <div class="pt-6">
-              <button class="bg-red-300 text-white rounded px-4 pt-2 py-2 mr-4" @click="searchClients" type="submit">
+              <button class="bg-red-300 text-white rounded px-4 pt-2 py-2 mr-4" @click="searchProducts" type="submit">
                   Search Products
               </button>
             </div>
@@ -167,52 +172,60 @@
         <div></div>
         <div class="px-10 pt-20">
         <div class="ml-10">
-          <h2 class="text-2xl font-bold">Add New Customer</h2>
+          <h2 class="text-2xl font-bold">Add New Product</h2>
         </div>
-        <form @submit.prevent="addnewClient" class="grid flex grid-cols-2 max-w-lg flex-col md:flex-row gap-x-6 gap-y-10 bg-gray-300 p-5 rounded-lg shadow-md">
+        <form @submit.prevent="addnewProduct" class="grid flex grid-cols-2 max-w-lg flex-col md:flex-row gap-x-6 gap-y-10 bg-gray-300 p-5 rounded-lg shadow-md">
           <div class="col-span-1 ">
             <label for="Name"></label>
-            <input type="text" id="Name" placeholder="Enter name" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newClient.Customer_Name" required><br><br>
+            <input type="text" id="Name" placeholder="Enter name" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newProduct.Product_Name" required><br><br>
         
-            <label for="Address"></label>
-            <input type="text" id="Address" placeholder="Address"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newClient.Address" required><br><br>
+            <label for="Description"></label>
+            <input type="text" id="Description" placeholder="Description"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newProduct.Product_Description" required><br><br>
             
   
-            <label for="City"></label>
-            <input type="text" id="City" placeholder="City" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newClient.City" required><br><br>
+            <label for="Quantity"></label>
+            <input type="text" id="Quantity" placeholder="Quantity" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newProduct.Quantity" required><br><br>
         
-            <label for="Zipcode"></label>
-            <input type="text" id="Zipcode" placeholder="Zipcode" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newClient.Zipcode" required><br><br>
+            <label for="Price"></label>
+            <input type="text" id="Price" placeholder="Price" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newProduct.Price" required><br><br>
         
-            <label for="email"></label>
-            <input type="text"  placeholder="Email"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"  id="email" v-model="newClient.Email" required><br><br>
-  
-            <button class="col-span-2 bg-red-300 text-white rounded" type="submit">Add Customer</button>
+            <label for="Supplier">Supplier: </label><br>
+            <select class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newProduct.Supplier_ID">
+              <option v-for="Supplier in Suppliers" :key="Supplier.Supplier_ID" :value="Supplier.Supplier_ID">{{ Supplier.Supplier_Name }}</option>
+            </select><br><br>
+
+            
           </div>
           <div class="col-span-1">
-            <label for="PhoneNumber"></label>
-            <input type="text" id="PhoneNumber" placeholder="Phone Number xxx-xxx-xxxx"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newClient.Phone_Number" required><br><br>
-        
-            <label for="Birthday"></label>
-            <input type="text" id="Birthday" placeholder="Birthday yyyy/mm/dd"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newClient.Birthday" ><br><br>
-        
-            <label for="CustomerCategory">Customer Category: </label><br>
-            <select id="CustomerCategory" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newClient.Customer_Category_ID" required>
-            <option value="1">Subscribed</option>
-            <option value="2">Guest</option>
+          
+            <label for="ProductCategory">Product Category: </label><br>
+            <select id="ProductCategory" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newProduct.Product_Category_ID" required>
+              <option value=1>Tops</option>
+              <option value=2>Bottoms</option>
+              <option value=3>Shoes</option>
+              <option value=4>Accessories</option>
+              <option value=5>Jewelry</option>
+              <option value=6>Miscellaneous</option>
             </select><br><br>
+
+            <label for="ProductType">Product Type: </label><br>
+            <select id="CustomerStatus" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newProduct.Product_Type_ID" required>
+            <option value=1>New</option>
+            <option value=2>Used</option>
+            <option value=3>Like New</option>
+            <option value=3>Refurbished</option>
+            </select><br><br>
+        
   
-            <label for="CustomerStatus">Customer Status: </label><br>
-            <select id="CustomerStatus" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newClient.Customer_Status_ID" required>
-            <option value="1">Active</option>
-            <option value="2">Inactive</option>
-            <option value="3">Suspended</option>
+            <label for="CustomerStatus">Product Status: </label><br>
+            <select id="CustomerStatus" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newProduct.Product_Status_ID" required>
+              <option value="1">In-Stock</option>
+              <option value="2">Out-of-Stock</option>
+              <option value="3">Sold Out</option>
+              <option value="4">Coming Soon</option>
             </select><br><br>
         
-            <label for="CustomerStatus">State/Province/Territory: </label><br>
-            <select class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newClient.State_Province_Territory_ID">
-              <option v-for="Territory in Territories" :key="Territory.State_Province_Territory_ID" :value="Territory.State_Province_Territory_ID">{{ Territory.State_Province_Territory }}</option>
-            </select>
+            <button class="col-span-2 bg-red-300 text-white rounded" type="submit">Add Product</button>
           </div>
           
         </form>
@@ -224,57 +237,65 @@
      
        <div class="px-10 pt-20">
         <div class="ml-10"> 
-       <h2 class="text-2xl font-bold">Update Existing Customer</h2>
+       <h2 class="text-2xl font-bold">Update Existing Product</h2>
         </div> 
-       <form @submit.prevent="updateClientFunction" class="grid flex grid-cols-2 max-w-lg flex-col md:flex-row gap-x-6 gap-y-10 bg-gray-300 p-5 rounded-lg shadow-md">
-        <div>
-            <label for="ID"></label>
-            <input type="text" id="ID" placeholder="Enter ID to update"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updateClient.Customer_ID" required><br><br>
+       <form @submit.prevent="updateProductFunction" class="grid flex grid-cols-2 max-w-lg flex-col md:flex-row gap-x-6 gap-y-10 bg-gray-300 p-5 rounded-lg shadow-md">
+        <div class="col-span-1 ">
+              <label for="ID"></label>
+              <input type="text" id="ID" placeholder="Enter ID to Update"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updateProduct.Product_ID" required><br><br>
+
+              <label for="Name"></label>
+              <input type="text" id="Name" placeholder="Enter name" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updateProduct.Product_Name" required><br><br>
+          
+              <label for="Description"></label>
+              <input type="text" id="Description" placeholder="Description"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updateProduct.Product_Description" required><br><br>
+              
     
-            <label for="Name"></label>
-            <input type="text" id="Name" placeholder="Enter name"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updateClient.Customer_Name" required><br><br>
-    
-            <label for="Address"></label>
-            <input type="text" id="Address"  placeholder="Address" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updateClient.Address" required><br><br>
-    
-            <label for="City"></label>
-            <input type="text" id="City" placeholder="City"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"  v-model="updateClient.City" required><br><br>
-    
-            <label for="Zipcode"></label>
-            <input type="text" id="Zipcode" placeholder="Zipcode"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"  v-model="updateClient.Zipcode" required><br><br>
-    
-            <label for="email"></label>
-            <input type="text" id="email" placeholder="email"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"  v-model="updateClient.Email" required><br><br>
-            <button class="col-span-2 bg-red-300 text-white rounded" type="submit">Update Customer</button>
-        </div>
-        <div>
-            <label for="PhoneNumber"></label>
-            <input type="text"  placeholder="Phone Number xxx-xxx-xxxx"   class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="PhoneNumber" v-model="updateClient.Phone_Number" required><br><br>
-    
-            <label for="Birthday"></label>
-            <input type="text" placeholder="Birthday xx/xx/xxxx" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="Birthday" v-model="updateClient.Birthday" ><br><br>
-    
-    
-                     
-            <label for="CustomerCategory">Customer Category: </label><br>
-            <select id="CustomerCategory" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updateClient.Customer_Category_ID" required>
-            <option value="1">Subscribed</option>
-            <option value="2">Guest</option>
-            </select><br><br>
-               
+              <label for="Quantity"></label>
+              <input type="text" id="Quantity" placeholder="Quantity" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updateProduct.Quantity" required><br><br>
+          
+              <label for="Price"></label>
+              <input type="text" id="Price" placeholder="Price" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updateProduct.Price" required><br><br>
+          
+              <label for="Supplier">Supplier: </label><br>
+              <select class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updateProduct.Supplier_ID">
+                <option v-for="Supplier in Suppliers" :key="Supplier.Supplier_ID" :value="Supplier.Supplier_ID">{{ Supplier.Supplier_Name }}</option>
+              </select><br><br>
+
+          
+            </div>
+            <div class="col-span-1">
             
-            <label for="CustomerStatus">Customer Status: </label><br>
-            <select id="CustomerStatus" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updateClient.Customer_Status_ID" required>
-            <option value="1">Active</option>
-            <option value="2">Inactive</option>
-            <option value="3">Suspended</option>
-            </select><br><br>
+              <label for="ProductCategory">Product Category: </label><br>
+              <select id="ProductCategory" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updateProduct.Product_Category_ID" required>
+                <option value=1>Tops</option>
+                <option value=2>Bottoms</option>
+                <option value=3>Shoes</option>
+                <option value=4>Accessories</option>
+                <option value=5>Jewelry</option>
+                <option value=6>Miscellaneous</option>
+              </select><br><br>
+  
+              <label for="ProductType">Product Type: </label><br>
+              <select id="CustomerStatus" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updateProduct.Product_Type_ID" required>
+              <option value=1>New</option>
+              <option value=2>Used</option>
+              <option value=3>Like New</option>
+              <option value=3>Refurbished</option>
+              </select><br><br>
+          
     
-            <label for="CustomerStatus">State/Province/Territory: </label><br>
-            <select class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updateClient.State_Province_Territory_ID">
-              <option v-for="Territory in Territories" :key="Territory.State_Province_Territory_ID" :value="Territory.State_Province_Territory_ID">{{ Territory.State_Province_Territory }}</option>
-            </select>
-        </div>
+              <label for="CustomerStatus">Product Status: </label><br>
+              <select id="CustomerStatus" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updateProduct.Product_Status_ID" required>
+                <option value="1">In-Stock</option>
+                <option value="2">Out-of-Stock</option>
+                <option value="3">Sold Out</option>
+                <option value="4">Coming Soon</option>
+              </select><br><br>
+          
+              <button class="col-span-2 bg-red-300 text-white rounded" type="submit">Update Product</button>
+             
+            </div>
         
     </form>
   </div>
@@ -284,15 +305,15 @@
         <div></div>
         <div class="px-10 pt-20 pb-20">
         <div class="ml-10"> 
-        <h2 class="text-2xl font-bold">Delete Customer</h2>
+        <h2 class="text-2xl font-bold">Delete Product</h2>
         </div>
-          <form @submit.prevent="deleteClientFunction" class="grid flex grid-cols-2 max-w-lg flex-col md:flex-row gap-x-6 gap-y-10 bg-gray-300 p-5 rounded-lg shadow-md">
+          <form @submit.prevent="deleteProductFunction" class="grid flex grid-cols-2 max-w-lg flex-col md:flex-row gap-x-6 gap-y-10 bg-gray-300 p-5 rounded-lg shadow-md">
           <div>
             <label for="ID"></label>
-            <input type="text" id="ID" placeholder="Enter ID to delete" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="deleteClient.Customer_ID" required>
+            <input type="text" id="ID" placeholder="Enter ID to delete" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="deleteProduct.Product_ID" required>
             <div class="mt-4">
-            <button class="bg-red-300 text-white rounded" type="submit">Delete Customer</button>
           </div>
+          <div><button class="bg-red-300 text-white rounded" type="submit">Delete Product</button></div>
           </div>
           
        
@@ -326,36 +347,33 @@
       const toast = useToast()
       const searchByStatus = ref('');
       const searchByCategory = ref('');
-      const searchByTerritory = ref('');
+      const searchBySupplier = ref('');
       const result = ref([]);
-      const newClient = ref({
-          Customer_Name: '',
-          Address: '',
-          City: '',
-          Zipcode: '',
-          Email: '',
-          Phone_Number: '',
-          Birthday: '',
-          Customer_Category_ID: '',
-          Customer_Status_ID: '',
-          State_Province_Territory_ID: '',
+      const newProduct = ref({
+    
+          Product_Name: '',
+          Product_Description: '',
+          Quantity: '',
+          Price: '',
+          Supplier_ID: '',
+          Product_Category_ID: '',
+          Product_Type_ID: '',
+          Product_Status_ID: '',
   
       });
-      const updateClient = ref({
-          Customer_Name: '',
-          Address: '',
-          City: '',
-          Zipcode: '',
-          Email: '',
-          Phone_Number: '',
-          Birthday: '',
-          Customer_Category_ID: '',
-          Customer_Status_ID: '',
-          State_Province_Territory_ID: '',
-  
+      const updateProduct = ref({
+          Product_ID: '',
+          Product_Name: '',
+          Product_Description: '',
+          Quantity: '',
+          Price: '',
+          Supplier_ID: '',
+          Product_Category_ID: '',
+          Product_Type_ID: '',
+          Product_Status_ID: '',
   
       });
-      const deleteClient = ref({
+      const deleteProduct = ref({
   
   
       });
@@ -381,7 +399,7 @@
               
               searchByStatus.value ='';
               searchByCategory.value = '';
-              searchByTerritory.value = '';
+              searchBySupplier.value = '';
           } else if (showSecondForm.value) {
               showFirstForm.value = false;
               showSecondForm.value = false;
@@ -389,13 +407,13 @@
             
               searchByCategory.value = '';
               searchByStatus.value = '';
-              searchByTerritory.value = '';
+              searchBySupplier.value = '';
           } else if (showThirdForm.value) {
               showFirstForm.value = true;
               showSecondForm.value = false;
               showThirdForm.value = false;
             
-              searchByTerritory.value = '';
+              searchBySupplier.value = '';
               searchByStatus.value = '';
               searchByCategory.value = '';
           }
@@ -423,12 +441,12 @@
           filteredProducts = filteredProducts.filter(Product => Product.Product_Category_ID == searchByCategory.value);
       }
       if (searchByStatus.value) {
-          filteredClients = filteredClients.filter(client => client.Product_Status_ID == searchByStatus.value);
+          filteredProducts = filteredProducts.filter(Product => Product.Product_Status_ID == searchByStatus.value);
       }
-      if (searchByTerritory.value) {
-          filteredClients = filteredClients.filter(client => client.State_Province_Territory_ID == searchByTerritory.value);
+      if (searchBySupplier.value) {
+          filteredProducts = filteredProducts.filter(Product => Product.Supplier_ID == searchBySupplier.value);
       }
-      Clients.value = filteredClients; // Update the Clients array with the filtered results
+      Products.value = filteredProducts; // Update the Clients array with the filtered results
   }
       
     async function loadProducts() {
@@ -482,55 +500,55 @@
   
     
   
-      async function addnewClient() {
+      async function addnewProduct() {
       const options = {
           method: 'POST',
-          url: 'http://127.0.0.1:3000/Customer/post',
-          data: newClient.value 
+          url: 'http://127.0.0.1:3000/products/post',
+          data: newProduct.value 
     
       };
   
       try {
           const response = await axios.request(options);
-          toast.success('Customer Successfully added')
+          toast.success('Product Successfully Added')
           loadProducts();
       } catch (error) {
-         toast.error('Failed to Add Customer')
+         toast.error('Failed to Add Product')
       }
   }
   
   
-  async function updateClientFunction() {
-    const customerId = updateClient.value.Customer_ID;
+  async function updateProductFunction() {
+    const ProductId = updateProduct.value.Product_ID;
     const options = {
       method: 'PUT',
-      url: `http://127.0.0.1:3000/Customer/Put/${customerId}`,
-      data: updateClient.value 
+      url: `http://127.0.0.1:3000/products/Put/${ProductId}`,
+      data: updateProduct.value 
     };
   
     try {
       const response = await axios.request(options);
       console.log(response.data);
       loadProducts();
-      toast.success('Customer Successfully Updated')
+      toast.success('Product Successfully Updated')
     } catch (error) {
-      toast.error('Could not update Customer')
+      toast.error('Could not update Product')
     }
   }
   
-  async function deleteClientFunction() {
-    const customerId = deleteClient.value.Customer_ID;
+  async function deleteProductFunction() {
+    const ProductId = deleteProduct.value.Product_ID;
     const options = {
       method: 'DELETE', // Change method to DELETE
-      url: `http://127.0.0.1:3000/Customer/Delete/${customerId}`, 
+      url: `http://127.0.0.1:3000/products/Delete/${ProductId}`, 
     };
   
     try {
       const response = await axios.request(options);
-      toast.success('Customer Successfully Deleted')
+      toast.success('Product Successfully Deleted')
       loadProducts(); 
     } catch (error) {
-      toast.error('Could not delete Customer')
+      toast.error('Could not delete Product')
     }
   }
   
@@ -557,8 +575,8 @@
         Products,
         searchByCategory,
         searchByStatus,
-        searchByTerritory,
-        searchClients,
+        searchBySupplier,
+        searchProducts,
         clearData,
         result,
         VueDatePicker,
@@ -566,14 +584,14 @@
         showSecondForm,
         showThirdForm,
         toggleForm,
-        newClient,
-        addnewClient,
-        updateClient,
-        updateClientFunction,
+        newProduct,
+        addnewProduct,
+        updateProduct,
+        updateProductFunction,
         loadProducts,
         Datetimechange,
-        deleteClient,
-        deleteClientFunction,
+        deleteProduct,
+        deleteProductFunction,
         Suppliers,
         loadSuppliers
   
