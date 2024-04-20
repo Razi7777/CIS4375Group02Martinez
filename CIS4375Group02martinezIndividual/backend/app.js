@@ -30,14 +30,28 @@ app.use((err, req, res, next) => {
 });
 
 const corsOptions = {
-  origin: 'http://localhost:5173', // This should match the port your Vue app is running on
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  optionsSuccessStatus: 200,
 };
-
 app.use(cors(corsOptions));
 
 
 const pool = require('./DbConnection.js');
+
+const allowedOrigins = [
+  'http://localhost:3000',  // Your server port
+  'http://localhost:5173',  // Your Vue app port
+  // Add any other origins you want to allow
+];
+
+app.use(cors(corsOptions));
+
 
 const userRoutes = require('./routes/users'); // The file where your /login route is defined
 app.use('/users', userRoutes);
