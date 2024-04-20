@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useLoggedInUserStore } from '../store/loggedInUser'
+import NotFound from '../views/NotFound.vue';
 
 // make all paths and names lowercase for consistency
 
@@ -23,7 +24,8 @@ const routes = [
   {
     path: '/products', 
     name: 'products',
-    component: () => import('../views/products.vue')
+    component: () => import('../views/products.vue'),
+    meta: { requiresAuth: true }
   },
 
 {
@@ -40,7 +42,7 @@ const routes = [
     path: '/clientform',
     name: 'clientform',
     // only authenticated users can create clients
-    //meta: { requiresAuth: true },
+    meta: { requiresAuth: true },
     component: () => import('../views/clientform.vue')
   },
   {
@@ -63,7 +65,7 @@ const routes = [
   {
     path: '/clientdetails/:id',
     name: 'clientdetails',
-    //meta: { requiresAuth: true },
+    meta: { requiresAuth: true },
     component: () => import('../views/clientdetails.vue')
   },
   {
@@ -127,6 +129,13 @@ const routes = [
     name: 'shipping',
     component: () => import('../views/shipping.vue'),
   },
+
+  {
+    path: '/:catchAll(.*)*', // This will match anything that doesn't match earlier routes
+    name: 'NotFound',
+    component: NotFound
+  },
+  
 ];
 
 const router = createRouter({
