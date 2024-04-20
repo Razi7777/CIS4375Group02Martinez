@@ -43,43 +43,35 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useLoggedInUserStore } from '@/store/loggedInUser';
 import { useToast } from 'vue-toastification';
-import axios from 'axios';
 
 export default {
   setup() {
     const router = useRouter();
     const loggedInUserStore = useLoggedInUserStore();
     const toast = useToast();
-
+    
     const form_input = ref({
       user_name: "",
       pass_word: ""
     });
+    const error = ref("");
 
-    const error = ref(""); 
+    const login = async () => {
+      if (!form_input.value.user_name || !form_input.value.pass_word) {
+        toast.error('Username and password are required');
+        return;
+      }
 
-    async function login() {
-  if (!form_input.value.user_name || !form_input.value.pass_word) {
-    toast.error('Username and password are required');
-    return;
-  }
+      try {
+        // Use login action from the loggedInUser store
+        await loggedInUserStore.login(form_input.value.user_name, form_input.value.pass_word);
+      } catch (err) {
+        console.error("Login failed:", err);
+        error.value = err.message || 'Failed to login';
+        toast.error(error.value);
+      }
+    };
 
-  try {
-    const response = await axios.post('/auth/login', {
-    username: form_input.value.user_name,
-    password: form_input.value.pass_word
-  });
-    const token = response.data.token; // Assuming the backend returns a token upon successful login
-    // Store the token in Vuex state or local storage for future requests
-    localStorage.setItem('token', token);
-    // Redirect the user to the home page
-    router.push('/home');
-  } catch (err) {
-    console.error("Login failed:", err);
-    error.value = err.message || 'Failed to login';
-    toast.error(error.value);
-  }
-}
     return {
       form_input,
       error,
@@ -88,4 +80,3 @@ export default {
   }
 }
 </script>
-

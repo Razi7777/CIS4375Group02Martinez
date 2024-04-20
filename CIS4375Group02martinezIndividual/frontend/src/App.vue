@@ -1,5 +1,3 @@
-<!-- This is the main frontend file. It displays a navigation bar and rendered components. -->
-
 <template>
   <main class="Appvue_container">    
     <div>
@@ -7,28 +5,30 @@
         <img src="@/assets/Marisol.svg" alt="Logo" class="logo-svg"/>
         <div class="navbar container">
           <div class="mobile-container nav-container-mobile">
-          <input class="checkbox" type="checkbox" v-model="isMenuOpen" />
-          <div class="hamburger-lines" @click="toggleMenu">
+            <input class="checkbox" type="checkbox" v-model="isMenuOpen" />
+            <div class="hamburger-lines" @click="toggleMenu">
               <span class="line line1"></span>
               <span class="line line2"></span>
               <span class="line line3"></span>
             </div>
             <div class="menu-items">
-            <router-link to="/home" @click="closeMenu">Home</router-link>
-            <router-link to="/login" v-if="isLoggedIn !== 'Admin' && isLoggedIn !== 'username2'" @click="closeMenu">Login</router-link>
-            <li v-if="user.isLoggedIn && user.role === 'Admin'">
-            <router-link to="/clientform" @click="closeMenu">Clients</router-link>
-          </li>
-           <li><router-link to="/event-calendar"  @click="closeMenu ">Events</router-link></li>
-            <li v-if="isLoggedIn === 'Admin'">
-              <router-link to="/products"  @click="closeMenu ">Products</router-link>
-            </li>
-            <li v-if="isLoggedIn === 'Admin' || isLoggedIn === 'username2'">
-              <router-link to="/order-tracking"  @click="closeMenu ">Orders</router-link>
-            </li>
-            <li v-if="isLoggedIn === 'Admin' || isLoggedIn === 'username2'">
-              <router-link to="/home" @click="logout">Logout</router-link>
-            </li>
+              <router-link to="/home" @click="closeMenu">Home</router-link>
+              <router-link to="/login" v-if="!isLoggedIn" @click="closeMenu">Login</router-link>
+              <li v-if="isLoggedIn && userRole === 'Admin'">
+                <router-link to="/clientform" @click="closeMenu">Clients</router-link>
+              </li>
+              <li>
+                <router-link to="/event-calendar" @click="closeMenu">Events</router-link>
+              </li>
+              <li v-if="userRole === 'Admin'">
+                <router-link to="/products" @click="closeMenu">Products</router-link>
+              </li>
+              <li v-if="userRole === 'Admin' || userRole === 'username2'">
+                <router-link to="/order-tracking" @click="closeMenu">Orders</router-link>
+              </li>
+              <li v-if="isLoggedIn">
+                <router-link to="/home" @click="logout">Logout</router-link>
+              </li>
             </div>  
           </div>
         </div>
@@ -43,21 +43,19 @@
             <li>
               <router-link to="/event-calendar">Event Calendar</router-link>
             </li>
-            <li v-if="isLoggedIn !== 'Admin' && isLoggedIn !== 'username2'">
+            <li v-if="!isLoggedIn">
               <router-link to="/login">Login</router-link>
             </li>
-            <li v-if="isLoggedIn === 'Admin'">
+            <li v-if="userRole === 'Admin'">
               <router-link to="/clientform">Clients</router-link>
             </li>
-            <li v-if="isLoggedIn === 'Admin'">
+            <li v-if="userRole === 'Admin'">
               <router-link to="/products">Products</router-link>
             </li>
-
-            <li v-if="isLoggedIn === 'Admin' || isLoggedIn === 'username2'">
+            <li v-if="userRole === 'Admin' || userRole === 'username2'">
               <router-link to="/order-tracking">Orders</router-link>
             </li>
-
-            <li v-if="isLoggedIn === 'Admin' || isLoggedIn === 'username2'">
+            <li v-if="isLoggedIn">
               <router-link to="/home" @click="logout">Logout</router-link>
             </li>
           </ul>
@@ -129,8 +127,7 @@
 </template>
 
 <script>
-
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useLoggedInUserStore } from './store/loggedInUser';
 import { useToast } from 'vue-toastification';
 
@@ -141,14 +138,18 @@ export default {
     const email = ref('');
     const isMenuOpen = ref(false);
 
+    // This computed property will automatically update when userStore.isLoggedIn changes
+    const isLoggedIn = computed(() => userStore.isLoggedIn);
+    const userRole = computed(() => userStore.role);
+
     const logout = () => {
-      userStore.logout(); // Make sure logout action is properly defined in your store
+      userStore.logout();
       isMenuOpen.value = false;
       toast.info('Logged out successfully.');
     };
 
     const subscribeToNewsletter = async () => {
-      // Your newsletter subscription logic
+      // Newsletter subscription logic
       email.value = '';
       toast.success('Successfully subscribed to the newsletter!');
     };
@@ -162,7 +163,8 @@ export default {
     };
 
     return {
-      user: userStore,
+      isLoggedIn,
+      userRole,
       isMenuOpen,
       toggleMenu,
       closeMenu,
@@ -172,9 +174,8 @@ export default {
     };
   },
 };
-
-
 </script>
+
 // <!-- </script>
 //     // onMounted(async () => {
 //     //   try {

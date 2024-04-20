@@ -8,6 +8,8 @@ const pool = mysql.createPool({
     database: 'nincompoopDB'
   });
 
+  const jwtSecret = process.env.JWT_SECRET;
+
 // Test the database connection
 pool.query('SELECT 1', (err, results) => {
   if (err) {
@@ -17,4 +19,4 @@ pool.query('SELECT 1', (err, results) => {
   console.log('Connected to the database');
 });
 
-  module.exports = pool;
+  module.exports = pool; 

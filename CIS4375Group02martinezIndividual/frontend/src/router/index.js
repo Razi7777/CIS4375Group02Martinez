@@ -2,6 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useLoggedInUserStore } from '../store/loggedInUser'
 
 // make all paths and names lowercase for consistency
+
+
+
 const routes = [
   {
     path: '/',
@@ -132,14 +135,12 @@ const router = createRouter({
 });
 
 // protecting the routes
-router.beforeEach((to) => {
+router.beforeEach((to, from, next) => {
   const store = useLoggedInUserStore()
   if (to.meta.requiresAuth && !store.isLoggedIn) {
-    return {
-      path: '/login',
-      // save the location we were at to come back later
-      query: { redirect: to.fullPath },
-    }
+    next('/login');
+  } else {
+    next();
   }
 })
 

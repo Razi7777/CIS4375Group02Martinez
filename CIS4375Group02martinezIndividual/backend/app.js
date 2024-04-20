@@ -4,6 +4,8 @@ const helmet = require('helmet');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
+console.log('JWT Secret:', process.env.JWT_SECRET);
+
 
 // creates a new instance of express application
 const app = express();
@@ -26,9 +28,18 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 
+const corsOptions = {
+  origin: 'http://localhost:5173', // This should match the port your Vue app is running on
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+app.use(cors(corsOptions));
 
 
 const pool = require('./DbConnection.js');
+
+const userRoutes = require('./routes/users'); // The file where your /login route is defined
+app.use('/users', userRoutes);
 
 const authRoutes = require('./routes/auth');
 
