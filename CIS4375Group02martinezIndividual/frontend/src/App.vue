@@ -18,13 +18,15 @@
             <!-- Menu Items -->
             <div class="menu-items">
               <router-link to="/home" @click="closeMenu">Home</router-link>
-              <router-link to="/login" v-if="!isLoggedIn" @click="closeMenu">Login</router-link>
               <li v-if="isLoggedIn && userRole === 'Admin'">
                 <router-link to="/clientform" @click="closeMenu">Clients</router-link>
               </li>
               <li>
                 <router-link to="/event-calendar" @click="closeMenu">Events</router-link>
               </li>
+              <li v-if="!isLoggedIn">
+              <router-link to="/FAQ">FAQ</router-link>
+             </li>
               <li v-if="userRole === 'Admin'">
                 <router-link to="/products" @click="closeMenu">Products</router-link>
               </li>
@@ -51,7 +53,9 @@
               <router-link to="/event-calendar">Event Calendar</router-link>
             </li>
             <li v-if="!isLoggedIn">
-              <router-link to="/login">Login</router-link>
+              <router-link to="/FAQ">FAQ</router-link>
+            </li>
+            <li v-if="!isLoggedIn">
             </li>
             <li v-if="userRole === 'Admin'">
               <router-link to="/clientform">Clients</router-link>
@@ -93,6 +97,7 @@
         <li><router-link to="/FAQ">FAQ</router-link></li>
         <li><router-link to="/terms-and-conditions">Terms and Conditions</router-link></li>
         <li><router-link to="/privacy-policy">Privacy Policy</router-link></li>
+        <li><router-link to="/login">Admin Login</router-link></li>
       </ul>
     </div>
 
