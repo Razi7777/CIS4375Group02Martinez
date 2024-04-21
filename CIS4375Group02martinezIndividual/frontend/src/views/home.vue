@@ -19,7 +19,7 @@
     <li class="step-item">
       <img src="@/assets/reserved.png" class="step-icon" alt="Make It Yours Icon">
       <h3>Make It Yours</h3>
-      <p>Reserve your item and we’ll hold it for you to try and buy.</p>
+      <p>Place a bid on any item or buy it now.</p>
     </li>
     <li class="step-item">
       <img src="@/assets/excited.png" class="step-icon" alt="Sustainable Style Icon">
