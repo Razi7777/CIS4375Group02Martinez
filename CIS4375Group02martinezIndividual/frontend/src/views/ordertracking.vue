@@ -161,8 +161,8 @@
           <option value=1>Shipping</option>
           <option value=2>Recieved</option>
           <option value=3>Missing</option>
-          <option value=3>Return Initiated</option>
-          <option value=4>Return Completed</option>
+          <option value=4>Return Initiated</option>
+          <option value=5>Return Completed</option>
           </select><br><br>
 
       
