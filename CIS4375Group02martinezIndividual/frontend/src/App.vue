@@ -25,7 +25,7 @@
                 <router-link to="/event-calendar" @click="closeMenu">Events</router-link>
               </li>
               <li v-if="!isLoggedIn">
-              <router-link to="/FAQ">FAQ</router-link>
+              <router-link to="/FAQ" @click="closeMenu">FAQ</router-link>
              </li>
               <li v-if="userRole === 'Admin'">
                 <router-link to="/products" @click="closeMenu">Products</router-link>
