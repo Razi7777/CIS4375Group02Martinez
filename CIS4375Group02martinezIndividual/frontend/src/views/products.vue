@@ -388,7 +388,26 @@
       const Suppliers = ref([
   
       ]);
-  
+      const clearForm = () => {
+    newProduct.value = {
+      Purchase_Order_Date: '',
+      Purchase_Order_Category_ID: '',
+      Purchase_Order_Status_ID: '',
+      Customer_ID: '',
+      Product_ID: ''
+    };
+
+    updateProduct.value = {
+      Purchase_Order_ID: '',
+      Purchase_Order_Date: '',
+      Purchase_Order_Category_ID: '',
+      Purchase_Order_Status_ID: '',
+      Customer_ID: '',
+      Product_ID: ''
+    };
+
+    // No need to clear deletePurchase object if it doesn't have any properties
+  };
   
   
       const toggleForm = () => {
@@ -512,6 +531,7 @@
           const response = await axios.request(options);
           toast.success('Product Successfully Added')
           loadProducts();
+          clearForm();
       } catch (error) {
          toast.error('Failed to Add Product')
       }
@@ -530,6 +550,7 @@
       const response = await axios.request(options);
       console.log(response.data);
       loadProducts();
+      clearForm();
       toast.success('Product Successfully Updated')
     } catch (error) {
       toast.error('Could not update Product')
@@ -546,7 +567,8 @@
     try {
       const response = await axios.request(options);
       toast.success('Product Successfully Deleted')
-      loadProducts(); 
+      loadProducts();
+      clearForm();
     } catch (error) {
       toast.error('Could not delete Product')
     }
@@ -593,7 +615,8 @@
         deleteProduct,
         deleteProductFunction,
         Suppliers,
-        loadSuppliers
+        loadSuppliers,
+        clearForm,
   
       }
     }

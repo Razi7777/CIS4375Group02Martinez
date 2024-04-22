@@ -18,7 +18,9 @@ app.get('/purchaseorder/get', (req, res) => {
   const purchaseId = req.params.id;
 
   // Construct the SQL query to fetch data from the database
-  const sql = "SELECT Purchase_Order.*, Customer.Customer_Name, Product.Product_Name, Product.Price FROM Purchase_Order JOIN Customer ON Purchase_Order.Customer_ID = Customer.Customer_ID JOIN Product ON Purchase_Order.Product_ID = Product.Product_ID";
+  const sql =  `SELECT Purchase_Order.*, Customer.Customer_Name, Product.Product_Name, Product.Price FROM Purchase_Order JOIN Customer ON Purchase_Order.Customer_ID = Customer.Customer_ID JOIN Product ON Purchase_Order.Product_ID = Product.Product_ID ORDER BY Purchase_Order_ID`;
+
+;
 
   // Execute the query
   pool.query(sql, (error, results, fields) => {

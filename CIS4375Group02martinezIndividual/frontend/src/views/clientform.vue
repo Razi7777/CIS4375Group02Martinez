@@ -344,7 +344,26 @@ export default {
     const Territories = ref([
 
     ]);
+    const clearForm = () => {
+    newClient.value = {
+      Purchase_Order_Date: '',
+      Purchase_Order_Category_ID: '',
+      Purchase_Order_Status_ID: '',
+      Customer_ID: '',
+      Product_ID: ''
+    };
 
+    updateClient.value = {
+      Purchase_Order_ID: '',
+      Purchase_Order_Date: '',
+      Purchase_Order_Category_ID: '',
+      Purchase_Order_Status_ID: '',
+      Customer_ID: '',
+      Product_ID: ''
+    };
+
+    // No need to clear deletePurchase object if it doesn't have any properties
+  };
 
 
     const toggleForm = () => {
@@ -469,6 +488,7 @@ function Datetimechange() {
         const response = await axios.request(options);
         toast.success('Customer Successfully added')
         loadClients();
+        clearForm();
     } catch (error) {
        toast.error('Failed to Add Customer')
     }
@@ -487,6 +507,7 @@ async function updateClientFunction() {
     const response = await axios.request(options);
     console.log(response.data);
     loadClients();
+    clearForm();
     toast.success('Customer Successfully Updated')
   } catch (error) {
     toast.error('Could not update Customer')
@@ -503,7 +524,8 @@ async function deleteClientFunction() {
   try {
     const response = await axios.request(options);
     toast.success('Customer Successfully Deleted')
-    loadClients(); 
+    loadClients();
+    clearForm();
   } catch (error) {
     toast.error('Could not delete Customer')
   }
@@ -550,7 +572,8 @@ async function deleteClientFunction() {
       deleteClient,
       deleteClientFunction,
       Territories,
-      loadTerritories
+      loadTerritories,
+      clearForm,
 
     }
   }

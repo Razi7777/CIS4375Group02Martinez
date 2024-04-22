@@ -147,9 +147,9 @@
       </div>
       <form @submit.prevent="addnewPurchase" class="grid flex grid-cols-2 max-w-lg flex-col md:flex-row gap-x-6 gap-y-10 bg-gray-300 p-5 rounded-lg shadow-md">
         <div class="col-span-1 ">
-          <label for="Date">Date</label>
-          <input type="text" id="Date" placeholder="yyyy-mm-dd" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newPurchase.Purchase_Order_Date" required><br><br>
-      
+          <label for="datepicker">Select Date:</label>
+          <vue-date-picker id="datepicker" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newPurchase.Purchase_Order_Date"></vue-date-picker>
+          <br>
           <label for="PurchaseCategory">Sale Category: </label><br>
           <select id="PurchaseCategory" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="newPurchase.Purchase_Order_Category_ID" required>
             <option value=1>Online Transaction</option>
@@ -181,7 +181,7 @@
             <option v-for="Customer in Customers" :key="Customer.Customer_ID" :value="Customer.Customer_ID">{{ Customer.Customer_Name }}</option>
           </select><br><br>
       
-          <button class="col-span-2 bg-red-300 text-white rounded" type="submit">Add Product</button>
+          <button class="col-span-2 bg-red-300 text-white rounded" type="submit">Add Sale</button>
         </div>
         
       </form>
@@ -197,12 +197,12 @@
       </div> 
      <form @submit.prevent="updatePurchaseFunction" class="grid flex grid-cols-2 max-w-lg flex-col md:flex-row gap-x-6 gap-y-10 bg-gray-300 p-5 rounded-lg shadow-md">
       <div class="col-span-1 ">
-            <label for="ID"></label>
-            <input type="text" id="ID" placeholder="Enter ID to Update"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updatePurchase.Purchase_Order_ID" required><br><br>
+          <label for="ID">ID:</label><br>
+          <input type="text" id="ID" placeholder="Enter ID to Update"  class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updatePurchase.Purchase_Order_ID" required><br><br>
 
-          <label for="Date">Date</label>
-          <input type="text" id="Date" placeholder="yyyy-mm-dd" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updatePurchase.Purchase_Order_Date" required><br><br>
-      
+          <label for="datepicker">Select Date:</label>
+          <vue-date-picker id="datepicker" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updatePurchase.Purchase_Order_Date"></vue-date-picker>
+          <br>      
           <label for="PurchaseCategory">Sale Category: </label><br>
           <select id="PurchaseCategory" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="updatePurchase.Purchase_Order_Category_ID" required>
             <option value=1>Online Transaction</option>
@@ -250,7 +250,7 @@
       </div>
         <form @submit.prevent="deletePurchaseFunction" class="grid flex grid-cols-2 max-w-lg flex-col md:flex-row gap-x-6 gap-y-10 bg-gray-300 p-5 rounded-lg shadow-md">
         <div>
-          <label for="ID"></label>
+          <label for="ID">ID:</label><br>
           <input type="text" id="ID" placeholder="Enter ID to delete" class="max-w-xs md:max-w-lg w-48 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" v-model="deletePurchase.Purchase_Order_ID" required>
           <div class="mt-4">
         </div>
@@ -330,6 +330,28 @@ export default {
     const Purchase_Orders = ref([]);
 
 
+    const clearForm = () => {
+    newPurchase.value = {
+      Purchase_Order_Date: '',
+      Purchase_Order_Category_ID: '',
+      Purchase_Order_Status_ID: '',
+      Customer_ID: '',
+      Product_ID: ''
+    };
+
+    updatePurchase.value = {
+      Purchase_Order_ID: '',
+      Purchase_Order_Date: '',
+      Purchase_Order_Category_ID: '',
+      Purchase_Order_Status_ID: '',
+      Customer_ID: '',
+      Product_ID: ''
+    };
+
+    // No need to clear deletePurchase object if it doesn't have any properties
+  };
+
+
     const toggleForm = () => {
         if (showFirstForm.value) {
             showFirstForm.value = false;
@@ -399,6 +421,7 @@ export default {
     try {
         const response = await axios.request(options);
         Purchase_Orders.value = response.data;
+        Datetimechange();
     } catch (error) {
       toast.error()
 
@@ -445,8 +468,8 @@ async function loadProducts() {
 
 
 function Datetimechange() {
-      Clients.value.forEach(function(Client) {
-        Client.Birthday = Client.Birthday.split('T')[0];
+      Purchase_Orders.value.forEach(function(Purchase_Order) {
+        Purchase_Order.Purchase_Order_Date = Purchase_Order.Purchase_Order_Date.split('T')[0];
       });
     }
     
@@ -464,7 +487,9 @@ function Datetimechange() {
     try {
         const response = await axios.request(options);
         toast.success('Product Successfully Added')
+
         loadPurchaseOrders();
+        clearForm();
     } catch (error) {
        toast.error('Failed to Add Product')
     }
@@ -483,6 +508,7 @@ async function updatePurchaseFunction() {
     const response = await axios.request(options);
     console.log(response.data);
     loadPurchaseOrders();
+    clearForm();
     toast.success('Sale Successfully Updated')
   } catch (error) {
     toast.error('Could not update Product')
@@ -499,7 +525,8 @@ async function deletePurchaseFunction() {
   try {
     const response = await axios.request(options);
     toast.success('Sale Successfully Deleted')
-    loadPurchaseOrders(); 
+    loadPurchaseOrders();
+    clearForm();
   } catch (error) {
     toast.error('Could not delete Product')
   }
@@ -538,6 +565,7 @@ async function deletePurchaseFunction() {
       showSecondForm,
       showThirdForm,
       toggleForm,
+      clearForm,
       newPurchase,
       addnewPurchase,
       updatePurchase,

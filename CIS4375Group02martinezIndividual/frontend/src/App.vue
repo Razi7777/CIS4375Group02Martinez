@@ -19,7 +19,7 @@
             <div class="menu-items">
               <router-link to="/home" @click="closeMenu">Home</router-link>
               <li v-if="isLoggedIn && userRole === 'Admin'">
-                <router-link to="/clientform" @click="closeMenu">Clients</router-link>
+                <router-link to="/clientform" @click="closeMenu">Customers</router-link>
               </li>
               <li>
                 <router-link to="/event-calendar" @click="closeMenu">Events</router-link>
@@ -31,7 +31,7 @@
                 <router-link to="/products" @click="closeMenu">Products</router-link>
               </li>
               <li v-if="userRole === 'Admin' || userRole === 'username2'">
-                <router-link to="/order-tracking" @click="closeMenu">Orders</router-link>
+                <router-link to="/order-tracking" @click="closeMenu">Sales</router-link>
               </li>
               <li v-if="isLoggedIn">
                 <router-link to="/home" @click="logout">Logout</router-link>
@@ -58,13 +58,13 @@
             <li v-if="!isLoggedIn">
             </li>
             <li v-if="userRole === 'Admin'">
-              <router-link to="/clientform">Clients</router-link>
+              <router-link to="/clientform">Customers</router-link>
             </li>
             <li v-if="userRole === 'Admin'">
               <router-link to="/products">Products</router-link>
             </li>
             <li v-if="userRole === 'Admin' || userRole === 'username2'">
-              <router-link to="/order-tracking">Orders</router-link>
+              <router-link to="/order-tracking">Sales</router-link>
             </li>
             <li v-if="isLoggedIn">
               <router-link to="/home" @click="logout">Logout</router-link>
